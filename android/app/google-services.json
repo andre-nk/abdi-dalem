@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "240386399482",
+    "project_id": "abdi-dalem",
+    "storage_bucket": "abdi-dalem.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:240386399482:android:66b816fe492877b8133d43",
+        "android_client_info": {
+          "package_name": "com.example.abdi_dalem_alpha"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "240386399482-ngugf8ecps5sfppk6gn8kko0ebdrnl10.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.abdi_dalem_alpha",
+            "certificate_hash": "b498206ef76c0b13d56e69b2da083dad13bf32f2"
+          }
+        },
+        {
+          "client_id": "240386399482-6heror7tdbqds7fs1a1j2qefsk32pdbm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBN4ON3F_7PWREXfDP57qiSrcpJ4VQuU24"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "240386399482-6heror7tdbqds7fs1a1j2qefsk32pdbm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
