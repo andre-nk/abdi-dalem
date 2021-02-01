@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:splashscreen_extend/splashscreen_extend.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
