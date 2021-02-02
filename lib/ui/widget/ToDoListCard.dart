@@ -32,6 +32,7 @@ class _ToDoListCardState extends State<ToDoListCard> {
             ));
           },
           child: Container(
+            height: 100,
             width: MediaQuery.of(context).size.width * 0.8,
             margin: EdgeInsets.symmetric(
                 horizontal: MediaQuery.of(context).size.width * 0.035,

@@ -1,4 +1,4 @@
-import 'package:abdi_dalem_alpha/services/google_signIn.dart';
+import "package:abdi_dalem_alpha/services/services.dart";
 import 'package:abdi_dalem_alpha/ui/page/pages.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -8,7 +8,6 @@ import 'dart:ui';
 import 'package:abdi_dalem_alpha/shared/shared.dart';
 import 'package:flutter_holo_date_picker/flutter_holo_date_picker.dart';
 import 'package:flutter_icons/flutter_icons.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';

@@ -1,4 +1,4 @@
-import 'package:abdi_dalem_alpha/services/google_signIn.dart';
+import "package:abdi_dalem_alpha/services/services.dart";
 import 'package:abdi_dalem_alpha/ui/page/pages.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

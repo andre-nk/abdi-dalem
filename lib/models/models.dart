@@ -8,3 +8,4 @@ import 'package:google_fonts/google_fonts.dart';
 part "toDoObject.dart";
 part "colorSelection.dart";
 part "toDoStream.dart";
+part "userModel.dart";

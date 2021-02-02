@@ -57,7 +57,7 @@ class _ToDoObjectStreamState extends State<ToDoObjectStream> {
                       children: [
                         Container(
                           alignment: Alignment.topCenter,
-                          height: MediaQuery.of(context).size.height * 0.4,
+                          height: MediaQuery.of(context).size.height * 0.3,
                           child: ListView.builder(
                             physics: BouncingScrollPhysics(),
                             scrollDirection: Axis.vertical,
@@ -164,7 +164,7 @@ class _ToDoObjectStreamState extends State<ToDoObjectStream> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Container(
-                            height: MediaQuery.of(context).size.height * 0.4,
+                            height: MediaQuery.of(context).size.height * 0.3,
                             child: ListView.builder(
                               physics: BouncingScrollPhysics(),
                               scrollDirection: Axis.vertical,

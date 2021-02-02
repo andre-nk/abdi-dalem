@@ -33,9 +33,8 @@ class _ToDoLandingPageState extends State<ToDoLandingPage> {
     firestoreNullGenerator();
 
     return AssistantTopBar(
-      content: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
+      content: ListView(
+        physics: BouncingScrollPhysics(),
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -89,15 +88,16 @@ class _ToDoLandingPageState extends State<ToDoLandingPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Container(
-                  height: MediaQuery.of(context).size.height * 0.065,
+                  height: MediaQuery.of(context).size.height * 0.075,
                   width: MediaQuery.of(context).size.width * 0.75,
                   child: Container(
                     decoration: BoxDecoration(
                         color: HexColor("C4C4C4").withOpacity(0.2),
                         borderRadius: BorderRadius.all(Radius.circular(15))),
                     child: TextField(
+                      textAlign: TextAlign.left,
                       decoration: InputDecoration(
-                          contentPadding: EdgeInsets.only(left: 20, top: 1.5),
+                          contentPadding: EdgeInsets.only(left: 20),
                           fillColor: HexColor("C4C4C4"),
                           border: InputBorder.none,
                           hintText: "Search your task...",
@@ -105,7 +105,7 @@ class _ToDoLandingPageState extends State<ToDoLandingPage> {
                               color: Theme.of(context).accentColor,
                               fontSize: 18)),
                       style: GoogleFonts.karla(
-                          color: Theme.of(context).accentColor, fontSize: 18),
+                          color: Theme.of(context).accentColor, fontSize: 16),
                       onChanged: (val) {},
                     ),
                   ),

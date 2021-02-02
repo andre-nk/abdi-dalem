@@ -21,8 +21,7 @@ Future<dynamic> signUpDialog(BuildContext context) {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
-                        height: MediaQuery.of(context).size.height * 0.1,
-                        child: Image(image: AssetImage("assets/logo.png")),
+                        height: MediaQuery.of(context).size.height * 0.1,   
                       ),
                       SizedBox(
                           height: MediaQuery.of(context).size.height * 0.02),

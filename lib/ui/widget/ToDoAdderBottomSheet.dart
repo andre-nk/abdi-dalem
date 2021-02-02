@@ -32,12 +32,12 @@ class _ToDoAdderBottomSheetState extends State<ToDoAdderBottomSheet> {
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(40), topRight: Radius.circular(40))),
       builder: (ctx) {
-        return SingleChildScrollView(
-          child: Container(
-            height: MediaQuery.of(context).size.height * 0.5,
+        return Container(
+          height: MediaQuery.of(context).size.height * 0.55,
+          child: SingleChildScrollView( 
+            physics: BouncingScrollPhysics(),         
             child: Padding(
-              padding:
-                  EdgeInsets.all(MediaQuery.of(context).size.height * 0.04),
+              padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.04),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -121,7 +121,7 @@ class _ToDoAdderBottomSheetState extends State<ToDoAdderBottomSheet> {
                       ],
                     ),
                   ),
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.0125),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.025),
                   DefaultButton(
                     method: () async {
                       if (nameController.text != null || widget.title != null) {
