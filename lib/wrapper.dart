@@ -8,11 +8,11 @@ import 'package:provider/provider.dart';
 class Wrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) => ChangeNotifierProvider(
-      create: (context) => GoogleSignInProvider(),
+      create: (context) => SignInProvider(),
       child: StreamBuilder(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot){
-          final provider = Provider.of<GoogleSignInProvider>(context);
+          final provider = Provider.of<SignInProvider>(context);
           if (provider.isSigningIn) {
             return buildLoading(context);
           } else if (snapshot.hasData){

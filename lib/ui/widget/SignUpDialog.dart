@@ -53,9 +53,9 @@ Future<dynamic> signUpDialog(BuildContext context) {
                             ),
                             onPressed: () async {
                               final provider =
-                                  Provider.of<GoogleSignInProvider>(context,
+                                  Provider.of<SignInProvider>(context,
                                       listen: false);
-                              provider.signIn();
+                              provider.signInWithGoogle();
                               Navigator.pop(context);
                             }),
                       ),
@@ -76,6 +76,8 @@ Future<dynamic> signUpDialog(BuildContext context) {
                               borderRadius: BorderRadius.circular(50.0),
                             ),
                             onPressed: () {
+                              final provider = Provider.of<SignInProvider>(context,listen: false);
+                              provider.signInWithFacebook();
                               Navigator.pop(context);
                             }),
                       ),

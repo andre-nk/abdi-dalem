@@ -101,9 +101,8 @@ class AssistantTopBar extends StatelessWidget {
                     ),
                   ),
                   Flexible(
-                    flex: 35,
+                    flex: 40,
                     child: Container(
-                      height: 500,
                       decoration: BoxDecoration(
                           color: Theme.of(context).backgroundColor,
                           borderRadius: BorderRadius.only(

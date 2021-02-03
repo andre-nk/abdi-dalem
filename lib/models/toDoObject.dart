@@ -2,22 +2,23 @@ part of "models.dart";
 
 enum TodoListSettings { edit_color, delete }
 class TaskObject {
-  DateTime date;
+  String date;
   String task;
   String description;
-  bool _completed;
-  List<String> tags;
+  bool completed;
+  List<dynamic> tags;
 
-  TaskObject(String task, DateTime date, List tags) {
-    this.task = task;
-    this.date = date;
-    this._completed = false;
-    this.tags = tags;
+  TaskObject({String task, String date, List tags, String description, bool completed}) {
+    this.task = task ?? "";
+    this.date = date ?? "";
+    this.completed = completed;
+    this.tags = tags ?? [];
+    this.description = this.description ?? "";
   }
 
   void setComplete(bool value) {
-    _completed = value;
+    completed = value;
   }
 
-  isCompleted() => _completed;
+  isCompleted() => completed;
 }

@@ -9,12 +9,12 @@ class ToDoDetails extends StatefulWidget {
   final FirebaseFirestore firestoreDB;
   final User currentUser;
 
-
-  ToDoDetails({this.listTitle, this.tagColor, this.firestoreDB, this.currentUser});
+  ToDoDetails(
+      {this.listTitle, this.tagColor, this.firestoreDB, this.currentUser});
 }
 
-class _ToDoDetailsState extends State<ToDoDetails> with TickerProviderStateMixin {
-
+class _ToDoDetailsState extends State<ToDoDetails>
+    with TickerProviderStateMixin {
   double percentComplete;
   AnimationController animationBar;
   double barPercent = 0.0;
