@@ -1,32 +1,41 @@
-part of '../../models/models.dart';
+part of "models.dart";
 
 class ToDoObjectStream extends StatefulWidget {
-  final FirebaseFirestore firestoreDB;
-  final User currentUser;
   final String listTitle;
   final bool isMinimized;
   final bool forNumeric;
+  final String index;
 
   ToDoObjectStream(
-      {this.firestoreDB,
-      this.currentUser,
-      this.listTitle,
-      this.isMinimized,
-      this.forNumeric});
+      {this.listTitle, this.isMinimized, this.forNumeric, this.index});
 
   @override
   _ToDoObjectStreamState createState() => _ToDoObjectStreamState();
 }
 
 class _ToDoObjectStreamState extends State<ToDoObjectStream> {
+
+  List<TaskObject> toDoListFiltered = [];
+
   @override
   Widget build(BuildContext context) {
+
     List<TaskObject> toDoList = Provider.of<List<TaskObject>>(context) ?? [];
     bool _isCompletedSample = false;
 
+    if (widget.listTitle != null) {
+      toDoList.forEach((element) {
+        if (element.tags.contains(widget.listTitle) && element.task != "") {
+          setState(() {
+            toDoListFiltered.add(element);
+          });
+        }
+      });
+    }
+
     return widget.forNumeric == true
         ? Text(
-            "${toDoList.length ?? "0"}" + " task(s)",
+            "${toDoListFiltered.length ?? "0"}" + " task(s)",
             style: GoogleFonts.karla(
                 color: Theme.of(context).accentColor, fontSize: 16),
           )
@@ -36,7 +45,7 @@ class _ToDoObjectStreamState extends State<ToDoObjectStream> {
                 children: [
                   Container(
                     alignment: Alignment.topCenter,
-                    height: MediaQuery.of(context).size.height * 0.3,
+                    height: MediaQuery.of(context).size.height * 0.45,
                     child: ListView.builder(
                       physics: BouncingScrollPhysics(),
                       scrollDirection: Axis.vertical,
@@ -100,25 +109,27 @@ class _ToDoObjectStreamState extends State<ToDoObjectStream> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Container(
-                        height: MediaQuery.of(context).size.height * 0.3,
+                        height: MediaQuery.of(context).size.height * 0.55,
                         child: ListView.builder(
                           physics: BouncingScrollPhysics(),
                           scrollDirection: Axis.vertical,
-                          itemCount: toDoList.length,
+                          itemCount: toDoListFiltered.length,
                           itemBuilder: (context, index) {
-                            print(toDoList[index]);
                             return CustomCheckboxListTile(
                                 activeColor: Theme.of(context)
                                     .primaryColor, //change to tag color
-                                value: toDoList[index].completed, //*task.isCompleted(),
+                                value: toDoListFiltered[index]
+                                    .completed, //*task.isCompleted(),
                                 onChanged: (value) {
                                   setState(() {
-                                    toDoList[index].completed == false
-                                        ? toDoList[index].completed = true
-                                        : toDoList[index].completed = false;
+                                    toDoListFiltered[index].completed == false
+                                        ? toDoListFiltered[index].completed =
+                                            true
+                                        : toDoListFiltered[index].completed =
+                                            false;
                                   });
                                 },
-                                title: Text("${toDoList[index].task}",
+                                title: Text("${toDoListFiltered[index].task}",
                                     style: GoogleFonts.karla().copyWith(
                                         color: Theme.of(context).accentColor,
                                         fontSize: 18,

@@ -31,7 +31,6 @@ dependencies:
   flutter_bloc: ^6.1.1
   flutter_colorpicker: ^0.3.5
   flutter_facebook_login: ^3.0.0
-  flutter_holo_date_picker: ^0.3.0
   flutter_icons: ^1.1.0
   flutter_launcher_icons: ^0.8.1
   flutter_native_splash: ^0.2.9

@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'dart:ui';
 import 'package:abdi_dalem_alpha/shared/shared.dart';
-import 'package:flutter_holo_date_picker/flutter_holo_date_picker.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';

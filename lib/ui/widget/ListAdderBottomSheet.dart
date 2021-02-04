@@ -83,7 +83,6 @@ class _ListAdderBottomSheetState extends State<ListAdderBottomSheet> {
                 DefaultButton(
                   method: () async {
                     return await widget.toDoCollection.get().then((val) {
-                      print(selectedColor);
                       if (val.data()["tags_title"] == null &&
                           val.data()["tags_title"] == null) {
                         widget.toDoCollection.set({

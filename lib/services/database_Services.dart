@@ -23,10 +23,9 @@ class DatabaseServices{
   //to do object
   List<TaskObject> _taskObjectFromSnapshot(QuerySnapshot data){
     return data.docs.map((element) {
-      print(element["date"] is String);
       return TaskObject(
         task: element["taskName"] ?? "",
-        date: element["date"] ?? "",
+        date: element["date"].toString() ?? "",
         tags: element["tags"] ?? [],
         description: element["taskDescription"] ?? "",
         completed: element["isCompleted"] ?? false

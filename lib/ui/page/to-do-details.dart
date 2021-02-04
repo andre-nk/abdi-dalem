@@ -13,8 +13,7 @@ class ToDoDetails extends StatefulWidget {
       {this.listTitle, this.tagColor, this.firestoreDB, this.currentUser});
 }
 
-class _ToDoDetailsState extends State<ToDoDetails>
-    with TickerProviderStateMixin {
+class _ToDoDetailsState extends State<ToDoDetails> with TickerProviderStateMixin {
   double percentComplete;
   AnimationController animationBar;
   double barPercent = 0.0;
@@ -183,8 +182,6 @@ class _ToDoDetailsState extends State<ToDoDetails>
                             children: [
                               ToDoObjectStream(
                                 forNumeric: true,
-                                firestoreDB: widget.firestoreDB,
-                                currentUser: widget.currentUser,
                               ),
                               SizedBox(
                                   height: MediaQuery.of(context).size.height *
@@ -247,8 +244,7 @@ class _ToDoDetailsState extends State<ToDoDetails>
                                   height: MediaQuery.of(context).size.height *
                                       0.025),
                               ToDoObjectStream(
-                                firestoreDB: widget.firestoreDB,
-                                currentUser: widget.currentUser,
+                                index: filterOptions[selectedIndex],
                                 listTitle: widget.listTitle,
                                 isMinimized: false,
                               )

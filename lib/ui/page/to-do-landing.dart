@@ -15,14 +15,13 @@ class _ToDoLandingPageState extends State<ToDoLandingPage> {
     FirebaseFirestore firestore = FirebaseFirestore.instance;
     DocumentReference toDoDocument = firestore
         .collection("users")
-        .doc(currentUser.uid)
-        .collection("to-do-collection")
-        .doc("tags");
+        .doc(currentUser.uid);
 
     Future firestoreNullGenerator() async {
       return await toDoDocument.get().then((val) {
-        if (val.data() == null) {
+        if (val.data()["tags_title"] == null) {
           toDoDocument.set({
+            "name": val.data()["name"],
             "tags_title": ["Inbox", "School", "Daily"],
             "tags_colors": ["ef476f", "ffd166", "118ab2"]
           });
@@ -171,7 +170,6 @@ class _ToDoLandingPageState extends State<ToDoLandingPage> {
                           stream: toDoDocument.snapshots(),
                           builder: (_, snapshot) {
                             if (snapshot.hasData) {
-                              // print(snapshot.data.data()["tags_title"]);
                               return Container(
                                   padding: EdgeInsets.symmetric(
                                       horizontal:
@@ -252,8 +250,6 @@ class _ToDoLandingPageState extends State<ToDoLandingPage> {
                                 height: MediaQuery.of(context).size.height *
                                     0.0275),
                             ToDoObjectStream(
-                              firestoreDB: firestore,
-                              currentUser: currentUser,
                               forNumeric: false,
                               isMinimized: false,
                             )
