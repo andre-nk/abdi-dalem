@@ -56,11 +56,20 @@ class _ToDoLandingPageState extends State<ToDoLandingPage> {
                   width: MediaQuery.of(context).size.width * 0.15,
                   child: RaisedButton(
                     onPressed: () {
-                      Get.bottomSheet(ListAdderBottomSheet(
-                        currentUser: currentUser,
-                        firestore: firestore,
-                        toDoCollection: toDoDocument,
-                      ));
+                      showModalBottomSheet(
+                          backgroundColor: Colors.transparent,
+                          isScrollControlled: true,
+                          context: context,
+                          builder: (BuildContext context) {
+                            return Padding(
+                              padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                              child: ListAdderBottomSheet(
+                                currentUser: currentUser,
+                                firestore: firestore,
+                                toDoCollection: toDoDocument,
+                              ),
+                            );
+                          });
                     },
                     color: Theme.of(context).primaryColor,
                     elevation: 0,

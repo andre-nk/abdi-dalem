@@ -12,6 +12,7 @@ class DefaultButton extends StatelessWidget {
     return Container(
       height: MediaQuery.of(context).size.height * 0.06,
       child: RaisedButton(
+        elevation: 0,
         color: Theme.of(context).primaryColor,
         onPressed: method ?? (){},
         shape: RoundedRectangleBorder(

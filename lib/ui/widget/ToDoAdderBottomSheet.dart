@@ -10,6 +10,11 @@ class ToDoAdderBottomSheet extends StatefulWidget {
 }
 
 class _ToDoAdderBottomSheetState extends State<ToDoAdderBottomSheet> {
+
+  
+ 
+  DateTime pickedDate = DateTime.now();
+
   @override
   Widget build(BuildContext context) {
     final User currentUser = FirebaseAuth.instance.currentUser;
@@ -20,11 +25,12 @@ class _ToDoAdderBottomSheetState extends State<ToDoAdderBottomSheet> {
         .doc(currentUser.uid)
         .collection("to-do-collection");
 
-    String pickedDate;
     DateFormat formatter = DateFormat('dd-MM-yyyy');
 
     TextEditingController nameController = new TextEditingController();
     TextEditingController descriptionController = new TextEditingController();
+
+    print(pickedDate);
 
     return BottomSheet(
       backgroundColor: Theme.of(context).backgroundColor,
@@ -34,11 +40,13 @@ class _ToDoAdderBottomSheetState extends State<ToDoAdderBottomSheet> {
       builder: (ctx) {
         return Container(
           height: MediaQuery.of(context).size.height * 0.55,
-          child: SingleChildScrollView( 
-            physics: BouncingScrollPhysics(),         
+          child: SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
             child: Padding(
-              padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.04),
+              padding:
+                  EdgeInsets.all(MediaQuery.of(context).size.height * 0.04),
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -91,35 +99,34 @@ class _ToDoAdderBottomSheetState extends State<ToDoAdderBottomSheet> {
                     onChanged: (val) {},
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.025),
-                  GestureDetector(
-                    onTap: () async {
-                      pickedDate = formatter
-                          .format(await DatePicker.showSimpleDatePicker(
-                        context,
-                        backgroundColor: Theme.of(context).backgroundColor,
-                        textColor: Theme.of(context).accentColor,
-                        confirmText: "Next",
-                        initialDate: DateTime.now(),
-                        firstDate: DateTime(1900),
-                        lastDate: DateTime(3000),
-                        dateFormat: "dd-MMMM-yyyy",
-                        locale: DateTimePickerLocale.en_us,
-                        looping: true,
-                      ));
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text("${pickedDate ?? "Set deadline"}",
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.karla().copyWith(
-                                color: Theme.of(context).accentColor,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500)),
-                        Icon(FlutterIcons.ios_calendar_ion)
-                      ],
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text("${formatter.format(this.pickedDate)}",
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.karla().copyWith(
+                              color: Theme.of(context).accentColor,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500)),
+                      GestureDetector(
+                          onTap: () async {
+                            final selectedDate = await showDatePicker(
+                                context: context,
+                                initialDate: DateTime.now(),
+                                initialDatePickerMode: DatePickerMode.day,
+                                firstDate: DateTime(1800),
+                                lastDate: DateTime(2500));
+
+                            if (selectedDate == null) return;
+                              print(selectedDate);
+
+                            setState(() {
+                              this.pickedDate = selectedDate;
+                            });
+                          },
+                          child: Icon(FlutterIcons.ios_calendar_ion))
+                    ],
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.025),
                   DefaultButton(
@@ -128,13 +135,14 @@ class _ToDoAdderBottomSheetState extends State<ToDoAdderBottomSheet> {
                         toDoDocument.add({
                           "taskName": nameController.text,
                           "taskDescription": descriptionController.text,
-                          "date": pickedDate,
+                          "date": this.pickedDate,
                           "isCompleted": false,
                           "tags": [widget.title]
                         });
                         Navigator.pop(context);
                       } else {
-                        Get.snackbar("You haven't entered the title", "Please enter the task title firstly"); 
+                        Get.snackbar("You haven't entered the title",
+                            "Please enter the task title firstly");
                         nameController.text = '';
                         descriptionController.text = '';
                       }
