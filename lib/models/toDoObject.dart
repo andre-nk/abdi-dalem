@@ -2,13 +2,15 @@ part of "models.dart";
 
 enum TodoListSettings { edit_color, delete }
 class TaskObject {
+  String uid;
   String date;
   String task;
   String description;
   bool completed;
   List<dynamic> tags;
 
-  TaskObject({String task, String date, List tags, String description, bool completed}) {
+  TaskObject({String task, String uid, String date, List tags, String description, bool completed}) {
+    this.uid = uid ?? "";
     this.task = task ?? "";
     this.date = date ?? "";
     this.completed = completed;

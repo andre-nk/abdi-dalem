@@ -24,6 +24,7 @@ class DatabaseServices{
   List<TaskObject> _taskObjectFromSnapshot(QuerySnapshot data){
     return data.docs.map((element) {
       return TaskObject(
+        uid: element.id,
         task: element["taskName"] ?? "",
         date: element["date"].toString() ?? "",
         tags: element["tags"] ?? [],
@@ -32,7 +33,11 @@ class DatabaseServices{
       );
     }).toList();
   }
+  Future<void> deleteToDoTask(String indexID) async {
+    return await users.doc(currentUser.uid).collection("to-do-collection").doc(indexID).delete();
+  }
 
+  //stream index
   Stream<List<TaskObject>> get taskObject{
     return isGuest == false ?
       users.doc(currentUser.uid).collection("to-do-collection").snapshots().map(_taskObjectFromSnapshot)
@@ -40,7 +45,6 @@ class DatabaseServices{
       UserData(name: currentUser.displayName ?? "");
   }
 
-  //stream index
   Stream<UserData> get userData{
     return isGuest == false ?
       users.doc(currentUser.uid).snapshots().map(_userDataFromSnapshot)
