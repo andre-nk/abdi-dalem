@@ -15,8 +15,6 @@ class ListAdderBottomSheet extends StatefulWidget {
 class _ListAdderBottomSheetState extends State<ListAdderBottomSheet> {
   @override
   Widget build(BuildContext context) {
-    List<dynamic> data = [];
-    List<dynamic> data2 = [];
     TextEditingController listNameController = new TextEditingController();
     String selectedColor;
     Widget errorText;
@@ -82,125 +80,7 @@ class _ListAdderBottomSheetState extends State<ListAdderBottomSheet> {
                 errorText ?? Text(''),
                 DefaultButton(
                   method: () async {
-                    return await widget.toDoCollection.get().then((val) {
-                      if (val.data()["tags_title"] == null &&
-                          val.data()["tags_title"] == null) {
-                        widget.toDoCollection.set({
-                          "tags_title": ["Inbox", "School", "Daily"],
-                          "tags_colors": ["ef476f", "ffd166", "118ab2"]
-                        });
-                        //TITLE
-                        Future.delayed(Duration(milliseconds: 200), () {
-                          widget.toDoCollection.get().then((val) {
-                            bool _locker = false;
-                            data = val.data()["tags_title"];
-                            data.forEach((element) {
-                              if (listNameController.text == element) {
-                                setState(() {
-                                  _locker = true;
-                                });
-                                print("true");
-                              }
-                            });
-                            if (listNameController.text != "" &&
-                                _locker == false) {
-                              data.add(listNameController.text);
-                              widget.toDoCollection.get().then((val) {
-                                data2 = val.data()["tags_colors"] ?? [];
-                                if (selectedColor != "" &&
-                                    selectedColor != null) {
-                                  data2.add(selectedColor);
-                                  widget.toDoCollection.set({
-                                    "tags_colors": data2,
-                                    "tags_title": data
-                                  });
-                                  Navigator.pop(context);
-                                  Get.snackbar("List created", "",
-                                      isDismissible: true);
-                                } else {
-                                  Get.snackbar(
-                                    "List color tag is invalid",
-                                    "$selectedColor",
-                                  );
-                                  Future.delayed(Duration(milliseconds: 2000),
-                                      () {
-                                    Navigator.pop(context);
-                                    Future.delayed(Duration(milliseconds: 500),
-                                        () {
-                                      Navigator.pop(context);
-                                    });
-                                  });
-                                }
-                              });
-                            } else {
-                              Get.snackbar(
-                                "List name invalid",
-                                "The name is already exist or empty",
-                              );
-                              Future.delayed(Duration(milliseconds: 2000), () {
-                                Navigator.pop(context);
-                                Future.delayed(Duration(milliseconds: 500), () {
-                                  Navigator.pop(context);
-                                });
-                              });
-                            }
-                          });
-                        });
-                      } else {
-                        widget.toDoCollection.get().then((val) {
-                          bool _locker = false;
-                          data = val.data()["tags_title"];
-                          data.forEach((element) {
-                            if (listNameController.text == element) {
-                              setState(() {
-                                _locker = true;
-                              });
-                              print("true");
-                            }
-                          });
-                          if (listNameController.text != "" &&
-                              _locker == false) {
-                            data.add(listNameController.text);
-                            widget.toDoCollection.get().then((val) {
-                              data2 = val.data()["tags_colors"] ?? [];
-                              if (selectedColor != "" &&
-                                  selectedColor != null) {
-                                data2.add(selectedColor);
-                                widget.toDoCollection.set(
-                                    {"tags_colors": data2, "tags_title": data});
-                                Navigator.pop(context);
-                                Get.snackbar("List created", "",
-                                    isDismissible: true);
-                              } else {
-                                Get.snackbar(
-                                  "List color tag is invalid",
-                                  "$selectedColor",
-                                );
-                                Future.delayed(Duration(milliseconds: 2000),
-                                    () {
-                                  Navigator.pop(context);
-                                  Future.delayed(Duration(milliseconds: 500),
-                                      () {
-                                    Navigator.pop(context);
-                                  });
-                                });
-                              }
-                            });
-                          } else {
-                            Get.snackbar(
-                              "List name invalid",
-                              "The name is already exist or empty",
-                            );
-                            Future.delayed(Duration(milliseconds: 2000), () {
-                              Navigator.pop(context);
-                              Future.delayed(Duration(milliseconds: 500), () {
-                                Navigator.pop(context);
-                              });
-                            });
-                          }
-                        });
-                      }
-                    });
+                    DatabaseServices().createToDoList(context, listNameController.text, selectedColor);
                   },
                   title: "Confirm",
                 )

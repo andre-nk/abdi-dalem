@@ -14,6 +14,7 @@ class _HomePageState extends State<HomePage> {
 
     //#AUTH
     final User currentUser = FirebaseAuth.instance.currentUser;
+    final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
     //Display Values
     TextEditingController userNameController = new TextEditingController();
@@ -37,6 +38,13 @@ class _HomePageState extends State<HomePage> {
                 borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(0),
                     bottomRight: Radius.circular(0))));
+    
+    if(firestore.collection("users").doc(currentUser.uid) == null){
+      print("Daisy! Don't you forget about me!");
+       firestore.collection("users").doc(currentUser.uid).set({
+              "name" : ""
+        });
+    }
 
     return StreamProvider<UserData>.value(
         value: DatabaseServices().userData,

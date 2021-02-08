@@ -19,38 +19,36 @@ class _ToDoDetailsState extends State<ToDoDetails> with TickerProviderStateMixin
   double barPercent = 0.0;
   Tween<double> animT;
   AnimationController scaleAnimation;
-  final List<String> filterOptions = ["all", "today", "yesterday", "this week"];
-  int selectedIndex = 0;
   Stream slides;
 
-  @override
-  void initState() {
-    scaleAnimation = AnimationController(
-        vsync: this,
-        duration: Duration(milliseconds: 1000),
-        lowerBound: 0.0,
-        upperBound: 1.0);
+  // @override
+  // void initState() {
+  //   scaleAnimation = AnimationController(
+  //       vsync: this,
+  //       duration: Duration(milliseconds: 1000),
+  //       lowerBound: 0.0,
+  //       upperBound: 1.0);
 
-    // percentComplete = widget.todoObject.percentComplete();
-    barPercent = percentComplete;
-    animationBar =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 100))
-          ..addListener(() {
-            setState(() {
-              barPercent = animT.transform(animationBar.value);
-            });
-          });
-    animT = Tween<double>(begin: percentComplete, end: percentComplete);
-    scaleAnimation.forward();
-    super.initState();
-  }
+  //   // percentComplete = widget.todoObject.percentComplete();
+  //   barPercent = percentComplete;
+  //   animationBar =
+  //       AnimationController(vsync: this, duration: Duration(milliseconds: 100))
+  //         ..addListener(() {
+  //           setState(() {
+  //             barPercent = animT.transform(animationBar.value);
+  //           });
+  //         });
+  //   animT = Tween<double>(begin: percentComplete, end: percentComplete);
+  //   scaleAnimation.forward();
+  //   super.initState();
+  // }
 
-  @override
-  void dispose() {
-    super.dispose();
-    animationBar.dispose();
-    scaleAnimation.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   super.dispose();
+  //   animationBar.dispose();
+  //   scaleAnimation.dispose();
+  // }
 
   // void updateBarPercent() async {
   //   double newPercentComplete = widget.todoObject.percentComplete();
@@ -129,21 +127,6 @@ class _ToDoDetailsState extends State<ToDoDetails> with TickerProviderStateMixin
                   ),
                 ),
                 backgroundColor: Colors.transparent,
-                // appBar: AppBar(
-                //   toolbarHeight: MediaQuery.of(context).size.height * 0.09,
-                //   backgroundColor: Colors.transparent,
-                //   elevation: 0.0,
-                //   leading: Material(
-                //     color: Colors.transparent,
-                //     type: MaterialType.transparency,
-                //     child: IconButton(
-                //         icon: Icon(FlutterIcons.ios_arrow_back_ion,
-                //             color: Theme.of(context).accentColor),
-                //         onPressed: () {
-                //           Get.back();
-                //         }),
-                //   ),
-                // ),
                 body: CustomScrollView(
                   slivers: [
                     SliverAppBar(
@@ -231,20 +214,7 @@ class _ToDoDetailsState extends State<ToDoDetails> with TickerProviderStateMixin
                               SizedBox(
                                   height: MediaQuery.of(context).size.height *
                                       0.025),
-                              SelectionButtons(
-                                titles: filterOptions,
-                                selectedIndex: selectedIndex,
-                                onTap: (index) {
-                                  setState(() {
-                                    selectedIndex = index;
-                                  });
-                                },
-                              ),
-                              SizedBox(
-                                  height: MediaQuery.of(context).size.height *
-                                      0.025),
                               ToDoObjectStream(
-                                index: filterOptions[selectedIndex],
                                 listTitle: widget.listTitle,
                                 isMinimized: false,
                               )

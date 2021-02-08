@@ -14,14 +14,6 @@ class _ToDoAdderBottomSheetState extends State<ToDoAdderBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final User currentUser = FirebaseAuth.instance.currentUser;
-
-    FirebaseFirestore firestore = FirebaseFirestore.instance;
-    CollectionReference toDoDocument = firestore
-        .collection("users")
-        .doc(currentUser.uid)
-        .collection("to-do-collection");
-
     DateFormat formatter = DateFormat('dd-MM-yyyy');
 
     TextEditingController nameController = new TextEditingController();
@@ -116,13 +108,7 @@ class _ToDoAdderBottomSheetState extends State<ToDoAdderBottomSheet> {
                                 lastDate: DateTime(2500));
 
                             if (selectedDate == null) return;
-                            print(selectedDate);
-
-                            // setState(() {
-                            //   nameController.text = nameController.text;
-                            //   descriptionController.text = descriptionController.text;
                             this.pickedDate = selectedDate;
-                            // });
                           },
                           child: Icon(FlutterIcons.ios_calendar_ion))
                     ],
@@ -130,21 +116,12 @@ class _ToDoAdderBottomSheetState extends State<ToDoAdderBottomSheet> {
                   SizedBox(height: MediaQuery.of(context).size.height * 0.025),
                   DefaultButton(
                     method: () async {
-                      if (nameController.text != null || widget.title != null) {
-                        toDoDocument.add({
-                          "taskName": nameController.text,
-                          "taskDescription": descriptionController.text,
-                          "date": this.pickedDate,
-                          "isCompleted": false,
-                          "tags": [widget.title]
-                        });
-                        Navigator.pop(context);
-                      } else {
-                        Get.snackbar("You haven't entered the title",
-                            "Please enter the task title firstly");
-                        nameController.text = '';
-                        descriptionController.text = '';
-                      }
+                      DatabaseServices().createToDoTask(
+                          context,
+                          nameController.text,
+                          descriptionController.text,
+                          [widget.title],
+                          formatter.format(pickedDate));
                     },
                     title: "Confirm",
                   )
@@ -166,7 +143,8 @@ class ToDoPreviewerBottomSheet extends StatefulWidget {
   final String pickedDate;
   final String indexUID;
 
-  ToDoPreviewerBottomSheet(this.listTitle, this.title, this.description, this.pickedDate, this.indexUID);
+  ToDoPreviewerBottomSheet(this.listTitle, this.title, this.description,
+      this.pickedDate, this.indexUID);
 
   @override
   _ToDoPreviewerBottomSheetState createState() =>
@@ -176,22 +154,14 @@ class ToDoPreviewerBottomSheet extends StatefulWidget {
 class _ToDoPreviewerBottomSheetState extends State<ToDoPreviewerBottomSheet> {
   @override
   Widget build(BuildContext context) {
-    final User currentUser = FirebaseAuth.instance.currentUser;
-
-    FirebaseFirestore firestore = FirebaseFirestore.instance;
-    CollectionReference toDoDocument = firestore
-        .collection("users")
-        .doc(currentUser.uid)
-        .collection("to-do-collection");
-
     DateFormat formatter = DateFormat('dd-MM-yyyy');
 
     TextEditingController nameController = new TextEditingController();
     TextEditingController descriptionController = new TextEditingController();
     String pickedDate;
-    if(widget.pickedDate.length <= 18){
+    if (widget.pickedDate.length <= 18) {
       pickedDate = widget.pickedDate;
-    }else{
+    } else {
       pickedDate = "No deadline";
     }
 
@@ -250,7 +220,7 @@ class _ToDoPreviewerBottomSheetState extends State<ToDoPreviewerBottomSheet> {
                         ),
                         filled: true,
                         fillColor: HexColor("C4C4C4").withOpacity(0.2),
-                        hintText: widget.description ?? "", 
+                        hintText: widget.description ?? "",
                         hintStyle: GoogleFonts.karla(
                             color: Theme.of(context).accentColor,
                             fontSize: 18,
@@ -282,11 +252,7 @@ class _ToDoPreviewerBottomSheetState extends State<ToDoPreviewerBottomSheet> {
                                 lastDate: DateTime(2500));
 
                             if (selectedDate == null) return;
-                            print(selectedDate);
-
-                            // setState(() {
-                            //   nameController.text = nameController.text;
-                            //   descriptionController.text = descriptionController.text;
+                            // print(selectedDate);
                             pickedDate = formatter.format(selectedDate);
                             // });
                           },
@@ -296,21 +262,13 @@ class _ToDoPreviewerBottomSheetState extends State<ToDoPreviewerBottomSheet> {
                   SizedBox(height: MediaQuery.of(context).size.height * 0.025),
                   DefaultButton(
                     method: () async {
-                      if (nameController.text != null || widget.title != null) {
-                        toDoDocument.doc(widget.indexUID).update({
-                          "taskName": nameController.text,
-                          "taskDescription": descriptionController.text,
-                          "date": pickedDate,
-                          "isCompleted": false,
-                          "tags": [widget.listTitle],
-                        });
-                        Navigator.pop(context);
-                      } else {
-                        Get.snackbar("You haven't entered the title",
-                            "Please enter the task title firstly");
-                        nameController.text = '';
-                        descriptionController.text = '';
-                      }
+                      DatabaseServices().updateToDoTask(
+                        context: context,
+                        taskName: nameController.text,
+                        taskDescription: descriptionController.text,
+                        tags: [widget.listTitle],
+                        indexUID: widget.indexUID,
+                        pickedDate: pickedDate);
                     },
                     title: "Confirm",
                   )

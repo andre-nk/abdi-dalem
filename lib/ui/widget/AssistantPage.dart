@@ -42,7 +42,7 @@ class AssistantTopBar extends StatelessWidget {
                                 Get.back();
                               }),
                           SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.25),
+                              width: MediaQuery.of(context).size.width * 0.3),
                           Text("list-view",
                               style: GoogleFonts.montserrat().copyWith(
                                   color: buildDarkTheme('a').accentColor,
