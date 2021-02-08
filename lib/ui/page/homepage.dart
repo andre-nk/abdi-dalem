@@ -14,11 +14,10 @@ class _HomePageState extends State<HomePage> {
 
     //#AUTH
     final User currentUser = FirebaseAuth.instance.currentUser;
-    final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
     //Display Values
     TextEditingController userNameController = new TextEditingController();
-    
+
     Widget tabBar = heightSwitch == false
         ? AnimatedContainer(
             duration: Duration(milliseconds: 200),
@@ -38,17 +37,16 @@ class _HomePageState extends State<HomePage> {
                 borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(0),
                     bottomRight: Radius.circular(0))));
-    
-    if(firestore.collection("users").doc(currentUser.uid) == null){
-      print("Daisy! Don't you forget about me!");
-       firestore.collection("users").doc(currentUser.uid).set({
-              "name" : ""
-        });
-    }
 
     return StreamProvider<UserData>.value(
-        value: DatabaseServices().userData,
-          child: Scaffold(
+      value: DatabaseServices().userData,
+      catchError: (_, __) {
+        DatabaseServices().users
+            .doc(currentUser.uid)
+            .set({"name": currentUser.displayName});
+        return UserData(name: currentUser.displayName);
+      },
+      child: Scaffold(
           resizeToAvoidBottomInset: false,
           body: SafeArea(
             child: Column(
@@ -81,7 +79,8 @@ class _HomePageState extends State<HomePage> {
                                     top: MediaQuery.of(context).size.height *
                                         0.25),
                                 child: Container(
-                                  height: MediaQuery.of(context).size.height * 0.3,
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.3,
                                   decoration: BoxDecoration(
                                     boxShadow: [
                                       BoxShadow(
@@ -100,41 +99,47 @@ class _HomePageState extends State<HomePage> {
                             ),
                             Padding(
                               padding: EdgeInsets.only(
-                                  top: MediaQuery.of(context).size.height * 0.15),
+                                  top: MediaQuery.of(context).size.height *
+                                      0.15),
                               child: Container(
-                                height: MediaQuery.of(context).size.height * 0.3,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.3,
                                 decoration: BoxDecoration(
                                   boxShadow: [
                                     BoxShadow(
-                                      color: HexColor("01D8A1").withOpacity(0.2),
+                                      color:
+                                          HexColor("01D8A1").withOpacity(0.2),
                                       blurRadius: 10,
                                     )
                                   ],
                                 ),
                                 child: Image(
                                     fit: BoxFit.fill,
-                                    height:
-                                        MediaQuery.of(context).size.height * 0.3,
+                                    height: MediaQuery.of(context).size.height *
+                                        0.3,
                                     image: AssetImage("assets/EQ.png")),
                               ),
                             ),
                             Padding(
                               padding: EdgeInsets.only(
-                                  top: MediaQuery.of(context).size.height * 0.05),
+                                  top: MediaQuery.of(context).size.height *
+                                      0.05),
                               child: Container(
-                                height: MediaQuery.of(context).size.height * 0.3,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.3,
                                 decoration: BoxDecoration(
                                   boxShadow: [
                                     BoxShadow(
-                                      color: HexColor("D7263D").withOpacity(0.3),
+                                      color:
+                                          HexColor("D7263D").withOpacity(0.3),
                                       blurRadius: 20,
                                     )
                                   ],
                                 ),
                                 child: Image(
                                     fit: BoxFit.fill,
-                                    height:
-                                        MediaQuery.of(context).size.height * 0.3,
+                                    height: MediaQuery.of(context).size.height *
+                                        0.3,
                                     image: AssetImage("assets/SQ.png")),
                               ),
                             )
@@ -143,7 +148,8 @@ class _HomePageState extends State<HomePage> {
                       ),
                       duration: Duration(milliseconds: 700),
                       tween: Tween<double>(begin: 0.2, end: 1),
-                      builder: (BuildContext context, double _val, Widget child) {
+                      builder:
+                          (BuildContext context, double _val, Widget child) {
                         return Opacity(
                             opacity: _val,
                             child: Padding(
@@ -186,7 +192,8 @@ class _HomePageState extends State<HomePage> {
                         Column(
                           children: [
                             Container(
-                                height: MediaQuery.of(context).size.height * 0.7,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.7,
                                 width: MediaQuery.of(context).size.width * 1,
                                 decoration: BoxDecoration(
                                     boxShadow: [
@@ -204,83 +211,91 @@ class _HomePageState extends State<HomePage> {
                                         bottomLeft: Radius.circular(25),
                                         bottomRight: Radius.circular(25))),
                                 child: Padding(
-                                  padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.025),
+                                  padding: EdgeInsets.all(
+                                      MediaQuery.of(context).size.height *
+                                          0.025),
                                   child: SingleChildScrollView(
                                     child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         GestureDetector(
-                                          onTap: () {
-                                            currentUser.isAnonymous
-                                              ? signUpDialog(context)
-                                              : showDialog(
-                                                context: context,
-                                                builder: (_) =>
-                                                  BackdropFilter(
-                                                    filter: ImageFilter.blur(
-                                                      sigmaX: 0.5,
-                                                      sigmaY: 0.5
-                                                    ),
-                                                    child: AlertDialog(
-                                                      backgroundColor: Theme.of(context).backgroundColor,
-                                                      shape: RoundedRectangleBorder(
-                                                        borderRadius: BorderRadius.all(
-                                                          Radius.circular(30.0)),
-                                                      ),
-                                                      content: Container(
-                                                        alignment: Alignment.center,
-                                                        height: MediaQuery.of(context).size.height * 0.4,
-                                                        width: MediaQuery.of(context).size.width * 1,
-                                                        child: Column(
-                                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                                          children: [
-                                                          Text("Please enter the display name you desired",
-                                                              textAlign: TextAlign.center,
-                                                              style: GoogleFonts.karla().copyWith(color: Theme.of(context).accentColor, fontSize: 18, fontWeight: FontWeight.w500)),
-                                                          SizedBox(height: MediaQuery.of(context).size.height * 0.035),
-                                                          TextField(
-                                                            controller: userNameController,
-                                                            decoration: new InputDecoration(
-                                                            contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                                                            border: new OutlineInputBorder(
-                                                              borderSide: BorderSide(color: Theme.of(context).primaryColor),
-                                                              borderRadius: const BorderRadius.all(
-                                                                const Radius.circular(50.0),
-                                                              ),
-                                                            ),
-                                                            filled: true,
-                                                            hintStyle: GoogleFonts.montserrat().copyWith(color: Theme.of(context).accentColor, fontSize: 16, fontWeight: FontWeight.w500),
-                                                            hintText: "Type in your text",
-                                                            fillColor: Theme.of(context).backgroundColor)),
-                                                          SizedBox(height: MediaQuery.of(context).size.height * 0.035),
-                                                          Container(
-                                                            width: MediaQuery.of(context).size.width * 0.4,
-                                                            height: MediaQuery.of(context).size.height * 0.065,
-                                                            child: RaisedButton(
-                                                              child: Text("Confirm", textAlign: TextAlign.center, style: GoogleFonts.montserrat().copyWith(color: Theme.of(context).accentColor, fontSize: 18, fontWeight: FontWeight.w500)),
-                                                              color: Theme.of(context).primaryColor,
-                                                              elevation: 0,
-                                                              onPressed: () {
-                                                                DatabaseServices().updateUserData(userNameController.text);
-                                                                Navigator.pop(context);
-                                                              },
-                                                              shape: RoundedRectangleBorder(
-                                                                borderRadius: BorderRadius.circular(18.0),
-                                                              ),
-                                                            ),
-                                                          )
-                                                        ],
-                                                      )
-                                                    )
-                                                  )
-                                                )
-                                              );
+                                            onTap: () {
+                                              currentUser.isAnonymous
+                                                  ? signUpDialog(context)
+                                                  : showDialog(
+                                                      context: context,
+                                                      builder: (_) =>
+                                                          BackdropFilter(
+                                                              filter: ImageFilter
+                                                                  .blur(
+                                                                      sigmaX:
+                                                                          0.5,
+                                                                      sigmaY:
+                                                                          0.5),
+                                                              child: AlertDialog(
+                                                                  backgroundColor: Theme.of(context).backgroundColor,
+                                                                  shape: RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.all(
+                                                                            Radius.circular(30.0)),
+                                                                  ),
+                                                                  content: Container(
+                                                                      alignment: Alignment.center,
+                                                                      height: MediaQuery.of(context).size.height * 0.4,
+                                                                      width: MediaQuery.of(context).size.width * 1,
+                                                                      child: Column(
+                                                                        mainAxisAlignment:
+                                                                            MainAxisAlignment.spaceEvenly,
+                                                                        children: [
+                                                                          Text(
+                                                                              "Please enter the display name you desired",
+                                                                              textAlign: TextAlign.center,
+                                                                              style: GoogleFonts.karla().copyWith(color: Theme.of(context).accentColor, fontSize: 18, fontWeight: FontWeight.w500)),
+                                                                          SizedBox(
+                                                                              height: MediaQuery.of(context).size.height * 0.035),
+                                                                          TextField(
+                                                                              controller: userNameController,
+                                                                              decoration: new InputDecoration(
+                                                                                  contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                                                                                  border: new OutlineInputBorder(
+                                                                                    borderSide: BorderSide(color: Theme.of(context).primaryColor),
+                                                                                    borderRadius: const BorderRadius.all(
+                                                                                      const Radius.circular(50.0),
+                                                                                    ),
+                                                                                  ),
+                                                                                  filled: true,
+                                                                                  hintStyle: GoogleFonts.montserrat().copyWith(color: Theme.of(context).accentColor, fontSize: 16, fontWeight: FontWeight.w500),
+                                                                                  hintText: "Type in your text",
+                                                                                  fillColor: Theme.of(context).backgroundColor)),
+                                                                          SizedBox(
+                                                                              height: MediaQuery.of(context).size.height * 0.035),
+                                                                          Container(
+                                                                            width:
+                                                                                MediaQuery.of(context).size.width * 0.4,
+                                                                            height:
+                                                                                MediaQuery.of(context).size.height * 0.065,
+                                                                            child:
+                                                                                RaisedButton(
+                                                                              child: Text("Confirm", textAlign: TextAlign.center, style: GoogleFonts.montserrat().copyWith(color: Theme.of(context).accentColor, fontSize: 18, fontWeight: FontWeight.w500)),
+                                                                              color: Theme.of(context).primaryColor,
+                                                                              elevation: 0,
+                                                                              onPressed: () {
+                                                                                DatabaseServices().updateUserData(userNameController.text);
+                                                                                Navigator.pop(context);
+                                                                              },
+                                                                              shape: RoundedRectangleBorder(
+                                                                                borderRadius: BorderRadius.circular(18.0),
+                                                                              ),
+                                                                            ),
+                                                                          )
+                                                                        ],
+                                                                      )))));
                                             },
-                                          child: SettingsWidget(
-                                              name: "Your display name"
-                                          )
-                                        ),
+                                            child: SettingsWidget(
+                                                name: "Your display name")),
                                         SizedBox(
                                             height: MediaQuery.of(context)
                                                     .size
@@ -305,8 +320,9 @@ class _HomePageState extends State<HomePage> {
                                             Text("Theme Color",
                                                 style: GoogleFonts.karla()
                                                     .copyWith(
-                                                        color: Theme.of(context)
-                                                            .accentColor,
+                                                        color:
+                                                            Theme.of(context)
+                                                                .accentColor,
                                                         fontSize: 16,
                                                         fontWeight:
                                                             FontWeight.w500)),
@@ -373,8 +389,9 @@ class _HomePageState extends State<HomePage> {
                                             Text("Theme Mode",
                                                 style: GoogleFonts.karla()
                                                     .copyWith(
-                                                        color: Theme.of(context)
-                                                            .accentColor,
+                                                        color:
+                                                            Theme.of(context)
+                                                                .accentColor,
                                                         fontSize: 16,
                                                         fontWeight:
                                                             FontWeight.w500)),
@@ -388,17 +405,18 @@ class _HomePageState extends State<HomePage> {
                                                 IconButton(
                                                   color: Theme.of(context)
                                                       .accentColor,
-                                                  icon: Icon(
-                                                      Provider.of<SharedPref>(
-                                                                  context)
-                                                              .isDarkMode
-                                                          ? FlutterIcons.moon_fea
-                                                          : Icons.brightness_low),
+                                                  icon: Icon(Provider.of<
+                                                                  SharedPref>(
+                                                              context)
+                                                          .isDarkMode
+                                                      ? FlutterIcons.moon_fea
+                                                      : Icons.brightness_low),
                                                   onPressed: () {
                                                     changeTheme(
                                                         Provider.of<SharedPref>(
                                                                     context,
-                                                                    listen: false)
+                                                                    listen:
+                                                                        false)
                                                                 .isDarkMode
                                                             ? false
                                                             : true,
@@ -422,10 +440,10 @@ class _HomePageState extends State<HomePage> {
                                           padding: EdgeInsets.all(0),
                                           onPressed: () async {
                                             if (currentUser.isAnonymous) {
-                                              final provider = Provider.of<
-                                                      SignInProvider>(
-                                                  context,
-                                                  listen: false);
+                                              final provider =
+                                                  Provider.of<SignInProvider>(
+                                                      context,
+                                                      listen: false);
                                               provider.signOutWithGoogle();
                                             } else {
                                               await AuthServices
@@ -437,8 +455,9 @@ class _HomePageState extends State<HomePage> {
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
                                               Text("Log out",
-                                                  style: GoogleFonts.montserrat()
-                                                      .copyWith(
+                                                  style:
+                                                      GoogleFonts.montserrat()
+                                                          .copyWith(
                                                     color: Theme.of(context)
                                                         .accentColor,
                                                     fontSize: 18,
