@@ -2,8 +2,7 @@ part of 'services.dart';
 
 class DatabaseServices {
   //global reference
-  final CollectionReference users =
-      FirebaseFirestore.instance.collection('users');
+  final CollectionReference users = FirebaseFirestore.instance.collection('users');
   User currentUser = FirebaseAuth.instance.currentUser;
   bool isGuest = FirebaseAuth.instance.currentUser.isAnonymous;
 
@@ -18,7 +17,21 @@ class DatabaseServices {
   }
 
   //to do object
-  List<TaskObject> _taskObjectFromSnapshot(QuerySnapshot data) {
+
+  Stream<UserData> get userData {
+    return isGuest == false
+        ? users.doc(currentUser.uid) == null ?
+            users.doc(currentUser.uid).set({
+              "name" : ""
+            })
+          :
+            users.doc(currentUser.uid).snapshots().map(_userDataFromSnapshot)
+        : UserData(name: currentUser.displayName ?? "");
+  }
+}
+
+class ToDoServices extends DatabaseServices{
+    List<TaskObject> _taskObjectFromSnapshot(QuerySnapshot data) {
     return data.docs.map((element) {
       return TaskObject(
           uid: element.id,
@@ -214,17 +227,6 @@ class DatabaseServices {
             .collection("to-do-collection")
             .snapshots()
             .map(_taskObjectFromSnapshot)
-        : UserData(name: currentUser.displayName ?? "");
-  }
-
-  Stream<UserData> get userData {
-    return isGuest == false
-        ? users.doc(currentUser.uid) == null ?
-            users.doc(currentUser.uid).set({
-              "name" : ""
-            })
-          :
-            users.doc(currentUser.uid).snapshots().map(_userDataFromSnapshot)
         : UserData(name: currentUser.displayName ?? "");
   }
 }

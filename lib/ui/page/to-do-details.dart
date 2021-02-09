@@ -65,7 +65,7 @@ class _ToDoDetailsState extends State<ToDoDetails> with TickerProviderStateMixin
   @override
   Widget build(BuildContext context) {
     return StreamProvider<List<TaskObject>>.value(
-      value: DatabaseServices().taskObject,
+      value: ToDoServices().taskObject,
       catchError: (_, __) => [],
       child: Stack(
         children: [

@@ -32,7 +32,7 @@ class _ToDoLandingPageState extends State<ToDoLandingPage> {
     firestoreNullGenerator();
 
     return StreamProvider<List<TaskObject>>.value(
-      value: DatabaseServices().taskObject,
+      value: ToDoServices().taskObject,
       catchError: (_, __) => [],
       child: AssistantTopBar(
         content: ListView(

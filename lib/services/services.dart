@@ -6,6 +6,6 @@ import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-part 'database_Services.dart';
+part 'databaseServices.dart';
 part 'signIn.dart';
-part 'anon_signIn.dart';
+part 'anonymousSignIn.dart';

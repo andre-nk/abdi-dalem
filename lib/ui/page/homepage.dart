@@ -41,7 +41,8 @@ class _HomePageState extends State<HomePage> {
     return StreamProvider<UserData>.value(
       value: DatabaseServices().userData,
       catchError: (_, __) {
-        DatabaseServices().users
+        DatabaseServices()
+            .users
             .doc(currentUser.uid)
             .set({"name": currentUser.displayName});
         return UserData(name: currentUser.displayName);
@@ -49,30 +50,28 @@ class _HomePageState extends State<HomePage> {
       child: Scaffold(
           resizeToAvoidBottomInset: false,
           body: SafeArea(
-            child: Column(
+            child: Stack(
+              overflow: Overflow.visible,
               children: [
-                Stack(
-                  overflow: Overflow.visible,
-                  children: [
-                    GreetingsDisplayer(),
-                    TweenAnimationBuilder(
-                      child: Padding(
-                        padding: EdgeInsets.only(
-                          top: MediaQuery.of(context).size.height * 0.035,
-                          left: MediaQuery.of(context).size.width * 0.06,
-                          right: MediaQuery.of(context).size.width * 0.06,
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            GestureDetector(
+                GreetingsDisplayer(),
+                TweenAnimationBuilder(
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height * 0.035,
+                      left: MediaQuery.of(context).size.width * 0.06,
+                      right: MediaQuery.of(context).size.width * 0.06,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Hero(
+                          tag: "iq",
+                          child: Material(
+                            color: Colors.transparent,
+                            type: MaterialType.transparency,
+                            child: GestureDetector(
                               onTap: () {
-                                Navigator.push(
-                                    context,
-                                    PageTransition(
-                                        child: ToDoLandingPage(),
-                                        type: PageTransitionType
-                                            .leftToRightWithFade));
+                                Get.to(IQLanding());
                               },
                               child: Padding(
                                 padding: EdgeInsets.only(
@@ -97,156 +96,160 @@ class _HomePageState extends State<HomePage> {
                                 ),
                               ),
                             ),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  top: MediaQuery.of(context).size.height *
-                                      0.15),
-                              child: Container(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.3,
-                                decoration: BoxDecoration(
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color:
-                                          HexColor("01D8A1").withOpacity(0.2),
-                                      blurRadius: 10,
-                                    )
-                                  ],
-                                ),
-                                child: Image(
-                                    fit: BoxFit.fill,
-                                    height: MediaQuery.of(context).size.height *
-                                        0.3,
-                                    image: AssetImage("assets/EQ.png")),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  top: MediaQuery.of(context).size.height *
-                                      0.05),
-                              child: Container(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.3,
-                                decoration: BoxDecoration(
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color:
-                                          HexColor("D7263D").withOpacity(0.3),
-                                      blurRadius: 20,
-                                    )
-                                  ],
-                                ),
-                                child: Image(
-                                    fit: BoxFit.fill,
-                                    height: MediaQuery.of(context).size.height *
-                                        0.3,
-                                    image: AssetImage("assets/SQ.png")),
-                              ),
-                            )
-                          ],
+                          ),
                         ),
-                      ),
-                      duration: Duration(milliseconds: 700),
-                      tween: Tween<double>(begin: 0.2, end: 1),
-                      builder:
-                          (BuildContext context, double _val, Widget child) {
-                        return Opacity(
-                            opacity: _val,
-                            child: Padding(
-                                padding: EdgeInsets.only(
-                                    top: MediaQuery.of(context).size.height *
-                                        (_val + 0.025) /
-                                        10),
-                                child: child));
-                      },
-                    ),
-                    tabBar,
-                    DraggableTopBar(
-                      onExpansionChanged: (val) {
-                        if (val) {
-                          setState(() {
-                            heightSwitch = true;
-                          });
-                        } else {
-                          setState(() {
-                            heightSwitch = false;
-                          });
-                        }
-                      },
-                      tilePadding: EdgeInsets.all(0),
-                      title: Padding(
-                        padding: EdgeInsets.only(
-                            top: MediaQuery.of(context).size.height * 0.02),
-                        child: CircleAvatar(
-                            radius: MediaQuery.of(context).size.height * 0.03,
-                            child: ClipOval(
-                                child: currentUser.photoURL != null
-                                    ? Image(
-                                        image: NetworkImage(
-                                            currentUser.photoURL ?? ""))
-                                    : Image(
-                                        image: AssetImage(
-                                            "assets/guest_avatar.png")))),
-                      ),
-                      children: [
-                        Column(
-                          children: [
-                            Container(
+                        Padding(
+                          padding: EdgeInsets.only(
+                              top: MediaQuery.of(context).size.height * 0.15),
+                          child: Container(
+                            height: MediaQuery.of(context).size.height * 0.3,
+                            decoration: BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                  color: HexColor("01D8A1").withOpacity(0.2),
+                                  blurRadius: 10,
+                                )
+                              ],
+                            ),
+                            child: Image(
+                                fit: BoxFit.fill,
                                 height:
-                                    MediaQuery.of(context).size.height * 0.7,
-                                width: MediaQuery.of(context).size.width * 1,
-                                decoration: BoxDecoration(
-                                    boxShadow: [
-                                      BoxShadow(
-                                          color: Theme.of(context)
-                                              .primaryColor
-                                              .withOpacity(0.3),
-                                          blurRadius: 40,
-                                          offset: Offset(0, 4))
-                                    ],
-                                    color: Theme.of(context)
-                                        .backgroundColor
-                                        .withOpacity(0.97),
-                                    borderRadius: BorderRadius.only(
-                                        bottomLeft: Radius.circular(25),
-                                        bottomRight: Radius.circular(25))),
-                                child: Padding(
-                                  padding: EdgeInsets.all(
-                                      MediaQuery.of(context).size.height *
-                                          0.025),
-                                  child: SingleChildScrollView(
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        GestureDetector(
-                                            onTap: () {
-                                              currentUser.isAnonymous
-                                                  ? signUpDialog(context)
-                                                  : showDialog(
-                                                      context: context,
-                                                      builder: (_) =>
-                                                          BackdropFilter(
-                                                              filter: ImageFilter
-                                                                  .blur(
-                                                                      sigmaX:
-                                                                          0.5,
-                                                                      sigmaY:
-                                                                          0.5),
-                                                              child: AlertDialog(
-                                                                  backgroundColor: Theme.of(context).backgroundColor,
-                                                                  shape: RoundedRectangleBorder(
-                                                                    borderRadius:
-                                                                        BorderRadius.all(
-                                                                            Radius.circular(30.0)),
-                                                                  ),
-                                                                  content: Container(
-                                                                      alignment: Alignment.center,
-                                                                      height: MediaQuery.of(context).size.height * 0.4,
-                                                                      width: MediaQuery.of(context).size.width * 1,
-                                                                      child: Column(
+                                    MediaQuery.of(context).size.height * 0.3,
+                                image: AssetImage("assets/EQ.png")),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              top: MediaQuery.of(context).size.height * 0.05),
+                          child: Container(
+                            height: MediaQuery.of(context).size.height * 0.3,
+                            decoration: BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                  color: HexColor("D7263D").withOpacity(0.3),
+                                  blurRadius: 20,
+                                )
+                              ],
+                            ),
+                            child: Image(
+                                fit: BoxFit.fill,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.3,
+                                image: AssetImage("assets/SQ.png")),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  duration: Duration(milliseconds: 700),
+                  tween: Tween<double>(begin: 0.2, end: 1),
+                  builder: (BuildContext context, double _val, Widget child) {
+                    return Opacity(
+                        opacity: _val,
+                        child: Padding(
+                            padding: EdgeInsets.only(
+                                top: MediaQuery.of(context).size.height *
+                                    (_val + 0.025) /
+                                    10),
+                            child: child));
+                  },
+                ),
+                tabBar,
+                DraggableTopBar(
+                  onExpansionChanged: (val) {
+                    if (val) {
+                      setState(() {
+                        heightSwitch = true;
+                      });
+                    } else {
+                      setState(() {
+                        heightSwitch = false;
+                      });
+                    }
+                  },
+                  tilePadding: EdgeInsets.all(0),
+                  title: Padding(
+                    padding: EdgeInsets.only(
+                        top: MediaQuery.of(context).size.height * 0.02),
+                    child: CircleAvatar(
+                        radius: MediaQuery.of(context).size.height * 0.03,
+                        child: ClipOval(
+                            child: currentUser.photoURL != null
+                                ? Image(
+                                    image: NetworkImage(
+                                        currentUser.photoURL ?? ""))
+                                : Image(
+                                    image: AssetImage(
+                                        "assets/guest_avatar.png")))),
+                  ),
+                  children: [
+                    Column(
+                      children: [
+                        Container(
+                            height: MediaQuery.of(context).size.height * 0.7,
+                            width: MediaQuery.of(context).size.width * 1,
+                            decoration: BoxDecoration(
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: Theme.of(context)
+                                          .primaryColor
+                                          .withOpacity(0.3),
+                                      blurRadius: 40,
+                                      offset: Offset(0, 4))
+                                ],
+                                color: Theme.of(context)
+                                    .backgroundColor
+                                    .withOpacity(0.97),
+                                borderRadius: BorderRadius.only(
+                                    bottomLeft: Radius.circular(25),
+                                    bottomRight: Radius.circular(25))),
+                            child: Padding(
+                              padding: EdgeInsets.all(
+                                  MediaQuery.of(context).size.height * 0.025),
+                              child: SingleChildScrollView(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    GestureDetector(
+                                        onTap: () {
+                                          currentUser.isAnonymous
+                                              ? signUpDialog(context)
+                                              : showDialog(
+                                                  context: context,
+                                                  builder: (_) =>
+                                                      BackdropFilter(
+                                                          filter:
+                                                              ImageFilter.blur(
+                                                                  sigmaX: 0.5,
+                                                                  sigmaY: 0.5),
+                                                          child: AlertDialog(
+                                                              backgroundColor:
+                                                                  Theme.of(
+                                                                          context)
+                                                                      .backgroundColor,
+                                                              shape:
+                                                                  RoundedRectangleBorder(
+                                                                borderRadius: BorderRadius
+                                                                    .all(Radius
+                                                                        .circular(
+                                                                            30.0)),
+                                                              ),
+                                                              content:
+                                                                  Container(
+                                                                      alignment:
+                                                                          Alignment
+                                                                              .center,
+                                                                      height: MediaQuery.of(context)
+                                                                              .size
+                                                                              .height *
+                                                                          0.4,
+                                                                      width: MediaQuery.of(context)
+                                                                              .size
+                                                                              .width *
+                                                                          1,
+                                                                      child:
+                                                                          Column(
                                                                         mainAxisAlignment:
                                                                             MainAxisAlignment.spaceEvenly,
                                                                         children: [
@@ -293,192 +296,178 @@ class _HomePageState extends State<HomePage> {
                                                                           )
                                                                         ],
                                                                       )))));
-                                            },
-                                            child: SettingsWidget(
-                                                name: "Your display name")),
+                                        },
+                                        child: SettingsWidget(
+                                            name: "Your display name")),
+                                    SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.035),
+                                    SettingsWidget(
+                                        name: "Your e-mail",
+                                        value: currentUser.email ??
+                                            currentUser.uid,
+                                        method: null),
+                                    SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.035),
+                                    Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text("Theme Color",
+                                            style: GoogleFonts.karla().copyWith(
+                                                color: Theme.of(context)
+                                                    .accentColor,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w500)),
                                         SizedBox(
                                             height: MediaQuery.of(context)
                                                     .size
                                                     .height *
-                                                0.035),
-                                        SettingsWidget(
-                                            name: "Your e-mail",
-                                            value: currentUser.email ??
-                                                currentUser.uid,
-                                            method: null),
-                                        SizedBox(
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                0.035),
-                                        Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
+                                                0.005),
+                                        Row(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
-                                          children: [
-                                            Text("Theme Color",
-                                                style: GoogleFonts.karla()
-                                                    .copyWith(
-                                                        color:
-                                                            Theme.of(context)
-                                                                .accentColor,
-                                                        fontSize: 16,
-                                                        fontWeight:
-                                                            FontWeight.w500)),
-                                            SizedBox(
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.005),
-                                            Row(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: <Widget>[
-                                                Container(
-                                                  child: IconButton(
-                                                    color: HexColor("08A4BD"),
-                                                    icon: Icon(Icons.circle),
-                                                    onPressed: () {
-                                                      changePrimaryColor(
-                                                          "08A4BD", context);
-                                                    },
-                                                  ),
-                                                ),
-                                                IconButton(
-                                                  color: HexColor("D7263D"),
-                                                  icon: Icon(Icons.circle),
-                                                  onPressed: () {
-                                                    changePrimaryColor(
-                                                        "D7263D", context);
-                                                  },
-                                                ),
-                                                IconButton(
-                                                  color: HexColor("01D8A1"),
-                                                  icon: Icon(Icons.circle),
-                                                  onPressed: () {
-                                                    changePrimaryColor(
-                                                        "01D8A1", context);
-                                                  },
-                                                ),
-                                                IconButton(
-                                                  color: HexColor("573280"),
-                                                  icon: Icon(Icons.circle),
-                                                  onPressed: () {
-                                                    changePrimaryColor(
-                                                        "573280", context);
-                                                  },
-                                                ),
-                                              ],
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: <Widget>[
+                                            Container(
+                                              child: IconButton(
+                                                color: HexColor("08A4BD"),
+                                                icon: Icon(Icons.circle),
+                                                onPressed: () {
+                                                  changePrimaryColor(
+                                                      "08A4BD", context);
+                                                },
+                                              ),
+                                            ),
+                                            IconButton(
+                                              color: HexColor("D7263D"),
+                                              icon: Icon(Icons.circle),
+                                              onPressed: () {
+                                                changePrimaryColor(
+                                                    "D7263D", context);
+                                              },
+                                            ),
+                                            IconButton(
+                                              color: HexColor("01D8A1"),
+                                              icon: Icon(Icons.circle),
+                                              onPressed: () {
+                                                changePrimaryColor(
+                                                    "01D8A1", context);
+                                              },
+                                            ),
+                                            IconButton(
+                                              color: HexColor("573280"),
+                                              icon: Icon(Icons.circle),
+                                              onPressed: () {
+                                                changePrimaryColor(
+                                                    "573280", context);
+                                              },
                                             ),
                                           ],
                                         ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.020),
+                                    Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text("Theme Mode",
+                                            style: GoogleFonts.karla().copyWith(
+                                                color: Theme.of(context)
+                                                    .accentColor,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w500)),
                                         SizedBox(
                                             height: MediaQuery.of(context)
                                                     .size
                                                     .height *
-                                                0.020),
-                                        Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                                0.005),
+                                        Row(
                                           children: [
-                                            Text("Theme Mode",
-                                                style: GoogleFonts.karla()
-                                                    .copyWith(
-                                                        color:
-                                                            Theme.of(context)
-                                                                .accentColor,
-                                                        fontSize: 16,
-                                                        fontWeight:
-                                                            FontWeight.w500)),
-                                            SizedBox(
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.005),
-                                            Row(
-                                              children: [
-                                                IconButton(
-                                                  color: Theme.of(context)
-                                                      .accentColor,
-                                                  icon: Icon(Provider.of<
-                                                                  SharedPref>(
+                                            IconButton(
+                                              color:
+                                                  Theme.of(context).accentColor,
+                                              icon: Icon(
+                                                  Provider.of<SharedPref>(
                                                               context)
                                                           .isDarkMode
                                                       ? FlutterIcons.moon_fea
                                                       : Icons.brightness_low),
-                                                  onPressed: () {
-                                                    changeTheme(
-                                                        Provider.of<SharedPref>(
-                                                                    context,
-                                                                    listen:
-                                                                        false)
-                                                                .isDarkMode
-                                                            ? false
-                                                            : true,
-                                                        context);
-                                                  },
-                                                ),
-                                              ],
-                                            )
+                                              onPressed: () {
+                                                changeTheme(
+                                                    Provider.of<SharedPref>(
+                                                                context,
+                                                                listen: false)
+                                                            .isDarkMode
+                                                        ? false
+                                                        : true,
+                                                    context);
+                                              },
+                                            ),
                                           ],
-                                        ),
-                                        SizedBox(
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                0.025),
-                                        RaisedButton(
-                                          elevation: 0,
-                                          color: Theme.of(context)
-                                              .backgroundColor
-                                              .withOpacity(0),
-                                          padding: EdgeInsets.all(0),
-                                          onPressed: () async {
-                                            if (currentUser.isAnonymous) {
-                                              final provider =
-                                                  Provider.of<SignInProvider>(
-                                                      context,
-                                                      listen: false);
-                                              provider.signOutWithGoogle();
-                                            } else {
-                                              await AuthServices
-                                                  .signOutAnonymously();
-                                            }
-                                          },
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text("Log out",
-                                                  style:
-                                                      GoogleFonts.montserrat()
-                                                          .copyWith(
-                                                    color: Theme.of(context)
-                                                        .accentColor,
-                                                    fontSize: 18,
-                                                    fontWeight: FontWeight.w700,
-                                                  )),
-                                              Icon(
-                                                FlutterIcons.log_out_fea,
-                                                color: Colors.red,
-                                              )
-                                            ],
-                                          ),
                                         )
                                       ],
                                     ),
-                                  ),
-                                )),
-                            SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.06,
-                            )
-                          ],
-                        ),
+                                    SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.025),
+                                    RaisedButton(
+                                      elevation: 0,
+                                      color: Theme.of(context)
+                                          .backgroundColor
+                                          .withOpacity(0),
+                                      padding: EdgeInsets.all(0),
+                                      onPressed: () async {
+                                        if (currentUser.isAnonymous) {
+                                          final provider =
+                                              Provider.of<SignInProvider>(
+                                                  context,
+                                                  listen: false);
+                                          provider.signOutWithGoogle();
+                                        } else {
+                                          await AuthServices
+                                              .signOutAnonymously();
+                                        }
+                                      },
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text("Log out",
+                                              style: GoogleFonts.montserrat()
+                                                  .copyWith(
+                                                color: Theme.of(context)
+                                                    .accentColor,
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w700,
+                                              )),
+                                          Icon(
+                                            FlutterIcons.log_out_fea,
+                                            color: Colors.red,
+                                          )
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            )),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.06,
+                        )
                       ],
                     ),
                   ],

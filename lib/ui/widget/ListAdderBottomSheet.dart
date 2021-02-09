@@ -80,7 +80,7 @@ class _ListAdderBottomSheetState extends State<ListAdderBottomSheet> {
                 errorText ?? Text(''),
                 DefaultButton(
                   method: () async {
-                    DatabaseServices().createToDoList(context, listNameController.text, selectedColor);
+                    ToDoServices().createToDoList(context, listNameController.text, selectedColor);
                   },
                   title: "Confirm",
                 )

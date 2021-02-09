@@ -1,4 +1,4 @@
-part of "models.dart";
+part of "widgets.dart";
 
 class ToDoObjectStream extends StatefulWidget {
   final String listTitle;
@@ -164,7 +164,7 @@ class _ToDoObjectStreamState extends State<ToDoObjectStream> {
                           child: Dismissible(
                             onDismissed: (direction) {
                               toDoListFiltered[index].uid != null
-                                  ? DatabaseServices().deleteToDoTask(
+                                  ? ToDoServices().deleteToDoTask(
                                       toDoListFiltered[index].uid)
                                   : Get.snackbar(
                                       "Error", "This task is unlisted");
@@ -180,13 +180,13 @@ class _ToDoObjectStreamState extends State<ToDoObjectStream> {
                                   print(toDoListFiltered[index].completed);
                                   if (toDoListFiltered[index].completed ==
                                       false) {
-                                    DatabaseServices().updateToDoTask(
+                                    ToDoServices().updateToDoTask(
                                         context: context,
                                         completedValue: true,
                                         indexUID: toDoListFiltered[index].uid);
                                     setState(() {});
                                   } else {
-                                    DatabaseServices().updateToDoTask(
+                                    ToDoServices().updateToDoTask(
                                         context: context,
                                         completedValue: false,
                                         indexUID: toDoListFiltered[index].uid);
@@ -251,7 +251,7 @@ class _ToDoObjectStreamState extends State<ToDoObjectStream> {
                           child: Dismissible(
                             onDismissed: (direction) {
                               toDoListFiltered[index].uid != null
-                                  ? DatabaseServices().deleteToDoTask(
+                                  ? ToDoServices().deleteToDoTask(
                                       toDoListFiltered[index].uid)
                                   : Get.snackbar(
                                       "Error", "This task is unlisted");
@@ -266,12 +266,12 @@ class _ToDoObjectStreamState extends State<ToDoObjectStream> {
                                 onChanged: (value) {
                                   setState(() {
                                     toDoListFiltered[index].completed == false
-                                        ? DatabaseServices().updateToDoTask(
+                                        ? ToDoServices().updateToDoTask(
                                             context: context,
                                             completedValue: true,
                                             indexUID:
                                                 toDoListFiltered[index].uid)
-                                        : DatabaseServices().updateToDoTask(
+                                        : ToDoServices().updateToDoTask(
                                             context: context,
                                             completedValue: false,
                                             indexUID:

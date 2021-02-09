@@ -184,15 +184,20 @@ class _LoginState extends State<Login> {
                                                     CrossAxisAlignment.center,
                                                 children: [
                                                   Container(
-                                                    height:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .height *
-                                                            0.1,
-                                                    child: Image(
-                                                        image: AssetImage(
-                                                            "assets/logo.png")),
-                                                  ),
+                                                      height:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .height *
+                                                              0.1,
+                                                      child: Image(
+                                                          image: Theme.of(context)
+                                                                      .backgroundColor ==
+                                                                  HexColor(
+                                                                      "1A1B2F")
+                                                              ? AssetImage(
+                                                                  "assets/logo_dark.png")
+                                                              : AssetImage(
+                                                                  "assets/logo_light.png"))),
                                                   SizedBox(
                                                       height:
                                                           MediaQuery.of(context)
@@ -202,8 +207,7 @@ class _LoginState extends State<Login> {
                                                   Center(
                                                     child: Text(
                                                       "You can try Abdi Dalem features without any registration first. So, let's get started!",
-                                                      style: GoogleFonts
-                                                              .karla()
+                                                      style: GoogleFonts.karla()
                                                           .copyWith(
                                                               color: Theme.of(
                                                                       context)

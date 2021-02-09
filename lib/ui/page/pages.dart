@@ -21,3 +21,4 @@ part 'login.dart';
 part 'homepage.dart';
 part 'to-do-landing.dart';
 part "to-do-details.dart";
+part "iq-landing.dart";

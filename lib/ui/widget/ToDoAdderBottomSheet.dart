@@ -116,7 +116,7 @@ class _ToDoAdderBottomSheetState extends State<ToDoAdderBottomSheet> {
                   SizedBox(height: MediaQuery.of(context).size.height * 0.025),
                   DefaultButton(
                     method: () async {
-                      DatabaseServices().createToDoTask(
+                     ToDoServices().createToDoTask(
                           context,
                           nameController.text,
                           descriptionController.text,
@@ -262,7 +262,7 @@ class _ToDoPreviewerBottomSheetState extends State<ToDoPreviewerBottomSheet> {
                   SizedBox(height: MediaQuery.of(context).size.height * 0.025),
                   DefaultButton(
                     method: () async {
-                      DatabaseServices().updateToDoTask(
+                      ToDoServices().updateToDoTask(
                         context: context,
                         taskName: nameController.text,
                         taskDescription: descriptionController.text,
