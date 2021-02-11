@@ -13,9 +13,8 @@ class _ToDoLandingPageState extends State<ToDoLandingPage> {
     final User currentUser = FirebaseAuth.instance.currentUser;
 
     FirebaseFirestore firestore = FirebaseFirestore.instance;
-    DocumentReference toDoDocument = firestore
-        .collection("users")
-        .doc(currentUser.uid);
+    DocumentReference toDoDocument =
+        firestore.collection("users").doc(currentUser.uid);
 
     Future firestoreNullGenerator() async {
       return await toDoDocument.get().then((val) {
@@ -35,6 +34,72 @@ class _ToDoLandingPageState extends State<ToDoLandingPage> {
       value: ToDoServices().taskObject,
       catchError: (_, __) => [],
       child: AssistantTopBar(
+        topBarControl: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            IconButton(
+                padding: EdgeInsets.only(
+                    left: MediaQuery.of(context).size.width * 0.05),
+                icon: Icon(FlutterIcons.ios_arrow_back_ion,
+                    color: HexColor("FAFAFA")),
+                onPressed: () {
+                  Get.back();
+                }),
+            Row(
+              children: [
+                Text("list-view",
+                    style: GoogleFonts.montserrat().copyWith(
+                        color: buildDarkTheme('a').accentColor,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600)),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.04,
+                ),
+                Container(
+                  height: MediaQuery.of(context).size.width * 0.125,
+                  width: MediaQuery.of(context).size.width * 0.125,
+                  child: RaisedButton(
+                      color: Theme.of(context).primaryColor,
+                      disabledColor: Theme.of(context).backgroundColor,
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Container(
+                        child: Icon(
+                          FlutterIcons.list_ent,
+                          size: MediaQuery.of(context).size.height * 0.025,
+                          color: Theme.of(context).accentColor,
+                        ),
+                      ),
+                      onPressed: () {}),
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.04,
+                ),
+                Container(
+                  height: MediaQuery.of(context).size.width * 0.125,
+                  width: MediaQuery.of(context).size.width * 0.125,
+                  child: RaisedButton(
+                      color: Theme.of(context).primaryColor,
+                      disabledColor: Theme.of(context).backgroundColor,
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Icon(
+                        FlutterIcons.calendar_ant,
+                        size: MediaQuery.of(context).size.height * 0.025,
+                        color: Theme.of(context).accentColor,
+                      ),
+                      onPressed: null //TBA
+                      ),
+                ),
+              ],
+            ),
+          ],
+        ),
         content: ListView(
           physics: BouncingScrollPhysics(),
           children: [
@@ -51,8 +116,8 @@ class _ToDoLandingPageState extends State<ToDoLandingPage> {
                   ),
                 ),
                 Container(
-                  height: MediaQuery.of(context).size.width * 0.15,
-                  width: MediaQuery.of(context).size.width * 0.15,
+                  height: MediaQuery.of(context).size.width * 0.12,
+                  width: MediaQuery.of(context).size.width * 0.12,
                   child: RaisedButton(
                     onPressed: () {
                       showModalBottomSheet(
@@ -61,7 +126,9 @@ class _ToDoLandingPageState extends State<ToDoLandingPage> {
                           context: context,
                           builder: (BuildContext context) {
                             return Padding(
-                              padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                              padding: EdgeInsets.only(
+                                  bottom:
+                                      MediaQuery.of(context).viewInsets.bottom),
                               child: ListAdderBottomSheet(
                                 currentUser: currentUser,
                                 firestore: firestore,
@@ -77,6 +144,7 @@ class _ToDoLandingPageState extends State<ToDoLandingPage> {
                     ),
                     child: Icon(
                       FlutterIcons.plus_ant,
+                      size: MediaQuery.of(context).size.height * 0.025,
                       color: Theme.of(context).backgroundColor,
                     ),
                   ),
@@ -106,18 +174,21 @@ class _ToDoLandingPageState extends State<ToDoLandingPage> {
                           color: HexColor("C4C4C4").withOpacity(0.2),
                           borderRadius: BorderRadius.all(Radius.circular(15))),
                       child: TextField(
+                        autofocus: true,
                         textAlign: TextAlign.left,
-                        decoration: InputDecoration(
-                            contentPadding: EdgeInsets.only(left: 20),
-                            fillColor: HexColor("C4C4C4"),
-                            border: InputBorder.none,
-                            hintText: "Search your task...",
+                        decoration: new InputDecoration(
+                            border: new OutlineInputBorder(
+                                borderRadius: const BorderRadius.all(
+                                  const Radius.circular(10.0),
+                                ),
+                                borderSide: BorderSide.none),
+                            filled: true,
                             hintStyle: GoogleFonts.karla(
                                 color: Theme.of(context).accentColor,
-                                fontSize: 18)),
-                        style: GoogleFonts.karla(
-                            color: Theme.of(context).accentColor, fontSize: 16),
-                        onChanged: (val) {},
+                                fontSize: 16),
+                            hintText: "Search task...",
+                            fillColor: HexColor("C4C4C4").withOpacity(0.05)),
+                        onChanged: (_){},
                       ),
                     ),
                   ),

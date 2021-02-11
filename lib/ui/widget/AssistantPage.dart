@@ -31,73 +31,7 @@ class AssistantTopBar extends StatelessWidget {
                         bottom: MediaQuery.of(context).size.height * 0.02,
                         top: MediaQuery.of(context).size.height * 0.02,
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          IconButton(
-                              icon: Icon(FlutterIcons.ios_arrow_back_ion,
-                                  color: HexColor("FAFAFA")),
-                              onPressed: () {
-                                Get.back();
-                              }),
-                          SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.3),
-                          Text("list-view",
-                              style: GoogleFonts.montserrat().copyWith(
-                                  color: buildDarkTheme('a').accentColor,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w600)),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.04,
-                          ),
-                          Container(
-                            height: MediaQuery.of(context).size.width * 0.125,
-                            width: MediaQuery.of(context).size.width * 0.125,
-                            child: RaisedButton(
-                                color: Theme.of(context).primaryColor,
-                                disabledColor:
-                                    Theme.of(context).backgroundColor,
-                                elevation: 0,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Container(
-                                  child: Icon(
-                                    FlutterIcons.list_ent,
-                                    size: 20,
-                                    color: Theme.of(context).accentColor,
-                                  ),
-                                ),
-                                onPressed: () {}),
-                          ),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.04,
-                          ),
-                          Container(
-                            height: MediaQuery.of(context).size.width * 0.125,
-                            width: MediaQuery.of(context).size.width * 0.125,
-                            child: RaisedButton(
-                                color: Theme.of(context).primaryColor,
-                                disabledColor:
-                                    Theme.of(context).backgroundColor,
-                                elevation: 0,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.only(right: 6),
-                                  child: Icon(
-                                    FlutterIcons.calendar_ant,
-                                    size: 20,
-                                    color: Theme.of(context).accentColor,
-                                  ),
-                                ),
-                                onPressed: null //TBA
-                                ),
-                          ),
-                        ],
-                      ),
+                      child: this.topBarControl
                     ),
                   ),
                   Flexible(
@@ -110,8 +44,9 @@ class AssistantTopBar extends StatelessWidget {
                               topRight: Radius.circular(0))),
                       child: Padding(
                         padding: EdgeInsets.only(
-                            top: MediaQuery.of(context).size.height * 0.08,),
-                            // bottom: MediaQuery.of(context).size.height * 0.04),
+                          top: MediaQuery.of(context).size.height * 0.08,
+                        ),
+                        // bottom: MediaQuery.of(context).size.height * 0.04),
                         child: content,
                       ),
                     ),

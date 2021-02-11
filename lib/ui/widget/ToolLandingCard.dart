@@ -30,8 +30,10 @@ class ToolLandingCard extends StatelessWidget {
         child: Stack(children: [
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text(this.title,
+              AutoSizeText(
+                this.title,
                   style: GoogleFonts.montserrat().copyWith(
                     letterSpacing: 1.5,
                     color: Theme.of(context).accentColor,
@@ -44,8 +46,11 @@ class ToolLandingCard extends StatelessWidget {
           ),
           Positioned(
               bottom: -5,
-              child:
-                  Image(image: AssetImage(this.photoURL), fit: BoxFit.cover)),
+              child: Container(
+                height: MediaQuery.of(context).size.height * 0.125,
+                child: Image(image: AssetImage(this.photoURL), fit: BoxFit.cover)
+              )
+          ),
         ]),
       ),
     );

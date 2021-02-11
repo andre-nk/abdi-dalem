@@ -6,7 +6,7 @@ class SharedPref extends ChangeNotifier {
   SharedPref(this.sharedPreferences);
 
   bool get isDarkMode => sharedPreferences?.getBool("isDarkMode") ?? false;
-  String get primaryColor => sharedPreferences?.getString("primaryColor") ?? "A1A1A1";
+  String get primaryColor => sharedPreferences?.getString("primaryColor") ?? "08A4BD";
 
   void setDarkMode(bool val) {
     sharedPreferences?.setBool("isDarkMode", val);

@@ -50,12 +50,12 @@ class _LoginState extends State<Login> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Plan better,', style: t28Dark),
+                    AutoSizeText('Plan better,', style: t28Dark),
                     SizedBox(
                         height: MediaQuery.of(context).size.height * 0.005),
                     Text('Do greater.', style: t28Dark),
                     SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-                    Text(
+                    AutoSizeText(
                         'Use three types of fully-customizable assistant to help you get things done',
                         style: GoogleFonts.karla().copyWith(
                             color: buildDarkTheme('a').accentColor,

@@ -14,13 +14,13 @@ class SelectionButtons extends StatelessWidget {
         child: ListView.builder(
             physics: BouncingScrollPhysics(),
             scrollDirection: Axis.horizontal,
-            itemExtent: MediaQuery.of(context).size.width * 0.35,
+            itemExtent: MediaQuery.of(context).size.width * 0.375,
             itemCount: titles.length,
             itemBuilder: (BuildContext context, index) {
               return Container(
                   height: MediaQuery.of(context).size.height * 0.045,
                   margin: EdgeInsets.only(
-                      right: MediaQuery.of(context).size.width * 0),
+                      right: MediaQuery.of(context).size.width * 0.025),
                   child: RaisedButton(
                     elevation: 0,
                       onPressed: () {

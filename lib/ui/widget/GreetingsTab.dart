@@ -222,31 +222,34 @@ class ToolDisplayer extends StatelessWidget {
                     ],
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text('IQ assistant,',
-                          style: GoogleFonts.montserrat().copyWith(
-                            color: buildDarkTheme('a').accentColor,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
-                          )),
-                      SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.005),
-                      Text("Bunaken",
-                          style: GoogleFonts.montserrat().copyWith(
-                              color: HexColor("FAFAFA"),
-                              fontSize: 32,
-                              fontWeight: FontWeight.w700)),
-                      SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.005),
-                      Text('at your service',
-                          style: GoogleFonts.montserrat().copyWith(
-                            color: buildDarkTheme('a').accentColor,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
-                          )),
-                    ],
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.2,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text('IQ assistant,',
+                            style: GoogleFonts.montserrat().copyWith(
+                              color: buildDarkTheme('a').accentColor,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                            )),
+                        SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.005),
+                        Text("Bunaken",
+                            style: GoogleFonts.montserrat().copyWith(
+                                color: HexColor("FAFAFA"),
+                                fontSize: 32,
+                                fontWeight: FontWeight.w700)),
+                        SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.005),
+                        Text('at your service',
+                            style: GoogleFonts.montserrat().copyWith(
+                              color: buildDarkTheme('a').accentColor,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                            )),
+                      ],
+                    ),
                   ),
                 ],
               ),
