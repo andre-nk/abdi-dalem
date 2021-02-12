@@ -46,6 +46,7 @@ dependencies:
   page_transition: ^1.1.7+6
   pinput: ^0.2.0
   provider: ^4.3.2+4
+  pausable_timer: ^0.1.0+2
   shared_preferences: ^0.5.12+4
   splashscreen_extend: ^1.0.0
   supercharged: ^1.12.0

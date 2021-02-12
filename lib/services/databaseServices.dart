@@ -230,3 +230,22 @@ class ToDoServices extends DatabaseServices{
         : UserData(name: currentUser.displayName ?? "");
   }
 }
+
+class PomodoroTimerServices extends DatabaseServices{
+  Future<void> createPomodoroRecord(
+    String sessionName,
+    bool isCompleted,
+    String workTime,
+    String breakTime
+  ) async {
+    return await users
+      .doc(currentUser.uid)
+      .collection("pomodoro-collection")
+      .doc().set({
+        "sessionName": sessionName,
+        "isCompleted": isCompleted,
+        "workTime": workTime,
+        "breakTime": breakTime
+      });
+  }
+}
