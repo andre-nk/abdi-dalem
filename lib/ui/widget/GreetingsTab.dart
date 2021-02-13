@@ -183,8 +183,10 @@ class GreetingsDisplayer extends StatelessWidget {
 class ToolDisplayer extends StatelessWidget {
   final String heroTag;
   final String photoURL;
+  final String title;
+  final String subtitle;
 
-  ToolDisplayer({this.heroTag, this.photoURL});
+  ToolDisplayer({this.heroTag, this.photoURL, this.title, this.subtitle});
 
   @override
   Widget build(BuildContext context) {
@@ -221,13 +223,12 @@ class ToolDisplayer extends StatelessWidget {
                           }),
                     ],
                   ),
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.03),
                   Container(
                     height: MediaQuery.of(context).size.height * 0.2,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text('IQ assistant,',
+                        Text(this.subtitle,
                             style: GoogleFonts.montserrat().copyWith(
                               color: buildDarkTheme('a').accentColor,
                               fontSize: 18,
@@ -235,7 +236,7 @@ class ToolDisplayer extends StatelessWidget {
                             )),
                         SizedBox(
                             height: MediaQuery.of(context).size.height * 0.005),
-                        Text("Bunaken",
+                        Text(this.title,
                             style: GoogleFonts.montserrat().copyWith(
                                 color: HexColor("FAFAFA"),
                                 fontSize: 32,

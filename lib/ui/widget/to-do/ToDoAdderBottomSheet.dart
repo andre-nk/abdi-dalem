@@ -1,4 +1,4 @@
-part of 'widgets.dart';
+part of '../widgets.dart';
 
 class ToDoAdderBottomSheet extends StatefulWidget {
   final String title;

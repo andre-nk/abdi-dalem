@@ -17,7 +17,12 @@ class _IQLandingState extends State<IQLanding> {
           child: Column(
             // overflow: Overflow.visible,
             children: [
-              ToolDisplayer(heroTag: "iq", photoURL: "assets/IQ-tab.png"),
+              ToolDisplayer(
+                heroTag: "iq",
+                photoURL: "assets/IQ-tab.png",
+                title: "Bunaken",
+                subtitle: "your iq assistant,",
+              ),
               Padding(
                 padding:
                     EdgeInsets.all(MediaQuery.of(context).size.height * 0.04),

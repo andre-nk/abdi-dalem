@@ -1,4 +1,4 @@
-part of "widgets.dart";
+part of '../widgets.dart';
 
 class ToDoObjectStream extends StatefulWidget {
   final String listTitle;

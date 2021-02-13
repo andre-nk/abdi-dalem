@@ -1,4 +1,4 @@
-part of "widgets.dart";
+part of '../widgets.dart';
 
 class SelectionButtons extends StatelessWidget {
   final int selectedIndex;

@@ -17,10 +17,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:pausable_timer/pausable_timer.dart';
 import 'package:provider/provider.dart';
 import 'package:abdi_dalem_alpha/ui/widget/DraggableTopBar.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vibration/vibration.dart';
 
 part 'login.dart';
 part 'homepage.dart';

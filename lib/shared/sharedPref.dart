@@ -8,7 +8,8 @@ class SharedPref extends ChangeNotifier {
   bool get isDarkMode => sharedPreferences?.getBool("isDarkMode") ?? false;
   String get primaryColor => sharedPreferences?.getString("primaryColor") ?? "08A4BD";
   List<String> get timeStamp => sharedPreferences?.getStringList("timeStamp") ?? [];
-    List<String> get timeStampSecond => sharedPreferences?.getStringList("timeStampSecond") ?? [];
+  List<String> get timeStampSecond => sharedPreferences?.getStringList("timeStampSecond") ?? [];
+  bool get timerBreak => sharedPreferences?.getBool("timerBreak") ?? false;
 
   void setDarkMode(bool val) {
     sharedPreferences?.setBool("isDarkMode", val);
@@ -33,6 +34,11 @@ class SharedPref extends ChangeNotifier {
 
   void setTimestampSecond(List<String> timeStamps){
     sharedPreferences?.setStringList("timeStampSecond", timeStamps);
+    notifyListeners();
+  }
+
+    void setTimerBreak(bool timerBreak){
+    sharedPreferences?.setBool("timerBreak", timerBreak);
     notifyListeners();
   }
 

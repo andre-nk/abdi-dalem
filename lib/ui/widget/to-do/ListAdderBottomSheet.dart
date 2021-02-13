@@ -1,4 +1,4 @@
-part of 'widgets.dart';
+part of '../widgets.dart';
 
 class ListAdderBottomSheet extends StatefulWidget {
   final ColorSelection colorSelectionLocal = new ColorSelection();

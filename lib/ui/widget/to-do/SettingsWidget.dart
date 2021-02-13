@@ -1,4 +1,4 @@
-part of "widgets.dart";
+part of '../widgets.dart';
 
 class SettingsWidget extends StatelessWidget {
   final String name;
@@ -24,7 +24,7 @@ class SettingsWidget extends StatelessWidget {
         value != null
             ? Text(value,
                 style: GoogleFonts.montserrat().copyWith(
-                  color: buildDarkTheme('a').accentColor,
+                  color: Theme.of(context).accentColor,
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ))
