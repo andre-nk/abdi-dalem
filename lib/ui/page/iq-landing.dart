@@ -12,8 +12,8 @@ class _IQLandingState extends State<IQLanding> {
         resizeToAvoidBottomInset: false,
         body: SafeArea(
             child: Material(
-              type: MaterialType.transparency,
-              color: Colors.transparent,
+          type: MaterialType.transparency,
+          color: Colors.transparent,
           child: Column(
             // overflow: Overflow.visible,
             children: [
@@ -55,9 +55,10 @@ class _IQLandingState extends State<IQLanding> {
                             },
                             title: "pomodoro timer",
                             photoURL: "assets/pomodoro-illus.png",
-                            icon: Icon(FlutterIcons.clock_faw5,
-                                color: Theme.of(context).accentColor,
-                                size: MediaQuery.of(context).size.height * 0.03,
+                            icon: Icon(
+                              FlutterIcons.clock_faw5,
+                              color: Theme.of(context).accentColor,
+                              size: MediaQuery.of(context).size.height * 0.03,
                             ),
                           ),
                           ToolLandingCard(
@@ -71,18 +72,28 @@ class _IQLandingState extends State<IQLanding> {
                             },
                             title: "to-do list",
                             photoURL: "assets/to-do-illus.png",
-                            icon: Icon(FlutterIcons.tasklist_oct,
-                                color: Theme.of(context).accentColor,
-                                size: MediaQuery.of(context).size.height * 0.03,  
-                              ),
+                            icon: Icon(
+                              FlutterIcons.tasklist_oct,
+                              color: Theme.of(context).accentColor,
+                              size: MediaQuery.of(context).size.height * 0.03,
+                            ),
                           ),
                           ToolLandingCard(
-                            title: "timeflow timer",
+                            method: () {
+                              Navigator.push(
+                                  context,
+                                  PageTransition(
+                                      type: PageTransitionType.fade,
+                                      alignment: Alignment.bottomCenter,
+                                      child: FlowtimeTimer()));
+                            },
+                            title: "flowtime timer",
                             photoURL: "assets/timeflow-illus.png",
-                            icon: Icon(FlutterIcons.clock_faw5,
-                                color: Theme.of(context).accentColor,
-                                size: MediaQuery.of(context).size.height * 0.03,
-                              ),
+                            icon: Icon(
+                              FlutterIcons.clock_faw5,
+                              color: Theme.of(context).accentColor,
+                              size: MediaQuery.of(context).size.height * 0.03,
+                            ),
                           )
                         ],
                       ),
