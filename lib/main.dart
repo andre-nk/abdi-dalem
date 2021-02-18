@@ -1,5 +1,4 @@
 import 'package:abdi_dalem_alpha/wrapper.dart';
-import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:abdi_dalem_alpha/shared/shared.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -25,9 +24,7 @@ Future main() async {
   await OneSignal.shared
       .promptUserForPushNotificationPermission(fallbackToSettings: true);
 
-  runApp(DevicePreview(builder: (BuildContext context) {
-    return AbdiDalemRoot();
-  }));
+  runApp(AbdiDalemRoot());
 }
 
 class AbdiDalemRoot extends StatelessWidget {
