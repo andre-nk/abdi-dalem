@@ -6,16 +6,14 @@ class ToDoLandingPage extends StatefulWidget {
 }
 
 class _ToDoLandingPageState extends State<ToDoLandingPage> {
-
   bool listViewEnabled = true;
-    
+
   @override
   Widget build(BuildContext context) {
-
     //FIREBASE SETUP
     final User currentUser = FirebaseAuth.instance.currentUser;
     FirebaseFirestore firestore = FirebaseFirestore.instance;
-    DocumentReference toDoDocument =firestore.collection("users").doc(currentUser.uid);
+    DocumentReference toDoDocument = firestore.collection("users").doc(currentUser.uid);
     Future firestoreNullGenerator() async {
       return await toDoDocument.get().then((val) {
         if (val.data()["tags_title"] == null) {
@@ -27,6 +25,7 @@ class _ToDoLandingPageState extends State<ToDoLandingPage> {
         }
       });
     }
+
     firestoreNullGenerator();
     print(listViewEnabled);
 
@@ -50,16 +49,16 @@ class _ToDoLandingPageState extends State<ToDoLandingPage> {
             Row(
               children: [
                 listViewEnabled
-                ? Text("list-view",
-                    style: GoogleFonts.montserrat().copyWith(
-                        color: buildDarkTheme('a').accentColor,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600))
-                : Text("calendar-view",
-                    style: GoogleFonts.montserrat().copyWith(
-                        color: buildDarkTheme('a').accentColor,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600)),
+                    ? Text("list-view",
+                        style: GoogleFonts.montserrat().copyWith(
+                            color: buildDarkTheme('a').accentColor,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600))
+                    : Text("calendar-view",
+                        style: GoogleFonts.montserrat().copyWith(
+                            color: buildDarkTheme('a').accentColor,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600)),
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.04,
                 ),
@@ -67,7 +66,9 @@ class _ToDoLandingPageState extends State<ToDoLandingPage> {
                   height: MediaQuery.of(context).size.width * 0.125,
                   width: MediaQuery.of(context).size.width * 0.125,
                   child: RaisedButton(
-                      color: listViewEnabled ? Theme.of(context).primaryColor : Theme.of(context).backgroundColor,
+                      color: listViewEnabled
+                          ? Theme.of(context).primaryColor
+                          : Theme.of(context).backgroundColor,
                       disabledColor: Theme.of(context).backgroundColor,
                       elevation: 0,
                       shape: RoundedRectangleBorder(
@@ -80,7 +81,7 @@ class _ToDoLandingPageState extends State<ToDoLandingPage> {
                           color: Theme.of(context).accentColor,
                         ),
                       ),
-                      onPressed: (){
+                      onPressed: () {
                         setState(() {
                           listViewEnabled = true;
                         });
@@ -93,7 +94,9 @@ class _ToDoLandingPageState extends State<ToDoLandingPage> {
                   height: MediaQuery.of(context).size.width * 0.125,
                   width: MediaQuery.of(context).size.width * 0.125,
                   child: RaisedButton(
-                      color: listViewEnabled ? Theme.of(context).backgroundColor : Theme.of(context).primaryColor,
+                      color: listViewEnabled
+                          ? Theme.of(context).backgroundColor
+                          : Theme.of(context).primaryColor,
                       disabledColor: Theme.of(context).backgroundColor,
                       elevation: 0,
                       shape: RoundedRectangleBorder(
@@ -104,7 +107,7 @@ class _ToDoLandingPageState extends State<ToDoLandingPage> {
                         size: MediaQuery.of(context).size.height * 0.025,
                         color: Theme.of(context).accentColor,
                       ),
-                      onPressed: (){
+                      onPressed: () {
                         setState(() {
                           listViewEnabled = false;
                           print("a");
@@ -116,17 +119,17 @@ class _ToDoLandingPageState extends State<ToDoLandingPage> {
             ),
           ],
         ),
-        content: listViewEnabled 
-          ? ListViewToDoList(
-              currentUser: currentUser,
-              firestore: firestore,
-              toDoDocument: toDoDocument,
-            )
-          : CalendarViewToDoList(
-              currentUser: currentUser,
-              firestore: firestore,
-              toDoDocument: toDoDocument,
-          ),
+        content: listViewEnabled
+            ? StreamProvider<List<ToDoListCard>>.value(
+                value: ToDoServices().taskList,
+                catchError: (_, __) => [],
+                child: ListViewToDoList(
+                  currentUser: currentUser,
+                ),
+              )
+            : CalendarViewToDoList(
+                currentUser: currentUser
+              ),
         photoURL: "assets/to-do-tab.png",
       ),
     );

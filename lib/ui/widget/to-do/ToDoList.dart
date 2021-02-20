@@ -14,14 +14,17 @@ class ToDoObjectStream extends StatefulWidget {
 }
 
 class _ToDoObjectStreamState extends State<ToDoObjectStream> {
-  List<TaskObject> toDoListFiltered = [];
+  List<TaskObject> toDoTasksFiltered = [];
   int outsideIndex = 0;
   bool localCompletedValue;
 
   @override
   Widget build(BuildContext context) {
-    List<TaskObject> toDoList = Provider.of<List<TaskObject>>(context) ?? [];
-    Widget toDoListLength = Text(
+    List<TaskObject> toDoTasks = Provider.of<List<TaskObject>>(context);
+
+    print(toDoTasks);
+
+    Widget toDoTasksLength = Text(
       "${0}" + " task(s)",
       style:
           GoogleFonts.karla(color: Theme.of(context).accentColor, fontSize: 16),
@@ -37,14 +40,14 @@ class _ToDoObjectStreamState extends State<ToDoObjectStream> {
     ];
 
     void listGenerator(int selectedIndex) {
-      toDoListFiltered = [];
+      toDoTasksFiltered = [];
       if (widget.listTitle != null) {
-        toDoList.forEach((element) {
+        toDoTasks.forEach((element) {
           if (element.tags.contains(widget.listTitle) && element.task != "") {
             setState(() {
-              toDoListFiltered.add(element);
-              toDoListLength = Text(
-                "${toDoListFiltered.length}" + " task(s)",
+              toDoTasksFiltered.add(element);
+              toDoTasksLength = Text(
+                "${toDoTasksFiltered.length}" + " task(s)",
                 style: GoogleFonts.karla(
                     color: Theme.of(context).accentColor, fontSize: 16),
               );
@@ -55,12 +58,12 @@ class _ToDoObjectStreamState extends State<ToDoObjectStream> {
         switch (filterOptions[selectedIndex]) {
           case "completed":
             print(filterOptions[selectedIndex]);
-            toDoList.forEach((element) {
+            toDoTasks.forEach((element) {
               if (element.completed == true && element.task != "") {
                 setState(() {
-                  toDoListFiltered.add(element);
-                  toDoListLength = Text(
-                    "${toDoListFiltered.length}" + " task(s)",
+                  toDoTasksFiltered.add(element);
+                  toDoTasksLength = Text(
+                    "${toDoTasksFiltered.length}" + " task(s)",
                     style: GoogleFonts.karla(
                         color: Theme.of(context).accentColor, fontSize: 16),
                   );
@@ -69,12 +72,12 @@ class _ToDoObjectStreamState extends State<ToDoObjectStream> {
             });
             break;
           case "no deadline":
-            toDoList.forEach((element) {
+            toDoTasks.forEach((element) {
               if (element.date == "No deadline" && element.task != "") {
                 setState(() {
-                  toDoListFiltered.add(element);
-                  toDoListLength = Text(
-                    "${toDoListFiltered.length}" + " task(s)",
+                  toDoTasksFiltered.add(element);
+                  toDoTasksLength = Text(
+                    "${toDoTasksFiltered.length}" + " task(s)",
                     style: GoogleFonts.karla(
                         color: Theme.of(context).accentColor, fontSize: 16),
                   );
@@ -83,15 +86,15 @@ class _ToDoObjectStreamState extends State<ToDoObjectStream> {
             });
             break;
           case "today":
-            toDoList.forEach((element) {
+            toDoTasks.forEach((element) {
               DateTime date = new DateFormat("dd-MM-yyyy")
                   .parse(element.date.replaceAll("-", ""));
               print(date);
               if (element.task != "") {
                 setState(() {
-                  toDoListFiltered.add(element);
-                  toDoListLength = Text(
-                    "${toDoListFiltered.length}" + " task(s)",
+                  toDoTasksFiltered.add(element);
+                  toDoTasksLength = Text(
+                    "${toDoTasksFiltered.length}" + " task(s)",
                     style: GoogleFonts.karla(
                         color: Theme.of(context).accentColor, fontSize: 16),
                   );
@@ -100,13 +103,13 @@ class _ToDoObjectStreamState extends State<ToDoObjectStream> {
             });
             break;
           case "all":
-            toDoList.forEach((element) {
+            toDoTasks.forEach((element) {
               if (element.tags.contains(widget.listTitle) &&
                   element.task != "") {
                 setState(() {
-                  toDoListFiltered.add(element);
-                  toDoListLength = Text(
-                    "${toDoListFiltered.length}" + " task(s)",
+                  toDoTasksFiltered.add(element);
+                  toDoTasksLength = Text(
+                    "${toDoTasksFiltered.length}" + " task(s)",
                     style: GoogleFonts.karla(
                         color: Theme.of(context).accentColor, fontSize: 16),
                   );
@@ -116,10 +119,10 @@ class _ToDoObjectStreamState extends State<ToDoObjectStream> {
             break;
         }
       } else {
-        toDoList.forEach((element) {
+        toDoTasks.forEach((element) {
           if (element.task != "") {
             setState(() {
-              toDoListFiltered.add(element);
+              toDoTasksFiltered.add(element);
             });
           }
         });
@@ -127,7 +130,7 @@ class _ToDoObjectStreamState extends State<ToDoObjectStream> {
     }
 
     return widget.forNumeric == true
-        ? toDoListLength
+        ? toDoTasksLength
         : widget.listTitle == null
             ? Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -138,7 +141,7 @@ class _ToDoObjectStreamState extends State<ToDoObjectStream> {
                     child: ListView.builder(
                       physics: BouncingScrollPhysics(),
                       scrollDirection: Axis.vertical,
-                      itemCount: toDoListFiltered.length,
+                      itemCount: toDoTasksFiltered.length,
                       itemBuilder: (context, index) {
                         return GestureDetector(
                           onLongPress: () {
@@ -154,18 +157,18 @@ class _ToDoObjectStreamState extends State<ToDoObjectStream> {
                                             .bottom),
                                     child: ToDoPreviewerBottomSheet(
                                         widget.listTitle,
-                                        toDoListFiltered[index].task,
-                                        toDoListFiltered[index].description,
-                                        toDoListFiltered[index].date,
-                                        toDoListFiltered[index].uid),
+                                        toDoTasksFiltered[index].task,
+                                        toDoTasksFiltered[index].description,
+                                        toDoTasksFiltered[index].date,
+                                        toDoTasksFiltered[index].uid),
                                   );
                                 });
                           },
                           child: Dismissible(
                             onDismissed: (direction) {
-                              toDoListFiltered[index].uid != null
+                              toDoTasksFiltered[index].uid != null
                                   ? ToDoServices().deleteToDoTask(
-                                      toDoListFiltered[index].uid)
+                                      toDoTasksFiltered[index].uid)
                                   : Get.snackbar(
                                       "Error", "This task is unlisted");
                               setState(() {});
@@ -174,27 +177,27 @@ class _ToDoObjectStreamState extends State<ToDoObjectStream> {
                             child: CustomCheckboxListTile(
                                 activeColor: Theme.of(context)
                                     .primaryColor, //change to tag color
-                                value: toDoListFiltered[index]
+                                value: toDoTasksFiltered[index]
                                     .completed, //*task.isCompleted(),
                                 onChanged: (value) {
-                                  print(toDoListFiltered[index].completed);
-                                  if (toDoListFiltered[index].completed ==
+                                  print(toDoTasksFiltered[index].completed);
+                                  if (toDoTasksFiltered[index].completed ==
                                       false) {
                                     ToDoServices().updateToDoTask(
                                         context: context,
                                         completedValue: true,
-                                        indexUID: toDoListFiltered[index].uid);
+                                        indexUID: toDoTasksFiltered[index].uid);
                                     setState(() {});
                                   } else {
                                     ToDoServices().updateToDoTask(
                                         context: context,
                                         completedValue: false,
-                                        indexUID: toDoListFiltered[index].uid);
+                                        indexUID: toDoTasksFiltered[index].uid);
                                     setState(() {});
                                   }
                                 },
                                 title: Text(
-                                    "${toDoListFiltered[index].task ?? ""}",
+                                    "${toDoTasksFiltered[index].task ?? ""}",
                                     style: GoogleFonts.karla().copyWith(
                                         color: Theme.of(context).accentColor,
                                         fontSize: 18,
@@ -225,7 +228,7 @@ class _ToDoObjectStreamState extends State<ToDoObjectStream> {
                     child: ListView.builder(
                       physics: BouncingScrollPhysics(),
                       scrollDirection: Axis.vertical,
-                      itemCount: toDoListFiltered.length,
+                      itemCount: toDoTasksFiltered.length,
                       itemBuilder: (context, index) {
                         return GestureDetector(
                           onLongPress: () {
@@ -241,18 +244,18 @@ class _ToDoObjectStreamState extends State<ToDoObjectStream> {
                                             .bottom),
                                     child: ToDoPreviewerBottomSheet(
                                         widget.listTitle,
-                                        toDoListFiltered[index].task,
-                                        toDoListFiltered[index].description,
-                                        toDoListFiltered[index].date,
-                                        toDoListFiltered[index].uid),
+                                        toDoTasksFiltered[index].task,
+                                        toDoTasksFiltered[index].description,
+                                        toDoTasksFiltered[index].date,
+                                        toDoTasksFiltered[index].uid),
                                   );
                                 });
                           },
                           child: Dismissible(
                             onDismissed: (direction) {
-                              toDoListFiltered[index].uid != null
+                              toDoTasksFiltered[index].uid != null
                                   ? ToDoServices().deleteToDoTask(
-                                      toDoListFiltered[index].uid)
+                                      toDoTasksFiltered[index].uid)
                                   : Get.snackbar(
                                       "Error", "This task is unlisted");
                               setState(() {});
@@ -261,24 +264,24 @@ class _ToDoObjectStreamState extends State<ToDoObjectStream> {
                             child: CustomCheckboxListTile(
                                 activeColor: Theme.of(context)
                                     .primaryColor, //change to tag color
-                                value: toDoListFiltered[index]
+                                value: toDoTasksFiltered[index]
                                     .completed, //*task.isCompleted(),
                                 onChanged: (value) {
                                   setState(() {
-                                    toDoListFiltered[index].completed == false
+                                    toDoTasksFiltered[index].completed == false
                                         ? ToDoServices().updateToDoTask(
                                             context: context,
                                             completedValue: true,
                                             indexUID:
-                                                toDoListFiltered[index].uid)
+                                                toDoTasksFiltered[index].uid)
                                         : ToDoServices().updateToDoTask(
                                             context: context,
                                             completedValue: false,
                                             indexUID:
-                                                toDoListFiltered[index].uid);
+                                                toDoTasksFiltered[index].uid);
                                   });
                                 },
-                                title: Text("${toDoListFiltered[index].task}",
+                                title: Text("${toDoTasksFiltered[index].task}",
                                     style: GoogleFonts.karla().copyWith(
                                         color: Theme.of(context).accentColor,
                                         fontSize: 18,

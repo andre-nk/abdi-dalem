@@ -14,7 +14,7 @@ class _ToDoAdderBottomSheetState extends State<ToDoAdderBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    DateFormat formatter = DateFormat('dd-MM-yyyy');
+    DateFormat formatter = DateFormat('yMMMMd');
 
     TextEditingController nameController = new TextEditingController();
     TextEditingController descriptionController = new TextEditingController();
@@ -116,12 +116,14 @@ class _ToDoAdderBottomSheetState extends State<ToDoAdderBottomSheet> {
                   SizedBox(height: MediaQuery.of(context).size.height * 0.025),
                   DefaultButton(
                     method: () async {
-                     ToDoServices().createToDoTask(
+                      ToDoServices().createToDoTask(
                           context,
                           nameController.text,
                           descriptionController.text,
                           [widget.title],
-                          formatter.format(pickedDate));
+                          formatter.format(pickedDate),
+                          formatter.format(DateTime.now())
+                      );
                     },
                     title: "Confirm",
                   )
@@ -268,7 +270,9 @@ class _ToDoPreviewerBottomSheetState extends State<ToDoPreviewerBottomSheet> {
                         taskDescription: descriptionController.text,
                         tags: [widget.listTitle],
                         indexUID: widget.indexUID,
-                        pickedDate: pickedDate);
+                        pickedDate: pickedDate,
+                        startDate: formatter.format(DateTime.now())
+                      );
                     },
                     title: "Confirm",
                   )

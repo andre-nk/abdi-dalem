@@ -31,16 +31,29 @@ class DatabaseServices {
 }
 
 class ToDoServices extends DatabaseServices{
-    List<TaskObject> _taskObjectFromSnapshot(QuerySnapshot data) {
+  List<TaskObject> _taskObjectFromSnapshot(QuerySnapshot data) {
     return data.docs.map((element) {
       return TaskObject(
           uid: element.id,
           task: element["taskName"] ?? "",
           date: element["date"].toString() ?? "",
+          startDate: element["startDate"].toString ?? "",
           tags: element["tags"] ?? [],
           description: element["taskDescription"] ?? "",
           completed: element["isCompleted"] ?? false);
     }).toList();
+  }
+
+  List<ToDoListCard> _taskListFromSnapshot(DocumentSnapshot data){
+    List<ToDoListCard> toDoList;
+    data["tags_title"].forEach((listTitle){
+      toDoList.add(ToDoListCard(
+        listTitle: listTitle.toString(),
+        tagColor: data["tags_color"][listTitle.indexOf(data["tags_title"])],
+      ));
+    });
+
+    return toDoList;
   }
 
   Future<void> deleteToDoTask(String indexID) async {
@@ -162,13 +175,20 @@ class ToDoServices extends DatabaseServices{
     });
   }
 
-  Future<void> createToDoTask(BuildContext context, String taskName,
-      String taskDescription, List<String> tags, String pickedDate) async {
+  Future<void> createToDoTask(
+      BuildContext context,
+      String taskName,
+      String taskDescription,
+      List<String> tags,
+      String pickedDate,
+      String startDate
+    ) async {
     if (taskName != null) {
       users.doc(currentUser.uid).collection("to-do-collection").add({
         "taskName": taskName,
         "taskDescription": taskDescription,
         "date": pickedDate,
+        "startDate": startDate,
         "isCompleted": false,
         "tags": tags
       });
@@ -188,7 +208,9 @@ class ToDoServices extends DatabaseServices{
       List<String> tags,
       String indexUID,
       bool completedValue,
-      String pickedDate}) async {
+      String pickedDate,
+      String startDate
+      }) async {
     if (taskName != null) {
       users
           .doc(currentUser.uid)
@@ -198,6 +220,7 @@ class ToDoServices extends DatabaseServices{
         "taskName": taskName,
         "taskDescription": taskDescription,
         "date": pickedDate,
+        "startDate": startDate,
         "isCompleted": false,
         "tags": tags,
       });
@@ -227,6 +250,12 @@ class ToDoServices extends DatabaseServices{
             .collection("to-do-collection")
             .snapshots()
             .map(_taskObjectFromSnapshot)
+        : UserData(name: currentUser.displayName ?? "");
+  }
+
+  Stream<List<ToDoListCard>> get taskList {
+    return isGuest == false
+        ? users.doc(currentUser.uid).snapshots().map(_taskListFromSnapshot)
         : UserData(name: currentUser.displayName ?? "");
   }
 }

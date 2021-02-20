@@ -4,10 +4,8 @@ class ToDoListCard extends StatefulWidget {
   final Map toDoList;
   final String listTitle; //temporarily, for FB, will display: a.) title (cycle tags document) b.) all taskID with corresponding tags c.) tags color
   final String tagColor;
-  final FirebaseFirestore firestoreDB;
-  final User currentUser;
 
-  ToDoListCard({this.toDoList, this.listTitle, this.tagColor, this.firestoreDB, this.currentUser});
+  ToDoListCard({this.toDoList, this.listTitle, this.tagColor});
 
   @override
   _ToDoListCardState createState() =>
@@ -27,8 +25,6 @@ class _ToDoListCardState extends State<ToDoListCard> {
             Get.to(ToDoDetails(
               listTitle: widget.listTitle,
               tagColor: widget.tagColor,
-              firestoreDB: widget.firestoreDB,
-              currentUser: widget.currentUser
             ));
           },
           child: Container(

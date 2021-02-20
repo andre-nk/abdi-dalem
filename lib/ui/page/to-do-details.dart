@@ -6,11 +6,10 @@ class ToDoDetails extends StatefulWidget {
 
   final String listTitle;
   final String tagColor;
-  final FirebaseFirestore firestoreDB;
-  final User currentUser;
+  
 
   ToDoDetails(
-      {this.listTitle, this.tagColor, this.firestoreDB, this.currentUser});
+      {this.listTitle, this.tagColor});
 }
 
 class _ToDoDetailsState extends State<ToDoDetails> with TickerProviderStateMixin {

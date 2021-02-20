@@ -3,10 +3,7 @@ part of '../widgets.dart';
 class ListAdderBottomSheet extends StatefulWidget {
   final ColorSelection colorSelectionLocal = new ColorSelection();
   final User currentUser;
-  final FirebaseFirestore firestore;
-  final DocumentReference toDoCollection;
-
-  ListAdderBottomSheet({this.currentUser, this.firestore, this.toDoCollection});
+  ListAdderBottomSheet({this.currentUser});
 
   @override
   _ListAdderBottomSheetState createState() => _ListAdderBottomSheetState();

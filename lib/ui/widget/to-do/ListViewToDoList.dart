@@ -2,10 +2,8 @@ part of "../widgets.dart";
 
 class ListViewToDoList extends StatefulWidget {
   final User currentUser;
-  final FirebaseFirestore firestore;
-  final DocumentReference toDoDocument;
 
-  ListViewToDoList({this.currentUser, this.firestore, this.toDoDocument});
+  ListViewToDoList({this.currentUser});
 
   @override
   _ListViewToDoListState createState() => _ListViewToDoListState();
@@ -16,6 +14,9 @@ class _ListViewToDoListState extends State<ListViewToDoList> {
 
   @override
   Widget build(BuildContext context) {
+
+    List<ToDoListCard> toDoList = Provider.of<List<ToDoListCard>>(context);
+
     return ListView(
       physics: BouncingScrollPhysics(),
       children: [
@@ -45,9 +46,7 @@ class _ListViewToDoListState extends State<ListViewToDoList> {
                           padding: EdgeInsets.only(
                               bottom: MediaQuery.of(context).viewInsets.bottom),
                           child: ListAdderBottomSheet(
-                            currentUser: widget.currentUser,
-                            firestore: widget.firestore,
-                            toDoCollection: widget.toDoDocument,
+                            currentUser: widget.currentUser
                           ),
                         );
                       });
@@ -76,7 +75,8 @@ class _ListViewToDoListState extends State<ListViewToDoList> {
         ),
         SizedBox(height: MediaQuery.of(context).size.height * 0.04),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05),
+          padding: EdgeInsets.symmetric(
+              horizontal: MediaQuery.of(context).size.width * 0.05),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -146,44 +146,21 @@ class _ListViewToDoListState extends State<ListViewToDoList> {
                     ),
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.0275),
-                  StreamBuilder(
-                      stream: widget.toDoDocument.snapshots(),
-                      builder: (_, snapshot) {
-                        if (snapshot.hasData) {
-                          return Container(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal:
-                                      MediaQuery.of(context).size.width * 0.05),
-                              height: MediaQuery.of(context).size.height * 0.4,
-                              child: ListView.builder(
-                                physics: BouncingScrollPhysics(),
-                                scrollDirection: Axis.horizontal,
-                                itemExtent:
-                                    MediaQuery.of(context).size.width * 0.8,
-                                itemCount: snapshot.data.data()["tags_title"] !=
-                                        null
-                                    ? snapshot.data.data()["tags_title"].length
-                                    : 0,
-                                itemBuilder: (BuildContext context, index) {
-                                  return ToDoListCard(
-                                    firestoreDB: widget.firestore,
-                                    currentUser: widget.currentUser,
-                                    listTitle: snapshot.data
-                                        .data()["tags_title"][index]
-                                        .toString(),
-                                    tagColor: snapshot.data
-                                        .data()["tags_colors"][index]
-                                        .toString(),
-                                  );
-                                },
-                              ));
-                        } else {
-                          return SpinKitRotatingCircle(
-                            color: Theme.of(context).accentColor,
-                            size: MediaQuery.of(context).size.height * 0.01,
-                          );
-                        }
-                      })
+                  Container(
+                          padding: EdgeInsets.symmetric(
+                              horizontal:
+                                  MediaQuery.of(context).size.width * 0.05),
+                          height: MediaQuery.of(context).size.height * 0.4,
+                          child: ListView.builder(
+                            physics: BouncingScrollPhysics(),
+                            scrollDirection: Axis.horizontal,
+                            itemExtent: MediaQuery.of(context).size.width * 0.8,
+                            itemCount: toDoList.length ?? 0,
+                            itemBuilder: (BuildContext context, index) {
+                              return toDoList[index];
+                            },
+                          ))
+                      
                 ],
               )
             : Column(
