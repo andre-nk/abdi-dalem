@@ -2,7 +2,8 @@ part of 'services.dart';
 
 class DatabaseServices {
   //global reference
-  final CollectionReference users = FirebaseFirestore.instance.collection('users');
+  final CollectionReference users =
+      FirebaseFirestore.instance.collection('users');
   User currentUser = FirebaseAuth.instance.currentUser;
   bool isGuest = FirebaseAuth.instance.currentUser.isAnonymous;
 
@@ -17,39 +18,61 @@ class DatabaseServices {
   }
 
   //to do object
-
   Stream<UserData> get userData {
-    return isGuest == false
-        ? users.doc(currentUser.uid) == null ?
-            users.doc(currentUser.uid).set({
-              "name" : ""
-            })
-          :
-            users.doc(currentUser.uid).snapshots().map(_userDataFromSnapshot)
-        : UserData(name: currentUser.displayName ?? "");
+    Stream<UserData> output;
+
+    if (isGuest == false) {
+      output =
+          users.doc(currentUser.uid).snapshots().map(_userDataFromSnapshot);
+    } else {
+      users.doc(currentUser.uid).set({"name": "Guest " +  currentUser.uid.toString()});
+      output =
+          users.doc(currentUser.uid).snapshots().map(_userDataFromSnapshot);
+    }
+
+    return output;
   }
 }
 
-class ToDoServices extends DatabaseServices{
+class ToDoServices extends DatabaseServices {
   List<TaskObject> _taskObjectFromSnapshot(QuerySnapshot data) {
+    // final List<TaskObject> taskList = [];
+    
+    // for (var i = 0; i < data.docs.length; i++) {
+    //   taskList.add(TaskObject(
+    //     uid: data.docs[i].id.toString(),
+    //     task: data.docs[i]["taskName"] ?? "",
+    //     date: data.docs[i]["date"] ?? "",
+    //     startDate: data.docs[i]["startDate"]
+    //   ));
+    // }
+
+    // // data.docs.forEach((element){
+    // //   taskList.add(TaskObject(
+    // //     uid: 
+    // //   ));
+    // // });
+
     return data.docs.map((element) {
       return TaskObject(
           uid: element.id,
           task: element["taskName"] ?? "",
           date: element["date"].toString() ?? "",
-          startDate: element["startDate"].toString ?? "",
+          startDate: element["startDate"].toString() ?? "",
           tags: element["tags"] ?? [],
           description: element["taskDescription"] ?? "",
           completed: element["isCompleted"] ?? false);
     }).toList();
   }
 
-  List<ToDoListCard> _taskListFromSnapshot(DocumentSnapshot data){
-    List<ToDoListCard> toDoList;
-    data["tags_title"].forEach((listTitle){
+  List<ToDoListCard> _taskListFromSnapshot(DocumentSnapshot data) {
+    final List<ToDoListCard> toDoList = [];
+
+    data["tags_title"].forEach((listTitle) {
+      final tagColor = data["tags_colors"][data["tags_title"].indexOf(listTitle)];
       toDoList.add(ToDoListCard(
         listTitle: listTitle.toString(),
-        tagColor: data["tags_color"][listTitle.indexOf(data["tags_title"])],
+        tagColor: tagColor,
       ));
     });
 
@@ -65,7 +88,7 @@ class ToDoServices extends DatabaseServices{
   }
 
   Future<void> createToDoList(
-    BuildContext context, String listName, String selectedColor) async {
+      BuildContext context, String listName, String selectedColor) async {
     List<dynamic> data = [];
     List<dynamic> data2 = [];
     return await users.doc(currentUser.uid).get().then((val) {
@@ -181,8 +204,7 @@ class ToDoServices extends DatabaseServices{
       String taskDescription,
       List<String> tags,
       String pickedDate,
-      String startDate
-    ) async {
+      String startDate) async {
     if (taskName != null) {
       users.doc(currentUser.uid).collection("to-do-collection").add({
         "taskName": taskName,
@@ -209,8 +231,7 @@ class ToDoServices extends DatabaseServices{
       String indexUID,
       bool completedValue,
       String pickedDate,
-      String startDate
-      }) async {
+      String startDate}) async {
     if (taskName != null) {
       users
           .doc(currentUser.uid)
@@ -225,7 +246,7 @@ class ToDoServices extends DatabaseServices{
         "tags": tags,
       });
       Navigator.pop(context);
-    } else if (completedValue != null){
+    } else if (completedValue != null) {
       print('a');
       users
           .doc(currentUser.uid)
@@ -244,37 +265,30 @@ class ToDoServices extends DatabaseServices{
 
   //stream index
   Stream<List<TaskObject>> get taskObject {
-    return isGuest == false
-        ? users
-            .doc(currentUser.uid)
-            .collection("to-do-collection")
-            .snapshots()
-            .map(_taskObjectFromSnapshot)
-        : UserData(name: currentUser.displayName ?? "");
+    return users
+      .doc(currentUser.uid)
+      .collection("to-do-collection")
+      .snapshots()
+      .map(_taskObjectFromSnapshot);
   }
 
   Stream<List<ToDoListCard>> get taskList {
-    return isGuest == false
-        ? users.doc(currentUser.uid).snapshots().map(_taskListFromSnapshot)
-        : UserData(name: currentUser.displayName ?? "");
+    return users.doc(currentUser.uid).snapshots().map(_taskListFromSnapshot);
   }
 }
 
-class PomodoroTimerServices extends DatabaseServices{
-  Future<void> createPomodoroRecord(
-    String sessionName,
-    bool isCompleted,
-    String workTime,
-    String breakTime
-  ) async {
+class PomodoroTimerServices extends DatabaseServices {
+  Future<void> createPomodoroRecord(String sessionName, bool isCompleted,
+      String workTime, String breakTime) async {
     return await users
-      .doc(currentUser.uid)
-      .collection("pomodoro-collection")
-      .doc().set({
-        "sessionName": sessionName,
-        "isCompleted": isCompleted,
-        "workTime": workTime,
-        "breakTime": breakTime
-      });
+        .doc(currentUser.uid)
+        .collection("pomodoro-collection")
+        .doc()
+        .set({
+      "sessionName": sessionName,
+      "isCompleted": isCompleted,
+      "workTime": workTime,
+      "breakTime": breakTime
+    });
   }
 }

@@ -2,14 +2,14 @@ part of '../widgets.dart';
 
 class ToDoListCard extends StatefulWidget {
   final Map toDoList;
-  final String listTitle; //temporarily, for FB, will display: a.) title (cycle tags document) b.) all taskID with corresponding tags c.) tags color
+  final String
+      listTitle; //temporarily, for FB, will display: a.) title (cycle tags document) b.) all taskID with corresponding tags c.) tags color
   final String tagColor;
 
   ToDoListCard({this.toDoList, this.listTitle, this.tagColor});
 
   @override
-  _ToDoListCardState createState() =>
-      _ToDoListCardState();
+  _ToDoListCardState createState() => _ToDoListCardState();
 }
 
 class _ToDoListCardState extends State<ToDoListCard> {
@@ -22,10 +22,16 @@ class _ToDoListCardState extends State<ToDoListCard> {
         type: MaterialType.transparency,
         child: GestureDetector(
           onTap: () {
-            Get.to(ToDoDetails(
-              listTitle: widget.listTitle,
-              tagColor: widget.tagColor,
-            ));
+            Get.to(
+              StreamProvider<List<TaskObject>>.value(
+                value: ToDoServices().taskObject,
+                catchError: (_, __) => [],
+                child: ToDoDetails(
+                  listTitle: widget.listTitle,
+                  tagColor: widget.tagColor,
+                )
+              )
+            );
           },
           child: Container(
             height: 100,
@@ -126,7 +132,7 @@ class _ToDoListCardState extends State<ToDoListCard> {
                                       letterSpacing: 1,
                                       fontWeight: FontWeight.w700)),
                             ],
-                          ),                          
+                          ),
                         ],
                       ),
                     ),

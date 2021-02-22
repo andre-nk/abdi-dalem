@@ -14,6 +14,7 @@ class _HomePageState extends State<HomePage> {
 
     //#AUTH
     final User currentUser = FirebaseAuth.instance.currentUser;
+    print(currentUser.uid);
 
     //Display Values
     TextEditingController userNameController = new TextEditingController();
@@ -432,14 +433,14 @@ class _HomePageState extends State<HomePage> {
                                       padding: EdgeInsets.all(0),
                                       onPressed: () async {
                                         if (currentUser.isAnonymous) {
+                                          await AuthServices
+                                              .signOutAnonymously();
+                                        } else {
                                           final provider =
                                               Provider.of<SignInProvider>(
                                                   context,
                                                   listen: false);
                                           provider.signOutWithGoogle();
-                                        } else {
-                                          await AuthServices
-                                              .signOutAnonymously();
                                         }
                                       },
                                       child: Row(

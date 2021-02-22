@@ -22,6 +22,7 @@ class _CalendarViewToDoListState extends State<CalendarViewToDoList> {
     List<Event> _getDataSource() {
       meetings = <Event>[];
       for(var i = 0 ; i < toDoList.length ; i++){
+        print(formatter.parse(toDoList[i].startDate));
         final DateTime startTime = formatter.parse(toDoList[i].startDate.replaceAll("-", ""));
         final DateTime endTime =formatter.parse(toDoList[i].date.replaceAll("-", ""));
         meetings.add(Event('${toDoList[i].task}', startTime, endTime, HexColor(colors.colorSelection[i]), false));

@@ -22,10 +22,8 @@ class _ToDoObjectStreamState extends State<ToDoObjectStream> {
   Widget build(BuildContext context) {
     List<TaskObject> toDoTasks = Provider.of<List<TaskObject>>(context);
 
-    print(toDoTasks);
-
     Widget toDoTasksLength = Text(
-      "${0}" + " task(s)",
+      "${toDoTasks.length}" + " task(s)",
       style:
           GoogleFonts.karla(color: Theme.of(context).accentColor, fontSize: 16),
     );
@@ -54,24 +52,25 @@ class _ToDoObjectStreamState extends State<ToDoObjectStream> {
             });
           }
         });
-      } else if (filterOptions[selectedIndex] != null) {
-        switch (filterOptions[selectedIndex]) {
-          case "completed":
-            print(filterOptions[selectedIndex]);
+      } else if (outsideIndex != null) {
+        print("a");
+        print(outsideIndex);
+        switch (outsideIndex) {
+          case 1:
+            print("compl");
             toDoTasks.forEach((element) {
               if (element.completed == true && element.task != "") {
-                setState(() {
-                  toDoTasksFiltered.add(element);
-                  toDoTasksLength = Text(
-                    "${toDoTasksFiltered.length}" + " task(s)",
-                    style: GoogleFonts.karla(
-                        color: Theme.of(context).accentColor, fontSize: 16),
-                  );
-                });
+                toDoTasksFiltered.add(element);
+                toDoTasksLength = Text(
+                  "${toDoTasksFiltered.length}" + " task(s)",
+                  style: GoogleFonts.karla(
+                      color: Theme.of(context).accentColor, fontSize: 16),
+                );
               }
             });
             break;
-          case "no deadline":
+          case 2:
+            print("no dl");
             toDoTasks.forEach((element) {
               if (element.date == "No deadline" && element.task != "") {
                 setState(() {
@@ -85,11 +84,11 @@ class _ToDoObjectStreamState extends State<ToDoObjectStream> {
               }
             });
             break;
-          case "today":
+          case 3:
+            print("today");
             toDoTasks.forEach((element) {
-              DateTime date = new DateFormat("dd-MM-yyyy")
-                  .parse(element.date.replaceAll("-", ""));
-              print(date);
+              // DateTime date = new DateFormat("dd-MM-yyyy")
+              //     .parse(element.date.replaceAll("-", ""));
               if (element.task != "") {
                 setState(() {
                   toDoTasksFiltered.add(element);
@@ -102,7 +101,8 @@ class _ToDoObjectStreamState extends State<ToDoObjectStream> {
               }
             });
             break;
-          case "all":
+          case 0:
+            print("all");
             toDoTasks.forEach((element) {
               if (element.tags.contains(widget.listTitle) &&
                   element.task != "") {
@@ -219,6 +219,7 @@ class _ToDoObjectStreamState extends State<ToDoObjectStream> {
                       setState(() {
                         listGenerator(index);
                         outsideIndex = index;
+                        print(outsideIndex);
                       });
                     },
                   ),
