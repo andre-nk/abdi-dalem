@@ -16,7 +16,7 @@ class _CalendarViewToDoListState extends State<CalendarViewToDoList> {
 
   @override
   Widget build(BuildContext context){
-
+    
     List<TaskObject> toDoList = Provider.of<List<TaskObject>>(context) ?? [];
 
     List<Event> _getDataSource() {

@@ -7,22 +7,54 @@ import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:workmanager/workmanager.dart';
+
+const simpleTaskKey = "simpleTask";
+const simpleDelayedTask = "simpleDelayedTask";
+const simplePeriodicTask = "simplePeriodicTask";
+const simplePeriodic1HourTask = "simplePeriodic1HourTask";
+
+void callbackDispatcher() {
+  Workmanager.executeTask((task, inputData) async {
+    switch (task) {
+      case simpleTaskKey:
+        print("$simpleTaskKey was executed. inputData = $inputData");
+        final prefs = await SharedPreferences.getInstance();
+        prefs.setBool("test", true);
+        print("Bool from prefs: ${prefs.getBool("test")}");
+        break;
+      case simpleDelayedTask:
+        print("$simpleDelayedTask was executed");
+        break;
+      case simplePeriodicTask:
+        print("$simplePeriodicTask was executed");
+        break;
+      case simplePeriodic1HourTask:
+        print("$simplePeriodic1HourTask was executed");
+        break;
+      case Workmanager.iOSBackgroundTask:
+        print("The iOS background fetch was triggered");
+        break;
+    }
+
+    return Future.value(true);
+  });
+}
+
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  //FIREBASE
   await Firebase.initializeApp();
 
-  //Remove this method to stop OneSignal Debugging
+  //ONESIGNAL
   OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
-
   OneSignal.shared.init("f9d24a53-49fe-4905-9ae3-b1e06b6ebc27", iOSSettings: {
     OSiOSSettings.autoPrompt: false,
     OSiOSSettings.inAppLaunchUrl: false
   });
   OneSignal.shared.setInFocusDisplayType(OSNotificationDisplayType.notification);
-
-// The promptForPushNotificationsWithUserResponse function will show the iOS push notification prompt. We recommend removing the following code and instead using an In-App Message to prompt for notification permission
-  await OneSignal.shared
-      .promptUserForPushNotificationPermission(fallbackToSettings: true);
+  await OneSignal.shared.promptUserForPushNotificationPermission(fallbackToSettings: true);
 
   runApp(AbdiDalemRoot());
 }
