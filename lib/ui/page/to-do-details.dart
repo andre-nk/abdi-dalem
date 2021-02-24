@@ -64,6 +64,7 @@ class _ToDoDetailsState extends State<ToDoDetails>
   Widget build(BuildContext context) {
     List<TaskObject> toDoTasks = Provider.of<List<TaskObject>>(context);
     final List<TaskObject> toDoTasksFiltered = [];
+    int toDoTasksFilteredLength = toDoTasksFiltered.length == double.nan ? 0 : toDoTasksFiltered.length;
 
     toDoTasks.forEach((element){
       if(element.completed == true){
@@ -201,7 +202,7 @@ class _ToDoDetailsState extends State<ToDoDetails>
                                         Theme.of(context).primaryColor),
                                   ),
                                 ),
-                                Text("${((toDoTasksFiltered.length / toDoTasks.length) * 100).toString().substring(0,2)}%",
+                                Text("${(( toDoTasksFilteredLength / toDoTasks.length) * 100).toString()}%",
                                     style: GoogleFonts.karla().copyWith(
                                         color: Theme.of(context).accentColor,
                                         fontSize: 18,

@@ -16,12 +16,11 @@ class _PomodoroTimerState extends State<PomodoroTimer> {
   List<String> timeStampsSecond = [];
   List<int> timeStampsCalculated = [];
   bool resultPage = false;
+  bool breakTime = false;
   bool firebaseSubmitted = false;
-
+ 
   @override
   Widget build(BuildContext context) {
-    bool breakTime = false;
-
     Widget statusButton() {
       print(status);
       return status == "pending"
@@ -34,6 +33,8 @@ class _PomodoroTimerState extends State<PomodoroTimer> {
                 Vibration.vibrate(duration: 100, amplitude: 200);
                 timeStamps.add(formatterHour.format(DateTime.now()));
                 timeStampsSecond.add(formatterSeconds.format(DateTime.now()));
+                print(timeStamps);
+                print(timeStampsSecond);
                 _countDownController.start();
                 setState(() {
                   sessionName = sessionNameController.text;
@@ -56,6 +57,8 @@ class _PomodoroTimerState extends State<PomodoroTimer> {
                                 .add(formatterHour.format(DateTime.now()));
                             timeStampsSecond
                                 .add(formatterSeconds.format(DateTime.now()));
+                            print(timeStamps);
+                            print(timeStampsSecond);
                             setState(() {
                               sessionName = "timer paused";
                               status = "paused";
@@ -74,6 +77,8 @@ class _PomodoroTimerState extends State<PomodoroTimer> {
                                 .add(formatterHour.format(DateTime.now()));
                             timeStampsSecond
                                 .add(formatterSeconds.format(DateTime.now()));
+                            print(timeStamps);
+                            print(timeStampsSecond);
                             setState(() {
                               sessionName = null;
                               status = "completed";
@@ -101,7 +106,8 @@ class _PomodoroTimerState extends State<PomodoroTimer> {
                                 timeStampsSecond.add(
                                     formatterSeconds.format(DateTime.now()));
                                 _countDownController.start();
-                                // timerNormal.start();
+                                print(timeStamps);
+                                print(timeStampsSecond);
                                 setState(() {
                                   sessionName = sessionNameController.text;
                                   status = "started";
@@ -128,61 +134,56 @@ class _PomodoroTimerState extends State<PomodoroTimer> {
                         ),
                       ],
                     )
-                  : status == "paused"
-                      ? DefaultButton(
-                          color: Theme.of(context).primaryColor,
-                          title: "Continue",
-                          method: () {
-                            Vibration.vibrate(duration: 100, amplitude: 200);
-                            timeStamps
-                                .add(formatterHour.format(DateTime.now()));
-                            timeStampsSecond
-                                .add(formatterSeconds.format(DateTime.now()));
-                            _countDownController.resume();
-                            // timerNormal.start();
-                            setState(() {
-                              print(status);
-                              sessionName = sessionNameController.text;
-                              status = "started";
-                            });
-                          })
-                      : Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Container(
-                              width: MediaQuery.of(context).size.width * 0.4,
-                              child: DefaultButton(
-                                  color: HexColor("1B1F28").withOpacity(0.8),
-                                  title: "Start Break",
-                                  method: () {
-                                    setState(() {
-                                      sessionName = sessionNameController.text;
-                                      status = "started";
-                                    });
-                                    print(status);
-                                    _countDownControllerBreak.start();
-                                  }),
-                            ),
-                            Container(
-                              width: MediaQuery.of(context).size.width * 0.4,
-                              child: DefaultButton(
-                                  color: HexColor("1B1F28").withOpacity(0.8),
-                                  title: "Stop",
-                                  method: () {
-                                    Vibration.vibrate(
-                                        duration: 100, amplitude: 200);
-                                    timeStamps.add(
-                                        formatterHour.format(DateTime.now()));
-                                    timeStampsSecond.add(formatterSeconds
-                                        .format(DateTime.now()));
-                                    print(status +
-                                        formatterHour.format(DateTime.now()));
-                                    _countDownControllerBreak.pause();
-                                    setState(() {
-                                      sessionName = null;
-                                      status = "completed";
-                                    });
-                                  }),
+              : status == "paused"
+                  ? DefaultButton(
+                      color: Theme.of(context).primaryColor,
+                      title: "Continue",
+                      method: () {
+                        Vibration.vibrate(duration: 100, amplitude: 200);
+                        timeStamps.add(formatterHour.format(DateTime.now()));
+                        timeStampsSecond.add(formatterSeconds.format(DateTime.now()));
+                        _countDownController.resume();
+                        print(timeStamps);
+                        print(timeStampsSecond);
+                        setState(() {
+                          print(status);
+                          sessionName = sessionNameController.text;
+                          status = "started";
+                        });
+                      })
+                  : Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.4,
+                            child: DefaultButton(
+                              color: HexColor("1B1F28").withOpacity(0.8),
+                              title: "Start Break",
+                              method: () {
+                                setState(() {
+                                  sessionName = sessionNameController.text;
+                                  status = "break started";
+                                });
+                                print(status);
+                                _countDownControllerBreak.start();
+                              }),
+                          ),
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.4,
+                            child: DefaultButton(
+                              color: HexColor("1B1F28").withOpacity(0.8),
+                              title: "Stop",
+                              method: () {
+                                Vibration.vibrate(duration: 100, amplitude: 200);
+                                timeStamps.add(formatterHour.format(DateTime.now()));
+                                timeStampsSecond.add(formatterSeconds.format(DateTime.now()));
+                                print(status + formatterHour.format(DateTime.now()));
+                                _countDownControllerBreak.pause();
+                                setState(() {
+                                  sessionName = null;
+                                  status = "completed";
+                                });
+                              }),
                             ),
                           ],
                         );
@@ -253,7 +254,7 @@ class _PomodoroTimerState extends State<PomodoroTimer> {
       return result.toString();
     }
 
-    print(breakTime.toString() + "test");
+    print(breakTime.toString() + " test");
 
     return AssistantTopBar(
         photoURL: "assets/pomodoro-background.png",
@@ -388,7 +389,7 @@ class _PomodoroTimerState extends State<PomodoroTimer> {
                 ),
               )
             : breakTime == false
-              ? ListView(
+                ? ListView(
                     physics: BouncingScrollPhysics(),
                     children: [
                       Padding(
@@ -485,7 +486,7 @@ class _PomodoroTimerState extends State<PomodoroTimer> {
                       )
                     ],
                   )
-              : ListView(
+                : ListView(
                     physics: BouncingScrollPhysics(),
                     children: [
                       Padding(
@@ -548,9 +549,7 @@ class _PomodoroTimerState extends State<PomodoroTimer> {
                                   //break
                                   onStart: () {},
                                   onComplete: () {
-                                    Provider.of<SharedPref>(context,
-                                            listen: false)
-                                        .setTimestampSecond(timeStampsSecond);
+                                    Provider.of<SharedPref>(context,listen: false).setTimestampSecond(timeStampsSecond);
                                     setState(() {
                                       status = "completed";
                                     });

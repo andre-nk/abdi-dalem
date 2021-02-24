@@ -36,23 +36,6 @@ class DatabaseServices {
 
 class ToDoServices extends DatabaseServices {
   List<TaskObject> _taskObjectFromSnapshot(QuerySnapshot data) {
-    // final List<TaskObject> taskList = [];
-    
-    // for (var i = 0; i < data.docs.length; i++) {
-    //   taskList.add(TaskObject(
-    //     uid: data.docs[i].id.toString(),
-    //     task: data.docs[i]["taskName"] ?? "",
-    //     date: data.docs[i]["date"] ?? "",
-    //     startDate: data.docs[i]["startDate"]
-    //   ));
-    // }
-
-    // // data.docs.forEach((element){
-    // //   taskList.add(TaskObject(
-    // //     uid: 
-    // //   ));
-    // // });
-
     return data.docs.map((element) {
       return TaskObject(
           uid: element.id,

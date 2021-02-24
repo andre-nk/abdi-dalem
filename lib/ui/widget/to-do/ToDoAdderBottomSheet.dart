@@ -14,12 +14,12 @@ class _ToDoAdderBottomSheetState extends State<ToDoAdderBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    DateFormat formatter = DateFormat('yMMMMd');
+    DateFormat formatter = DateFormat('yMd');
 
     TextEditingController nameController = new TextEditingController();
     TextEditingController descriptionController = new TextEditingController();
 
-    print(pickedDate);
+    print(formatter.format(DateTime.now()));
 
     return BottomSheet(
       backgroundColor: Theme.of(context).backgroundColor,
@@ -121,9 +121,8 @@ class _ToDoAdderBottomSheetState extends State<ToDoAdderBottomSheet> {
                           nameController.text,
                           descriptionController.text,
                           [widget.title],
-                          formatter.format(pickedDate),
-                          formatter.format(DateTime.now())
-                      );
+                          pickedDate.toString(),
+                          DateTime.now().toString());
                     },
                     title: "Confirm",
                   )
@@ -254,7 +253,6 @@ class _ToDoPreviewerBottomSheetState extends State<ToDoPreviewerBottomSheet> {
                                 lastDate: DateTime(2500));
 
                             if (selectedDate == null) return;
-                            // print(selectedDate);
                             pickedDate = formatter.format(selectedDate);
                             // });
                           },
@@ -265,14 +263,13 @@ class _ToDoPreviewerBottomSheetState extends State<ToDoPreviewerBottomSheet> {
                   DefaultButton(
                     method: () async {
                       ToDoServices().updateToDoTask(
-                        context: context,
-                        taskName: nameController.text,
-                        taskDescription: descriptionController.text,
-                        tags: [widget.listTitle],
-                        indexUID: widget.indexUID,
-                        pickedDate: pickedDate,
-                        startDate: formatter.format(DateTime.now())
-                      );
+                          context: context,
+                          taskName: nameController.text,
+                          taskDescription: descriptionController.text,
+                          tags: [widget.listTitle],
+                          indexUID: widget.indexUID,
+                          pickedDate: pickedDate,
+                          startDate: formatter.format(DateTime.now()));
                     },
                     title: "Confirm",
                   )

@@ -30,7 +30,6 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     //#AUTH
     final User currentUser = FirebaseAuth.instance.currentUser;
-    print(currentUser.uid);
 
     //Display Values
     TextEditingController userNameController = new TextEditingController();
