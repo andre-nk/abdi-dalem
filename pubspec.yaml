@@ -54,6 +54,7 @@ dependencies:
   syncfusion_flutter_calendar: ^18.4.43
   vibration: ^1.7.3
   workmanager: ^0.2.3
+  multi_select_item: ^1.0.3
 
 flutter_native_splash:
   color: "#fafafa"

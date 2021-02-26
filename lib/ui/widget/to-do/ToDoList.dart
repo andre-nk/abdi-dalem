@@ -17,6 +17,7 @@ class _ToDoObjectStreamState extends State<ToDoObjectStream> {
   List<TaskObject> toDoTasksFiltered = [];
   int outsideIndex = 0;
   bool localCompletedValue;
+  MultiSelectController controller = new MultiSelectController();
 
   @override
   Widget build(BuildContext context) {
@@ -141,10 +142,10 @@ class _ToDoObjectStreamState extends State<ToDoObjectStream> {
                     child: ListView.builder(
                       physics: BouncingScrollPhysics(),
                       scrollDirection: Axis.vertical,
-                      itemCount: toDoTasksFiltered.length,
+                      itemCount: toDoTasks.length,
                       itemBuilder: (context, index) {
                         return GestureDetector(
-                          onLongPress: () {
+                          onDoubleTap: () {
                             showModalBottomSheet(
                                 backgroundColor: Colors.transparent,
                                 isScrollControlled: true,
@@ -164,44 +165,54 @@ class _ToDoObjectStreamState extends State<ToDoObjectStream> {
                                   );
                                 });
                           },
-                          child: Dismissible(
-                            onDismissed: (direction) {
-                              toDoTasksFiltered[index].uid != null
-                                  ? ToDoServices().deleteToDoTask(
-                                      toDoTasksFiltered[index].uid)
-                                  : Get.snackbar(
-                                      "Error", "This task is unlisted");
-                              setState(() {});
+                          child: MultiSelectItem(
+                            isSelecting: controller.isSelecting,
+                            onSelected: () {
+                              setState(() {
+                                controller.toggle(index);
+                              });
                             },
-                            key: UniqueKey(),
-                            child: CustomCheckboxListTile(
-                                activeColor: Theme.of(context)
-                                    .primaryColor, //change to tag color
-                                value: toDoTasksFiltered[index]
-                                    .completed, //*task.isCompleted(),
-                                onChanged: (value) {
-                                  print(toDoTasksFiltered[index].completed);
-                                  if (toDoTasksFiltered[index].completed ==
-                                      false) {
-                                    ToDoServices().updateToDoTask(
-                                        context: context,
-                                        completedValue: true,
-                                        indexUID: toDoTasksFiltered[index].uid);
-                                    setState(() {});
-                                  } else {
-                                    ToDoServices().updateToDoTask(
-                                        context: context,
-                                        completedValue: false,
-                                        indexUID: toDoTasksFiltered[index].uid);
-                                    setState(() {});
-                                  }
-                                },
-                                title: Text(
-                                    "${toDoTasksFiltered[index].task ?? ""}",
-                                    style: GoogleFonts.karla().copyWith(
-                                        color: Theme.of(context).accentColor,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w500))),
+                            child: Dismissible(
+                              onDismissed: (direction) {
+                                toDoTasks[index].uid != null
+                                    ? ToDoServices().deleteToDoTask(
+                                        toDoTasks[index].uid)
+                                    : Get.snackbar(
+                                        "Error", "This task is unlisted");
+                                setState(() {});
+                              },
+                              key: UniqueKey(),
+                              child: CustomCheckboxListTile(
+                                  activeColor: Theme.of(context)
+                                      .primaryColor, //change to tag color
+                                  value: toDoTasks[index]
+                                      .completed, //*task.isCompleted(),
+                                  onChanged: (value) {
+                                    print(toDoTasks[index].completed);
+                                    if (toDoTasks[index].completed ==
+                                        false) {
+                                      ToDoServices().updateToDoTask(
+                                          context: context,
+                                          completedValue: true,
+                                          indexUID:
+                                              toDoTasks[index].uid);
+                                      setState(() {});
+                                    } else {
+                                      ToDoServices().updateToDoTask(
+                                          context: context,
+                                          completedValue: false,
+                                          indexUID:
+                                              toDoTasks[index].uid);
+                                      setState(() {});
+                                    }
+                                  },
+                                  title: Text(
+                                      "${toDoTasks[index].task ?? ""}",
+                                      style: GoogleFonts.karla().copyWith(
+                                          color: Theme.of(context).accentColor,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w500))),
+                            ),
                           ),
                         );
                       },
@@ -232,7 +243,7 @@ class _ToDoObjectStreamState extends State<ToDoObjectStream> {
                       itemCount: toDoTasksFiltered.length,
                       itemBuilder: (context, index) {
                         return GestureDetector(
-                          onLongPress: () {
+                          onDoubleTap: () {
                             showModalBottomSheet(
                                 backgroundColor: Colors.transparent,
                                 isScrollControlled: true,
@@ -252,41 +263,49 @@ class _ToDoObjectStreamState extends State<ToDoObjectStream> {
                                   );
                                 });
                           },
-                          child: Dismissible(
-                            onDismissed: (direction) {
-                              toDoTasksFiltered[index].uid != null
-                                  ? ToDoServices().deleteToDoTask(
-                                      toDoTasksFiltered[index].uid)
-                                  : Get.snackbar(
-                                      "Error", "This task is unlisted");
-                              setState(() {});
+                          child: MultiSelectItem(
+                            isSelecting: controller.isSelecting,
+                            onSelected: () {
+                              setState(() {
+                                controller.toggle(index);
+                              });
                             },
-                            key: UniqueKey(),
-                            child: CustomCheckboxListTile(
-                                activeColor: Theme.of(context)
-                                    .primaryColor, //change to tag color
-                                value: toDoTasksFiltered[index]
-                                    .completed, //*task.isCompleted(),
-                                onChanged: (value) {
-                                  setState(() {
-                                    toDoTasksFiltered[index].completed == false
-                                        ? ToDoServices().updateToDoTask(
-                                            context: context,
-                                            completedValue: true,
-                                            indexUID:
-                                                toDoTasksFiltered[index].uid)
-                                        : ToDoServices().updateToDoTask(
-                                            context: context,
-                                            completedValue: false,
-                                            indexUID:
-                                                toDoTasksFiltered[index].uid);
-                                  });
-                                },
-                                title: Text("${toDoTasksFiltered[index].task}",
-                                    style: GoogleFonts.karla().copyWith(
-                                        color: Theme.of(context).accentColor,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w500))),
+                            child: Dismissible(
+                              onDismissed: (direction) {
+                                toDoTasksFiltered[index].uid != null
+                                    ? ToDoServices().deleteToDoTask(
+                                        toDoTasksFiltered[index].uid)
+                                    : Get.snackbar(
+                                        "Error", "This task is unlisted");
+                                setState(() {});
+                              },
+                              key: UniqueKey(),
+                              child: CustomCheckboxListTile(
+                                  activeColor: Theme.of(context)
+                                      .primaryColor, //change to tag color
+                                  value: toDoTasksFiltered[index]
+                                      .completed, //*task.isCompleted(),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      toDoTasksFiltered[index].completed == false
+                                          ? ToDoServices().updateToDoTask(
+                                              context: context,
+                                              completedValue: true,
+                                              indexUID:
+                                                  toDoTasksFiltered[index].uid)
+                                          : ToDoServices().updateToDoTask(
+                                              context: context,
+                                              completedValue: false,
+                                              indexUID:
+                                                  toDoTasksFiltered[index].uid);
+                                    });
+                                  },
+                                  title: Text("${toDoTasksFiltered[index].task}",
+                                      style: GoogleFonts.karla().copyWith(
+                                          color: Theme.of(context).accentColor,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w500))),
+                            ),
                           ),
                         );
                       },
