@@ -17,27 +17,87 @@ class _FlowtimeTimerState extends State<FlowtimeTimer> {
   int interruptionCount = 0;
   bool resultPage = false;
   bool firebaseSubmitted = false;
+  Duration _duration;
+  TimeOfDay time1;
+
+  double toDouble(TimeOfDay myTime) => myTime.hour * 60.0 + myTime.minute;
 
   @override
   Widget build(BuildContext context) {
     Widget statusButton() {
       print(status);
       return status == "pending"
-          ? DefaultButton(
-              color: Theme.of(context).primaryColor,
-              title: "Start",
-              method: () {
-                Provider.of<SharedPref>(context, listen: false)
-                    .setTimestamp([]);
-                Vibration.vibrate(duration: 100, amplitude: 200);
-                timeStamps.add(formatterHour.format(DateTime.now()));
-                timeStampsSecond.add(formatterSeconds.format(DateTime.now()));
-                _countDownController.start();
-                setState(() {
-                  sessionName = sessionNameController.text;
-                  status = "started";
-                });
-              })
+          ? Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.4,
+                  child: DefaultButton(
+                      color: HexColor("121212"),
+                      title: "Duration",
+                      method: () {
+                        showTimeRangePicker(
+                          context: context,
+                          start: TimeOfDay(hour: DateTime.now().hour, minute: DateTime.now().minute),
+                          onStartChange: (start) {
+                            setState(() {
+                              time1 = start;                              
+                            });
+                          },
+                          onEndChange: (end) {
+                            setState(() {
+                              _duration = Duration(minutes: toDouble(end).toInt() - DateTime.now().minute);                              
+                            });                   
+                          },
+                          interval: Duration(minutes: 1),
+                          use24HourFormat: true,
+                          padding: 30,
+                          strokeWidth: 20,
+                          handlerRadius: 14,
+                          strokeColor: Theme.of(context).primaryColor,
+                          handlerColor:Theme.of(context).backgroundColor,
+                          selectedColor: Theme.of(context).primaryColor,
+                          backgroundColor: Theme.of(context).backgroundColor,
+                          ticks: 12,
+                          ticksColor: Colors.white,
+                          snap: true,
+                          labelOffset: -30,
+                          labelStyle: TextStyle(
+                              fontSize: 22,
+                              color: Colors.grey,
+                              fontWeight: FontWeight.bold),
+                          timeTextStyle: TextStyle(
+                              color: Theme.of(context).primaryColor,
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold),
+                          activeTimeTextStyle: TextStyle(
+                              color: Theme.of(context).primaryColor,
+                              fontSize: 26,
+                              fontWeight: FontWeight.bold),
+                        );
+                      }),
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.4,
+                  child: DefaultButton(
+                      color: Theme.of(context).primaryColor,
+                      title: "Start",
+                      method: () {
+                        Provider.of<SharedPref>(context, listen: false)
+                            .setTimestamp([]);
+                        Vibration.vibrate(duration: 100, amplitude: 200);
+                        timeStamps.add(formatterHour.format(DateTime.now()));
+                        timeStampsSecond
+                            .add(formatterSeconds.format(DateTime.now()));
+                        _countDownController.start();
+                        setState(() {
+                          sessionName = sessionNameController.text;
+                          status = "started";
+                        });
+                      }),
+                )
+              ],
+            )
           : status == "started"
               ? Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -237,63 +297,87 @@ class _FlowtimeTimerState extends State<FlowtimeTimer> {
                         color: HexColor("FAFAFA")),
                     onPressed: () {
                       showModalBottomSheet(
-                        backgroundColor: Colors.transparent,
-                        isScrollControlled: true,
-                        context: context,
-                        builder: (BuildContext context) {
-                          return Padding(
-                            padding: EdgeInsets.only(
-                              bottom: MediaQuery.of(context).viewInsets.bottom),
+                          backgroundColor: Colors.transparent,
+                          isScrollControlled: true,
+                          context: context,
+                          builder: (BuildContext context) {
+                            return Padding(
+                                padding: EdgeInsets.only(
+                                    bottom: MediaQuery.of(context)
+                                        .viewInsets
+                                        .bottom),
                                 child: SingleChildScrollView(
                                   child: BottomSheet(
-                                    backgroundColor: Theme.of(context).backgroundColor,
+                                    backgroundColor:
+                                        Theme.of(context).backgroundColor,
                                     shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(40),
-                                        topRight: Radius.circular(40))),
+                                        borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(40),
+                                            topRight: Radius.circular(40))),
                                     builder: (ctx) {
                                       return Container(
-                                        height: MediaQuery.of(context).size.height * 0.4,
-                                        padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.04),
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.4,
+                                        padding: EdgeInsets.all(
+                                            MediaQuery.of(context).size.height *
+                                                0.04),
                                         child: Column(
                                           mainAxisSize: MainAxisSize.min,
-                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                          crossAxisAlignment:CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
-                                            Text("How to use?",
-                                              style: GoogleFonts.montserrat().copyWith(
-                                                color: Theme.of(context).accentColor,
-                                                fontSize: 24,
-                                                fontWeight: FontWeight.w800),
+                                            Text(
+                                              "How to use?",
+                                              style: GoogleFonts.montserrat()
+                                                  .copyWith(
+                                                      color: Theme.of(context)
+                                                          .accentColor,
+                                                      fontSize: 24,
+                                                      fontWeight:
+                                                          FontWeight.w800),
                                             ),
-                                            SizedBox(height: MediaQuery.of(context).size.height * 0.01),
-                                            Text("Flowtime Timer will let you define your own work duration manually then calculate the right portion of rest only when you want a break (tap 'Break' button)",
-                                              style: GoogleFonts.karla().copyWith(
-                                                color: Theme.of(context).accentColor,
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w400),
-
+                                            SizedBox(
+                                                height: MediaQuery.of(context)
+                                                        .size
+                                                        .height *
+                                                    0.01),
+                                            Text(
+                                              "Flowtime Timer will let you define your own work duration manually then calculate the right portion of rest only when you want a break (tap 'Break' button)",
+                                              style: GoogleFonts.karla()
+                                                  .copyWith(
+                                                      color: Theme.of(context)
+                                                          .accentColor,
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                          FontWeight.w400),
                                             ),
-                                            SizedBox(height: MediaQuery.of(context).size.height * 0.01),
-                                            Text("The break time is approx. 12.5% of your work-time, and please tap the 'Break' button when you start to feel fatigue, sit for too long, or finished something small.",
-                                              style: GoogleFonts.karla().copyWith(
-                                                color: Theme.of(context).accentColor,
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w400),
-
+                                            SizedBox(
+                                                height: MediaQuery.of(context)
+                                                        .size
+                                                        .height *
+                                                    0.01),
+                                            Text(
+                                              "The break time is approx. 12.5% of your work-time, and please tap the 'Break' button when you start to feel fatigue, sit for too long, or finished something small.",
+                                              style: GoogleFonts.karla()
+                                                  .copyWith(
+                                                      color: Theme.of(context)
+                                                          .accentColor,
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                          FontWeight.w400),
                                             ),
                                           ],
-                                      ),
-                                    );
-                                  },
-                                onClosing: () {},
-                              ),
-                            )
-                          );
-                        }
-                      );
-                    }
-                  ),
+                                        ),
+                                      );
+                                    },
+                                    onClosing: () {},
+                                  ),
+                                ));
+                          });
+                    }),
               ],
             ),
           ],
@@ -511,7 +595,7 @@ class _FlowtimeTimerState extends State<FlowtimeTimer> {
                               fillColor: Theme.of(context).primaryColor,
                               backgroundColor:
                                   Theme.of(context).backgroundColor,
-                              duration: 4020,
+                              duration: _duration != null ? _duration.inSeconds : 4020,
                               textStyle: GoogleFonts.montserrat().copyWith(
                                   color: Theme.of(context).accentColor,
                                   fontSize: 32,
