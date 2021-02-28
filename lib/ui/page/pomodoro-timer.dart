@@ -5,7 +5,7 @@ class PomodoroTimer extends StatefulWidget {
   _PomodoroTimerState createState() => _PomodoroTimerState();
 }
 
-class _PomodoroTimerState extends State<PomodoroTimer> {
+class _PomodoroTimerState extends State<PomodoroTimer> with WidgetsBindingObserver{
   CountDownController _countDownController = CountDownController();
   TextEditingController sessionNameController = TextEditingController();
   DateFormat formatterHour = DateFormat('Hm');
@@ -16,9 +16,40 @@ class _PomodoroTimerState extends State<PomodoroTimer> {
   List<int> timeStampsCalculated = [];
   bool resultPage = false;
   bool firebaseSubmitted = false;
+  
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    switch (state) {
+      case AppLifecycleState.resumed:
+        print("app in resumed");
+        break;
+      case AppLifecycleState.inactive:
+        print("app in inactive");
+        break;
+      case AppLifecycleState.paused:
+        print("app in paused");
+        break;
+      case AppLifecycleState.detached:
+        print("app in detached");
+        break;
+    }
+}
+
+  @override
+  initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
+    
     Widget statusButton() {
       print(status);
       return status == "pending"
@@ -156,7 +187,6 @@ class _PomodoroTimerState extends State<PomodoroTimer> {
 
     String durationSubtractor(String type) {
       int result;
-      bool isCompleted;
       List<int> oddList = [];
       List<int> evenList = [];
 

@@ -12,6 +12,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:abdi_dalem_alpha/shared/shared.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -20,8 +21,6 @@ import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:abdi_dalem_alpha/ui/widget/DraggableTopBar.dart';
 import 'package:vibration/vibration.dart';
-import 'package:workmanager/workmanager.dart';
-import '../../main.dart';
 
 part 'login.dart';
 part 'homepage.dart';

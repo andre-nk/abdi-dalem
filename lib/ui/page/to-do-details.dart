@@ -10,8 +10,7 @@ class ToDoDetails extends StatefulWidget {
   ToDoDetails({this.listTitle, this.tagColor});
 }
 
-class _ToDoDetailsState extends State<ToDoDetails>
-    with TickerProviderStateMixin {
+class _ToDoDetailsState extends State<ToDoDetails> with TickerProviderStateMixin {
   double percentComplete;
   AnimationController animationBar;
   double barPercent = 0.0;
@@ -65,12 +64,19 @@ class _ToDoDetailsState extends State<ToDoDetails>
     List<TaskObject> toDoTasks = Provider.of<List<TaskObject>>(context);
     final List<TaskObject> toDoTasksFiltered = [];
     int toDoTasksFilteredLength = toDoTasksFiltered.length == double.nan ? 0 : toDoTasksFiltered.length;
-
-    toDoTasks.forEach((element){
-      if(element.completed == true){
-        toDoTasksFiltered.add(element);
-      }
-    });
+    
+    if (toDoTasks != null) {
+      toDoTasks.forEach((element){
+        if(element.completed == true){
+          toDoTasksFiltered.add(element);
+        }
+      });
+    } else {
+      return SpinKitRotatingCircle(
+        color: Theme.of(context).accentColor,
+        size: 50.0,
+      );
+    }
 
     return Stack(
       children: [

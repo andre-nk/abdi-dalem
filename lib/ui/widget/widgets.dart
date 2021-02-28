@@ -24,7 +24,7 @@ part "SignUpDialog.dart";
 part 'to-do/ToDoListCard.dart';
 part "CustomCheckbox.dart";
 part 'to-do/ListAdderBottomSheet.dart';
-part 'to-do/ToDoAdderBottomSheet.dart';
+part 'to-do/ToDoBottomSheet.dart';
 part "DefaultButton.dart";
 part 'to-do/SelectionButtons.dart';
 part 'to-do/ToDoList.dart';

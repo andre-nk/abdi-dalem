@@ -191,41 +191,66 @@ class ToolDisplayer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Hero(
-        tag: this.heroTag,
-        child: Container(
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(25),
-                  bottomRight: Radius.circular(25)),
-              image: DecorationImage(
-                  image: AssetImage(this.photoURL), fit: BoxFit.fill)),
-          height: MediaQuery.of(context).size.height * 0.35,
-          width: MediaQuery.of(context).size.width * 1,
-          child: Padding(
-            padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0),
-              child: Column(
-                children: [
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.01),
-                  Row(
+      tag: this.heroTag,
+      child: Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(25),
+                bottomRight: Radius.circular(25)),
+            image: DecorationImage(
+                image: AssetImage(this.photoURL), fit: BoxFit.fill)),
+        height: MediaQuery.of(context).size.height * 0.35,
+        width: MediaQuery.of(context).size.width * 1,
+        child: Padding(
+          padding:EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0),
+          child: Column(
+              children: [
+                // Expanded(
+                //   flex: 1,
+                //   child: SizedBox()
+                // ),
+                Expanded(
+                  flex: 1,
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      IconButton(
-                          icon: Icon(FlutterIcons.ios_arrow_back_ion,
-                              color: HexColor("FAFAFA")),
-                          onPressed: () {
-                            Get.back();
-                          }),
-                      IconButton(
-                          icon: Icon(FlutterIcons.setting_ant,
-                              color: HexColor("FAFAFA")),
-                          onPressed: () {
-                            Get.back();
-                          }),
+                      Expanded(
+                        flex: 2,
+                        child: Material(
+                          color: Colors.transparent,
+                          type: MaterialType.transparency,
+                          child: IconButton(
+                              icon: Icon(FlutterIcons.ios_arrow_back_ion,
+                                  color: HexColor("FAFAFA")),
+                              onPressed: () {
+                                Get.back();
+                              }),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 10,
+                        child: SizedBox()
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: Material(
+                          color: Colors.transparent,
+                          type: MaterialType.transparency,
+                          child: IconButton(
+                              icon: Icon(FlutterIcons.setting_ant,
+                                  color: HexColor("FAFAFA")),
+                              onPressed: () {
+                                Get.back();
+                              }),
+                        ),
+                      ),
                     ],
                   ),
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.2,
-                    child: Column(
+                ),
+                Expanded(
+                  flex: 2,
+                  child: ListView(
+                    children: [Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(this.subtitle,
@@ -251,11 +276,12 @@ class ToolDisplayer extends StatelessWidget {
                             )),
                       ],
                     ),
-                  ),
-                ],
-              ),
+                  ]),
+                ),
+              ],
             ),
           ),
-        );
+        ),
+    );
   }
 }

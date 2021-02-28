@@ -11,10 +11,12 @@ class ToDoAdderBottomSheet extends StatefulWidget {
 
 class _ToDoAdderBottomSheetState extends State<ToDoAdderBottomSheet> {
   DateTime pickedDate = DateTime.now();
+  TimeOfDay pickedTime;
 
   @override
   Widget build(BuildContext context) {
     DateFormat formatter = DateFormat('yMd');
+    DateFormat formatterTime = DateFormat.jm();
 
     TextEditingController nameController = new TextEditingController();
     TextEditingController descriptionController = new TextEditingController();
@@ -28,7 +30,7 @@ class _ToDoAdderBottomSheetState extends State<ToDoAdderBottomSheet> {
               topLeft: Radius.circular(40), topRight: Radius.circular(40))),
       builder: (ctx) {
         return Container(
-          height: MediaQuery.of(context).size.height * 0.55,
+          height: MediaQuery.of(context).size.height * 0.6,
           child: SingleChildScrollView(
             physics: BouncingScrollPhysics(),
             child: Padding(
@@ -114,6 +116,30 @@ class _ToDoAdderBottomSheetState extends State<ToDoAdderBottomSheet> {
                     ],
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.025),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text("${formatterTime.format(this.pickedDate)}",
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.karla().copyWith(
+                              color: Theme.of(context).accentColor,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500)),
+                      GestureDetector(
+                          onTap: () async {
+                            final selectedDate = await showTimePicker(
+                              initialTime: TimeOfDay.now(),
+                              context: context,
+                            );
+
+                            if (selectedDate == null) return;
+                            this.pickedTime = selectedDate;
+                          },
+                          child: Icon(FlutterIcons.ios_calendar_ion))
+                    ],
+                  ),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.025),
                   DefaultButton(
                     method: () async {
                       ToDoServices().createToDoTask(
@@ -121,8 +147,8 @@ class _ToDoAdderBottomSheetState extends State<ToDoAdderBottomSheet> {
                           nameController.text,
                           descriptionController.text,
                           [widget.title],
-                          pickedDate.toString(),
-                          DateTime.now().toString());
+                          DateTime(pickedDate.year, pickedDate.month, pickedDate.day, pickedTime.hour, pickedTime.minute).toString(), //deadline 
+                          DateTime.now().toString()); //start-time (for calendar);
                     },
                     title: "Confirm",
                   )

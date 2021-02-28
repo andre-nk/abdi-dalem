@@ -32,7 +32,7 @@ class _CalendarViewToDoListState extends State<CalendarViewToDoList> {
       return meetings;
     }
 
-    return Scaffold( 
+    return Scaffold(
       body: Padding(
         padding: EdgeInsets.only(
           top: 0,

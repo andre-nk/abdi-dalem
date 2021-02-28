@@ -155,7 +155,7 @@ class _ListViewToDoListState extends State<ListViewToDoList> {
                             physics: BouncingScrollPhysics(),
                             scrollDirection: Axis.horizontal,
                             itemExtent: MediaQuery.of(context).size.width * 0.8,
-                            itemCount: toDoList.length ?? 0,
+                            itemCount: toDoList != null ? toDoList.length : 0,
                             itemBuilder: (BuildContext context, index) {
                               return toDoList[index];
                             },
