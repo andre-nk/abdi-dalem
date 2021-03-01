@@ -5,3 +5,4 @@ part "toDoObject.dart";
 part "colorSelection.dart";
 part "userModel.dart";
 part "calendarToDoObject.dart";
+part "badHabitObject.dart";

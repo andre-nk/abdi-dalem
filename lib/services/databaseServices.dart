@@ -275,3 +275,43 @@ class PomodoroTimerServices extends DatabaseServices {
     });
   }
 }
+
+class BadHabitServices extends DatabaseServices{
+  Future<void> createBadHabitRecord(String title, int limit, {String subtitle}) async {
+    return await users
+      .doc(currentUser.uid)
+      .collection("bad-habit-collection")
+      .doc()
+      .set({
+        "badHabitTitle": title,
+        "badHabitSubtitle": subtitle ?? "",
+        "limit": limit,
+        "currentCount": 0
+      }
+    );
+  }
+
+  Future<void> updateBadHabitRecord(String uid, {String title, int limit, int currentCount, String subtitle}) async {
+    if (title != null) {
+      return await users
+        .doc(currentUser.uid)
+        .collection("bad-habit-collection")
+        .doc(uid)
+        .update({
+          "badHabitTitle": title ?? "" ,
+          "badHabitSubtitle": subtitle ?? "",
+        }
+      );
+    } else {
+      return await users
+        .doc(currentUser.uid)
+        .collection("bad-habit-collection")
+        .doc(uid)
+        .update({
+          "limit": limit,
+          "currentCount": currentCount
+        }
+      );
+    }
+  }
+}

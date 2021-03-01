@@ -123,9 +123,7 @@ class _ToDoLandingPageState extends State<ToDoLandingPage> {
             ? StreamProvider<List<ToDoListCard>>.value(
                 value: ToDoServices().taskList,
                 catchError: (_, __) => [],
-                child: ListViewToDoList(
-                  currentUser: currentUser,
-                ),
+                child: ListViewToDoList(),
               )
             : CalendarViewToDoList(
                 currentUser: currentUser

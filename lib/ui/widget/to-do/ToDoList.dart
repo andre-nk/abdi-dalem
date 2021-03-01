@@ -183,10 +183,8 @@ class _ToDoObjectStreamState extends State<ToDoObjectStream> {
                               },
                               key: UniqueKey(),
                               child: CustomCheckboxListTile(
-                                  activeColor: Theme.of(context)
-                                      .primaryColor, //change to tag color
-                                  value: toDoTasks[index]
-                                      .completed, //*task.isCompleted(),
+                                  activeColor: Theme.of(context).primaryColor, //change to tag color
+                                  value: toDoTasks[index].completed, //*task.isCompleted(),
                                   onChanged: (value) {
                                     print(toDoTasks[index].completed);
                                     if (toDoTasks[index].completed ==

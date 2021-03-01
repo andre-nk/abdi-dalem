@@ -31,3 +31,5 @@ part 'to-do/ToDoList.dart';
 part "ToolLandingCard.dart";
 part "to-do/ListViewToDoList.dart";
 part "to-do/CalendarViewToDoList.dart";
+part "bad-habit/BadHabitNormalView.dart";
+part "bad-habit/BadHabitAdder.dart";

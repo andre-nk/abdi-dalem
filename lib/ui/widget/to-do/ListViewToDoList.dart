@@ -1,10 +1,6 @@
 part of "../widgets.dart";
 
 class ListViewToDoList extends StatefulWidget {
-  final User currentUser;
-
-  ListViewToDoList({this.currentUser});
-
   @override
   _ListViewToDoListState createState() => _ListViewToDoListState();
 }
@@ -45,9 +41,7 @@ class _ListViewToDoListState extends State<ListViewToDoList> {
                         return Padding(
                           padding: EdgeInsets.only(
                               bottom: MediaQuery.of(context).viewInsets.bottom),
-                          child: ListAdderBottomSheet(
-                            currentUser: widget.currentUser
-                          ),
+                          child: ListAdderBottomSheet(),
                         );
                       });
                 },
@@ -147,20 +141,18 @@ class _ListViewToDoListState extends State<ListViewToDoList> {
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.0275),
                   Container(
-                          padding: EdgeInsets.symmetric(
-                              horizontal:
-                                  MediaQuery.of(context).size.width * 0.05),
-                          height: MediaQuery.of(context).size.height * 0.4,
-                          child: ListView.builder(
-                            physics: BouncingScrollPhysics(),
-                            scrollDirection: Axis.horizontal,
-                            itemExtent: MediaQuery.of(context).size.width * 0.8,
-                            itemCount: toDoList != null ? toDoList.length : 0,
-                            itemBuilder: (BuildContext context, index) {
-                              return toDoList[index];
-                            },
-                          ))
-                      
+                    padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05),
+                    height: MediaQuery.of(context).size.height * 0.4,
+                    child: ListView.builder(
+                      physics: BouncingScrollPhysics(),
+                      scrollDirection: Axis.horizontal,
+                      itemExtent: MediaQuery.of(context).size.width * 0.8,
+                      itemCount: toDoList != null ? toDoList.length : 0,
+                      itemBuilder: (BuildContext context, index) {
+                        return toDoList[index];
+                      },
+                    )
+                  )                     
                 ],
               )
             : Column(

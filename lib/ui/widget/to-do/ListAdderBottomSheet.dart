@@ -2,8 +2,6 @@ part of '../widgets.dart';
 
 class ListAdderBottomSheet extends StatefulWidget {
   final ColorSelection colorSelectionLocal = new ColorSelection();
-  final User currentUser;
-  ListAdderBottomSheet({this.currentUser});
 
   @override
   _ListAdderBottomSheetState createState() => _ListAdderBottomSheetState();

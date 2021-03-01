@@ -120,29 +120,36 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                 ),
                               ),
-                              Padding(
-                                padding: EdgeInsets.only(
-                                    top: MediaQuery.of(context).size.height *
-                                        0.15),
-                                child: Container(
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.3,
-                                  decoration: BoxDecoration(
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color:
-                                            HexColor("01D8A1").withOpacity(0.2),
-                                        blurRadius: 10,
-                                      )
-                                    ],
-                                  ),
-                                  child: Image(
-                                      fit: BoxFit.fill,
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.3,
-                                      image: AssetImage("assets/EQ.png")),
-                                ),
+                              Hero(
+                                tag: "eq",
+                                child: Material(
+                                  color: Colors.transparent,
+                                  type: MaterialType.transparency,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      Get.to(EQLanding());
+                                    },
+                                    child: Padding(
+                                      padding: EdgeInsets.only(
+                                        top: MediaQuery.of(context).size.height * 0.15),
+                                        child: Container(
+                                          height: MediaQuery.of(context).size.height * 0.3,
+                                          decoration: BoxDecoration(
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: HexColor("01D8A1").withOpacity(0.2),
+                                                blurRadius: 10,
+                                              )
+                                            ],
+                                          ),
+                                          child: Image(
+                                            fit: BoxFit.fill,
+                                            height: MediaQuery.of(context).size.height * 0.3,
+                                            image: AssetImage("assets/EQ.png")),
+                                        ),
+                                    )
+                                  )
+                                )
                               ),
                               Padding(
                                 padding: EdgeInsets.only(

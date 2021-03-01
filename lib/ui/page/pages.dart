@@ -30,3 +30,5 @@ part "to-do-details.dart";
 part "iq-landing.dart";
 part "pomodoro-timer.dart";
 part 'flowtime-timer.dart';
+part "eq-landing.dart";
+part "bad-habit-landing.dart";

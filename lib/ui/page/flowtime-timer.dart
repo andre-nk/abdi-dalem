@@ -36,45 +36,58 @@ class _FlowtimeTimerState extends State<FlowtimeTimer> {
                       color: HexColor("121212"),
                       title: "Duration",
                       method: () {
-                        showTimeRangePicker(
-                          context: context,
-                          start: TimeOfDay(hour: DateTime.now().hour, minute: DateTime.now().minute),
-                          onStartChange: (start) {
-                            setState(() {
-                              time1 = start;                              
-                            });
-                          },
-                          onEndChange: (end) {
-                            setState(() {
-                              _duration = Duration(minutes: toDouble(end).toInt() - DateTime.now().minute);                              
-                            });                   
-                          },
-                          interval: Duration(minutes: 1),
-                          use24HourFormat: true,
-                          padding: 30,
-                          strokeWidth: 20,
-                          handlerRadius: 14,
-                          strokeColor: Theme.of(context).primaryColor,
-                          handlerColor:Theme.of(context).backgroundColor,
-                          selectedColor: Theme.of(context).primaryColor,
-                          backgroundColor: Theme.of(context).backgroundColor,
-                          ticks: 12,
-                          ticksColor: Colors.white,
-                          snap: true,
-                          labelOffset: -30,
-                          labelStyle: TextStyle(
-                              fontSize: 22,
-                              color: Colors.grey,
-                              fontWeight: FontWeight.bold),
-                          timeTextStyle: TextStyle(
-                              color: Theme.of(context).primaryColor,
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold),
-                          activeTimeTextStyle: TextStyle(
-                              color: Theme.of(context).primaryColor,
-                              fontSize: 26,
-                              fontWeight: FontWeight.bold),
-                        );
+                        void _closeModal(void value) {
+                          Get.snackbar("Duration set", "The session's duration is " + _duration.inHours.toString() + " minute(s)");
+                        }
+
+                        void _showModal() {
+                          Future<void> future = showTimeRangePicker(
+                            context: context,
+                            start: TimeOfDay(
+                                hour: DateTime.now().hour,
+                                minute: DateTime.now().minute),
+                            onStartChange: (start) {
+                              setState(() {
+                                time1 = start;
+                              });
+                            },
+                            onEndChange: (end) {
+                              setState(() {
+                                _duration = Duration(
+                                    minutes: toDouble(end).toInt() -
+                                        DateTime.now().minute);
+                              });
+                            },
+                            interval: Duration(minutes: 1),
+                            use24HourFormat: true,
+                            padding: 30,
+                            strokeWidth: 20,
+                            handlerRadius: 14,
+                            strokeColor: Theme.of(context).primaryColor,
+                            handlerColor: Theme.of(context).backgroundColor,
+                            selectedColor: Theme.of(context).primaryColor,
+                            backgroundColor: Theme.of(context).backgroundColor,
+                            ticks: 12,
+                            ticksColor: Colors.white,
+                            snap: true,
+                            labelOffset: -30,
+                            labelStyle: TextStyle(
+                                fontSize: 22,
+                                color: Colors.grey,
+                                fontWeight: FontWeight.bold),
+                            timeTextStyle: TextStyle(
+                                color: Theme.of(context).primaryColor,
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold),
+                            activeTimeTextStyle: TextStyle(
+                                color: Theme.of(context).primaryColor,
+                                fontSize: 26,
+                                fontWeight: FontWeight.bold),
+                          );
+                          future.then((void value) => _closeModal(value));
+                        }
+
+                        _showModal();
                       }),
                 ),
                 Container(
@@ -595,7 +608,9 @@ class _FlowtimeTimerState extends State<FlowtimeTimer> {
                               fillColor: Theme.of(context).primaryColor,
                               backgroundColor:
                                   Theme.of(context).backgroundColor,
-                              duration: _duration != null ? _duration.inSeconds : 4020,
+                              duration: _duration != null
+                                  ? _duration.inSeconds
+                                  : 4020,
                               textStyle: GoogleFonts.montserrat().copyWith(
                                   color: Theme.of(context).accentColor,
                                   fontSize: 32,
