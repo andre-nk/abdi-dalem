@@ -277,7 +277,22 @@ class PomodoroTimerServices extends DatabaseServices {
 }
 
 class BadHabitServices extends DatabaseServices{
-  Future<void> createBadHabitRecord(String title, int limit, {String subtitle}) async {
+  List<BadHabitObject> _badHabitListFromSnapshot(QuerySnapshot data) {
+    final List<BadHabitObject> badHabitList = [];
+    data.docs.forEach((badHabitInstance) {
+      badHabitList.add(BadHabitObject(
+        uid: badHabitInstance.id,
+        title: badHabitInstance["badHabitTitle"] ?? "",
+        subtitle: badHabitInstance["badHabitSubtitle"] ?? "",
+        limit: badHabitInstance["limit"] ?? 0,
+        currentCount: badHabitInstance["currentCount"] ?? 0,
+        isProtected: badHabitInstance["isProtected"] ?? false
+      ));
+    });
+    return badHabitList;
+  }
+
+  Future<void> createBadHabitRecord(String title, int limit, bool isProtected, {String subtitle}) async {
     return await users
       .doc(currentUser.uid)
       .collection("bad-habit-collection")
@@ -286,32 +301,32 @@ class BadHabitServices extends DatabaseServices{
         "badHabitTitle": title,
         "badHabitSubtitle": subtitle ?? "",
         "limit": limit,
-        "currentCount": 0
+        "currentCount": 0,
+        "isProtected": isProtected
       }
     );
   }
 
-  Future<void> updateBadHabitRecord(String uid, {String title, int limit, int currentCount, String subtitle}) async {
-    if (title != null) {
-      return await users
+  Future<void> updateBadHabitRecord(String uid, bool isProtected, {String title, int limit, int currentCount, String subtitle}) async {
+    return await users
         .doc(currentUser.uid)
         .collection("bad-habit-collection")
         .doc(uid)
         .update({
           "badHabitTitle": title ?? "" ,
           "badHabitSubtitle": subtitle ?? "",
-        }
-      );
-    } else {
-      return await users
-        .doc(currentUser.uid)
-        .collection("bad-habit-collection")
-        .doc(uid)
-        .update({
           "limit": limit,
-          "currentCount": currentCount
+          "currentCount": currentCount,
+          "isProtected": isProtected
         }
-      );
-    }
+    );
+  }
+
+  Stream<List<BadHabitObject>> get badHabitObject {
+    return users
+      .doc(currentUser.uid)
+      .collection("bad-habit-collection")
+      .snapshots()
+      .map(_badHabitListFromSnapshot);
   }
 }

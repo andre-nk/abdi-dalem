@@ -10,8 +10,11 @@ class _BadHabitLandingState extends State<BadHabitLanding> {
 
   @override
   Widget build(BuildContext context) {
-    return AssistantTopBar(
-      fabActive: true,
+    return StreamProvider<List<BadHabitObject>>.value(
+      value: BadHabitServices().badHabitObject,
+      catchError: (_, __) => [],
+      child: AssistantTopBar(
+      fabActive: protectedViewEnabled ? false : true,
       fabMethod: () {
         showModalBottomSheet(
             backgroundColor: Colors.transparent,
@@ -111,8 +114,8 @@ class _BadHabitLandingState extends State<BadHabitLanding> {
           ),
         ],
       ),
-      content: protectedViewEnabled ? BadHabitNormalView() : SizedBox(),
+      content: protectedViewEnabled ? BadHabitNormalView() :BadHabitPin(),
       photoURL: "assets/eq-tools-tab.png",
-    );
+    ));
   }
 }

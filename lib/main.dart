@@ -1,3 +1,5 @@
+import 'package:abdi_dalem_alpha/models/models.dart';
+import 'package:abdi_dalem_alpha/ui/widget/widgets.dart';
 import 'package:abdi_dalem_alpha/wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:abdi_dalem_alpha/shared/shared.dart';
@@ -8,6 +10,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:workmanager/workmanager.dart';
+import "package:abdi_dalem_alpha/services/services.dart";
 
 const simpleTaskKey = "simpleTask";
 const simpleDelayedTask = "simpleDelayedTask";
@@ -65,8 +68,7 @@ class AbdiDalemRoot extends StatelessWidget {
   Widget build(BuildContext context) {
     return FutureBuilder<SharedPreferences>(
       future: SharedPreferences.getInstance(),
-      builder:
-          (BuildContext context, AsyncSnapshot<SharedPreferences> snapshot) {
+      builder: (BuildContext context, AsyncSnapshot<SharedPreferences> snapshot) {
         return ChangeNotifierProvider<SharedPref>.value(
           value: SharedPref(snapshot.data),
           child: _AbdiDalemMaterialApp(),
@@ -80,6 +82,15 @@ class _AbdiDalemMaterialApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      routes: {
+        '/protectedBadHabit': (context){
+          return StreamProvider<List<BadHabitObject>>.value(
+            value: BadHabitServices().badHabitObject,
+            catchError: (_, __) => [],
+            child: BadHabitProtectedView()
+          );
+        }   
+      },
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
