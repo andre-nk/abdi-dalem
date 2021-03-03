@@ -1,5 +1,7 @@
 part of "pages.dart";
 
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+
 class PomodoroTimer extends StatefulWidget {
   @override
   _PomodoroTimerState createState() => _PomodoroTimerState();
@@ -49,7 +51,7 @@ class _PomodoroTimerState extends State<PomodoroTimer> with WidgetsBindingObserv
 
   @override
   Widget build(BuildContext context) {
-    
+
     Widget statusButton() {
       print(status);
       return status == "pending"
@@ -412,8 +414,27 @@ class _PomodoroTimerState extends State<PomodoroTimer> with WidgetsBindingObserv
                                 ]),
                             child: CircularCountDownTimer(
                               onStart: () {},
-                              onComplete: () {
-                                print("yoi");
+                              onComplete: () async{
+                                var androidPlatformChannelSpecifics = AndroidNotificationDetails(
+                                  'alarm_notif',
+                                  'alarm_notif',
+                                  'Channel for Alarm notification',
+                                  icon: 'splash',
+                                  largeIcon: DrawableResourceAndroidBitmap('splash'),
+                                );
+
+                                var iOSPlatformChannelSpecifics = IOSNotificationDetails(
+                                    presentAlert: true,
+                                    presentBadge: true,
+                                    presentSound: true);
+
+                                var platformChannelSpecifics = NotificationDetails(
+                                    android: androidPlatformChannelSpecifics,
+                                    iOS: iOSPlatformChannelSpecifics);
+
+                                // ignore: deprecated_member_use
+                                await flutterLocalNotificationsPlugin.schedule(0, 'Break time!', "Congratulations you've been working hard!", DateTime.now(), platformChannelSpecifics);
+
                                 Provider.of<SharedPref>(context, listen: false).setTimestampSecond(timeStampsSecond);
                                 Get.to(PomodoroTimerBreak(
                                   durationWork: durationSubtractor("work"),
@@ -425,12 +446,10 @@ class _PomodoroTimerState extends State<PomodoroTimer> with WidgetsBindingObserv
                               textFormat: CountdownTextFormat.MM_SS,
                               autoStart: false,
                               width: MediaQuery.of(context).size.height * 0.375,
-                              height:
-                                  MediaQuery.of(context).size.height * 0.375,
+                              height: MediaQuery.of(context).size.height * 0.375,
                               color: Theme.of(context).backgroundColor,
                               fillColor: Theme.of(context).primaryColor,
-                              backgroundColor:
-                                  Theme.of(context).backgroundColor,
+                              backgroundColor: Theme.of(context).backgroundColor,
                               duration: 10,
                               textStyle: GoogleFonts.montserrat().copyWith(
                                   color: Theme.of(context).accentColor,
@@ -534,7 +553,7 @@ class _PomodoroTimerBreakState extends State<PomodoroTimerBreak> {
 
   @override
   Widget build(BuildContext context) {
-    Widget statusButton() {
+  Widget statusButton() {
       print(status);
       return status == "pending"
           ? DefaultButton(
@@ -869,9 +888,27 @@ class _PomodoroTimerBreakState extends State<PomodoroTimerBreak> {
                                 ]),
                             child: CircularCountDownTimer(
                               onStart: () {},
-                              onComplete: () {
-                                Provider.of<SharedPref>(context, listen: false)
-                                    .setTimestampSecond(timeStampsSecond);
+                              onComplete: () async {
+                                 var androidPlatformChannelSpecifics = AndroidNotificationDetails(
+                                  'alarm_notif',
+                                  'alarm_notif',
+                                  'Channel for Alarm notification',
+                                  icon: 'splash',
+                                  largeIcon: DrawableResourceAndroidBitmap('splash'),
+                                );
+
+                                var iOSPlatformChannelSpecifics = IOSNotificationDetails(
+                                    presentAlert: true,
+                                    presentBadge: true,
+                                    presentSound: true);
+
+                                var platformChannelSpecifics = NotificationDetails(
+                                    android: androidPlatformChannelSpecifics,
+                                    iOS: iOSPlatformChannelSpecifics);
+
+                                // ignore: deprecated_member_use
+                                await flutterLocalNotificationsPlugin.schedule(0, 'Session completed!', "Congratulations you've finished a Pomodoro session!", DateTime.now(), platformChannelSpecifics);
+                                Provider.of<SharedPref>(context, listen: false).setTimestampSecond(timeStampsSecond);
                                 setState(() {
                                   status = "paused break";
                                 });

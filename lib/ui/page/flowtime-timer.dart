@@ -541,7 +541,7 @@ class _FlowtimeTimerState extends State<FlowtimeTimer> {
                         Container(
                           height: MediaQuery.of(context).size.height * 0.08,
                           child: sessionName != null
-                              ? AutoSizeText(sessionName ?? "Untitled Session",
+                              ? Text(sessionName ?? "Untitled Session",
                                   maxLines: 1,
                                   textAlign: TextAlign.center,
                                   style: GoogleFonts.montserrat().copyWith(

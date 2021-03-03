@@ -6,7 +6,7 @@ class BadHabitLanding extends StatefulWidget {
 }
 
 class _BadHabitLandingState extends State<BadHabitLanding> {
-  bool protectedViewEnabled = true;
+  bool protectedViewEnabled = false;
 
   @override
   Widget build(BuildContext context) {
@@ -44,44 +44,16 @@ class _BadHabitLandingState extends State<BadHabitLanding> {
           Row(
             children: [
               protectedViewEnabled
-                  ? Text("normal-view",
+                  ? Text("protected-view",
                       style: GoogleFonts.montserrat().copyWith(
                           color: buildDarkTheme('a').accentColor,
                           fontSize: 18,
                           fontWeight: FontWeight.w600))
-                  : Text("protected-view",
+                  : Text("normal-view",
                       style: GoogleFonts.montserrat().copyWith(
                           color: buildDarkTheme('a').accentColor,
                           fontSize: 18,
                           fontWeight: FontWeight.w600)),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.04,
-              ),
-              Container(
-                height: MediaQuery.of(context).size.width * 0.125,
-                width: MediaQuery.of(context).size.width * 0.125,
-                child: RaisedButton(
-                    color: protectedViewEnabled
-                        ? Theme.of(context).primaryColor
-                        : Theme.of(context).backgroundColor,
-                    disabledColor: Theme.of(context).backgroundColor,
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Container(
-                      child: Icon(
-                        FlutterIcons.list_ent,
-                        size: MediaQuery.of(context).size.height * 0.025,
-                        color: Theme.of(context).accentColor,
-                      ),
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        protectedViewEnabled = true;
-                      });
-                    }),
-              ),
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.04,
               ),
@@ -97,6 +69,34 @@ class _BadHabitLandingState extends State<BadHabitLanding> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
+                    child: Container(
+                      child: Icon(
+                        FlutterIcons.list_ent,
+                        size: MediaQuery.of(context).size.height * 0.025,
+                        color: Theme.of(context).accentColor,
+                      ),
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        protectedViewEnabled = false;
+                      });
+                    }),
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.04,
+              ),
+              Container(
+                height: MediaQuery.of(context).size.width * 0.125,
+                width: MediaQuery.of(context).size.width * 0.125,
+                child: RaisedButton(
+                    color: protectedViewEnabled
+                        ? Theme.of(context).primaryColor
+                        : Theme.of(context).backgroundColor,
+                    disabledColor: Theme.of(context).backgroundColor,
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                     child: Icon(
                       FlutterIcons.lock1_ant,
                       size: MediaQuery.of(context).size.height * 0.025,
@@ -104,7 +104,7 @@ class _BadHabitLandingState extends State<BadHabitLanding> {
                     ),
                     onPressed: () {
                       setState(() {
-                        protectedViewEnabled = false;
+                        protectedViewEnabled = true;
                         print("a");
                       });
                     } //TBA
@@ -114,7 +114,7 @@ class _BadHabitLandingState extends State<BadHabitLanding> {
           ),
         ],
       ),
-      content: protectedViewEnabled ? BadHabitNormalView() :BadHabitPin(),
+      content: protectedViewEnabled ? BadHabitProtectedView() : BadHabitNormalView(),
       photoURL: "assets/eq-tools-tab.png",
     ));
   }

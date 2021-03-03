@@ -11,6 +11,13 @@ class _BadHabitNormalViewState extends State<BadHabitNormalView> {
   @override
   Widget build(BuildContext context) {
     List<BadHabitObject> badHabitList = Provider.of<List<BadHabitObject>>(context) ?? [];
+    List<BadHabitObject> normalBadHabitList = [];
+
+    badHabitList.forEach((object){
+      if(object.isProtected != true){
+        normalBadHabitList.add(object);
+      }
+    });
 
     return ListView(physics: BouncingScrollPhysics(), children: [
       Container(
@@ -20,7 +27,7 @@ class _BadHabitNormalViewState extends State<BadHabitNormalView> {
             physics: BouncingScrollPhysics(),
             scrollDirection: Axis.vertical,
             itemExtent: MediaQuery.of(context).size.height * 0.425,
-            itemCount: badHabitList.length ?? 0,
+            itemCount: normalBadHabitList.length ?? 0,
             itemBuilder: (BuildContext context, index) {
               return Container(
                 padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.03),
@@ -52,7 +59,7 @@ class _BadHabitNormalViewState extends State<BadHabitNormalView> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Text(badHabitList[index].title, //habit name
+                              Text(normalBadHabitList[index].title, //habit name
                                   style: GoogleFonts.montserrat().copyWith(
                                       color: Theme.of(context).accentColor,
                                       fontSize: 18,
@@ -69,11 +76,11 @@ class _BadHabitNormalViewState extends State<BadHabitNormalView> {
                                         padding: EdgeInsets.only(
                                           bottom: MediaQuery.of(context).viewInsets.bottom),
                                         child: BadHabitPreviewer(
-                                          title: badHabitList[index].title,
-                                          subtitle:  badHabitList[index].subtitle,
-                                          limit: badHabitList[index].limit,
-                                          currentCount: badHabitList[index].currentCount,
-                                          uid: badHabitList[index].uid,        
+                                          title: normalBadHabitList[index].title,
+                                          subtitle:  normalBadHabitList[index].subtitle,
+                                          limit: normalBadHabitList[index].limit,
+                                          currentCount: normalBadHabitList[index].currentCount,
+                                          uid: normalBadHabitList[index].uid,        
                                         ),
                                       );
                                     }
@@ -85,8 +92,8 @@ class _BadHabitNormalViewState extends State<BadHabitNormalView> {
                           SizedBox(
                               height:
                                   MediaQuery.of(context).size.height * 0.01),
-                          badHabitList[index].subtitle != ""
-                              ? Text(badHabitList[index].subtitle, //habit name
+                          normalBadHabitList[index].subtitle != ""
+                              ? Text(normalBadHabitList[index].subtitle, //habit name
                                   style: GoogleFonts.karla().copyWith(
                                       color: Theme.of(context).accentColor,
                                       fontSize: 16,
@@ -105,7 +112,7 @@ class _BadHabitNormalViewState extends State<BadHabitNormalView> {
                                 child: LinearProgressIndicator(
                                   minHeight:
                                       MediaQuery.of(context).size.height * 0.01,
-                                  value: (badHabitList[index].currentCount / badHabitList[index].limit) * 100,
+                                  value: (normalBadHabitList[index].currentCount / normalBadHabitList[index].limit) * 100,
                                   backgroundColor: Theme.of(context)
                                       .accentColor
                                       .withOpacity(0.6),
@@ -113,7 +120,7 @@ class _BadHabitNormalViewState extends State<BadHabitNormalView> {
                                       Theme.of(context).primaryColor),
                                 ),
                               ),
-                              Text("${badHabitList[index].currentCount} / ${badHabitList[index].limit}", //habit name
+                              Text("${normalBadHabitList[index].currentCount} / ${normalBadHabitList[index].limit}", //habit name
                                   style: GoogleFonts.montserrat().copyWith(
                                       color: Theme.of(context).accentColor,
                                       fontSize: 16,
@@ -137,12 +144,12 @@ class _BadHabitNormalViewState extends State<BadHabitNormalView> {
                                     title: "Check",
                                     method: (){
                                       BadHabitServices().updateBadHabitRecord(
-                                        badHabitList[index].uid,
-                                        badHabitList[index].isProtected,
-                                        currentCount: badHabitList[index].currentCount == badHabitList[index].limit ? badHabitList[index].currentCount : badHabitList[index].currentCount + 1,
-                                        title: badHabitList[index].title,
-                                        subtitle: badHabitList[index].subtitle,
-                                        limit: badHabitList[index].limit,
+                                        normalBadHabitList[index].uid,
+                                        normalBadHabitList[index].isProtected,
+                                        currentCount: normalBadHabitList[index].currentCount == normalBadHabitList[index].limit ? normalBadHabitList[index].currentCount : normalBadHabitList[index].currentCount + 1,
+                                        title: normalBadHabitList[index].title,
+                                        subtitle: normalBadHabitList[index].subtitle,
+                                        limit: normalBadHabitList[index].limit,
                                       );
                                     }
                                   ),

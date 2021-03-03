@@ -1,8 +1,7 @@
-import 'package:abdi_dalem_alpha/models/models.dart';
-import 'package:abdi_dalem_alpha/ui/widget/widgets.dart';
 import 'package:abdi_dalem_alpha/wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:abdi_dalem_alpha/shared/shared.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
@@ -10,12 +9,13 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:workmanager/workmanager.dart';
-import "package:abdi_dalem_alpha/services/services.dart";
 
 const simpleTaskKey = "simpleTask";
 const simpleDelayedTask = "simpleDelayedTask";
 const simplePeriodicTask = "simplePeriodicTask";
 const simplePeriodic1HourTask = "simplePeriodic1HourTask";
+
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
 void callbackDispatcher() {
   Workmanager.executeTask((task, inputData) async {
@@ -59,6 +59,24 @@ Future main() async {
   OneSignal.shared.setInFocusDisplayType(OSNotificationDisplayType.notification);
   await OneSignal.shared.promptUserForPushNotificationPermission(fallbackToSettings: true);
 
+  //LOCAL NOTIFICATION
+   var initializationSettingsAndroid = AndroidInitializationSettings('splash');
+  var initializationSettingsIOS = IOSInitializationSettings(
+      requestAlertPermission: true,
+      requestBadgePermission: true,
+      requestSoundPermission: true,
+      onDidReceiveLocalNotification: (int id, String title, String body, String payload) async {});
+  var initializationSettings = InitializationSettings(
+      android: initializationSettingsAndroid, 
+      iOS: initializationSettingsIOS);
+  await flutterLocalNotificationsPlugin.initialize(
+      initializationSettings,
+      onSelectNotification: (String payload) async {
+    if (payload != null) {
+      debugPrint('notification payload: ' + payload);
+    }
+  });
+
   runApp(AbdiDalemRoot());
 }
 
@@ -82,15 +100,6 @@ class _AbdiDalemMaterialApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      routes: {
-        '/protectedBadHabit': (context){
-          return StreamProvider<List<BadHabitObject>>.value(
-            value: BadHabitServices().badHabitObject,
-            catchError: (_, __) => [],
-            child: BadHabitProtectedView()
-          );
-        }   
-      },
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
