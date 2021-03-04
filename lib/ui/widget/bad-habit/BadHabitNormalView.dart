@@ -6,7 +6,8 @@ class BadHabitNormalView extends StatefulWidget {
 }
 
 class _BadHabitNormalViewState extends State<BadHabitNormalView> {
-  bool sampleValue = false;
+
+  DateTime now = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +19,10 @@ class _BadHabitNormalViewState extends State<BadHabitNormalView> {
         normalBadHabitList.add(object);
       }
     });
+
+    DateTime nextCheckIn = DateTime(now.year, now.month, now.day + 1);
+    Provider.of<SharedPref>(context, listen: false).setNextCheckIn(nextCheckIn.toString());
+    BadHabitServices().resetBadHabitCount(DateFormat("yyyy-MM-dd").parse(Provider.of<SharedPref>(context, listen: false).nextCheckIn));
 
     return ListView(physics: BouncingScrollPhysics(), children: [
       Container(

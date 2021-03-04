@@ -10,7 +10,6 @@ class _ListViewToDoListState extends State<ListViewToDoList> {
 
   @override
   Widget build(BuildContext context) {
-
     List<ToDoListCard> toDoList = Provider.of<List<ToDoListCard>>(context);
 
     return ListView(
@@ -31,7 +30,7 @@ class _ListViewToDoListState extends State<ListViewToDoList> {
             Container(
               height: MediaQuery.of(context).size.width * 0.12,
               width: MediaQuery.of(context).size.width * 0.12,
-              child: RaisedButton(
+              child: ElevatedButton(
                 onPressed: () {
                   showModalBottomSheet(
                       backgroundColor: Colors.transparent,
@@ -45,10 +44,11 @@ class _ListViewToDoListState extends State<ListViewToDoList> {
                         );
                       });
                 },
-                color: Theme.of(context).primaryColor,
-                elevation: 0,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+                style: ElevatedButton.styleFrom(
+                  primary: Theme.of(context).primaryColor,
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0)),
                 ),
                 child: Icon(
                   FlutterIcons.plus_ant,
@@ -141,18 +141,18 @@ class _ListViewToDoListState extends State<ListViewToDoList> {
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.0275),
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.05),
-                    height: MediaQuery.of(context).size.height * 0.4,
-                    child: ListView.builder(
-                      physics: BouncingScrollPhysics(),
-                      scrollDirection: Axis.horizontal,
-                      itemExtent: MediaQuery.of(context).size.width * 0.8,
-                      itemCount: toDoList != null ? toDoList.length : 0,
-                      itemBuilder: (BuildContext context, index) {
-                        return toDoList[index];
-                      },
-                    )
-                  )                     
+                      padding: EdgeInsets.symmetric(
+                          horizontal: MediaQuery.of(context).size.width * 0.05),
+                      height: MediaQuery.of(context).size.height * 0.4,
+                      child: ListView.builder(
+                        physics: BouncingScrollPhysics(),
+                        scrollDirection: Axis.horizontal,
+                        itemExtent: MediaQuery.of(context).size.width * 0.8,
+                        itemCount: toDoList != null ? toDoList.length : 0,
+                        itemBuilder: (BuildContext context, index) {
+                          return toDoList[index];
+                        },
+                      ))
                 ],
               )
             : Column(

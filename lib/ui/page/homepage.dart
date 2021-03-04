@@ -1,23 +1,5 @@
 part of 'pages.dart';
 
-enum _Platform { android, ios }
-
-class PlatformEnabledButton extends RaisedButton {
-  final _Platform platform;
-
-  PlatformEnabledButton({
-    this.platform,
-    @required Widget child,
-    @required VoidCallback onPressed,
-  })  : assert(child != null, onPressed != null),
-        super(
-            child: child,
-            onPressed: (Platform.isAndroid && platform == _Platform.android ||
-                    Platform.isIOS && platform == _Platform.ios)
-                ? onPressed
-                : null);
-}
-
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
@@ -68,7 +50,7 @@ class _HomePageState extends State<HomePage> {
           body: SafeArea(
             child: ListView(children: [
               Stack(
-                overflow: Overflow.visible,
+                clipBehavior: Clip.none,
                 children: [
                   GreetingsDisplayer(),
                   TweenAnimationBuilder(
@@ -90,7 +72,7 @@ class _HomePageState extends State<HomePage> {
                                   type: MaterialType.transparency,
                                   child: GestureDetector(
                                     onTap: () {
-                                      Get.to(IQLanding());
+                                      Get.to(() => IQLanding());
                                     },
                                     child: Padding(
                                       padding: EdgeInsets.only(
@@ -121,36 +103,44 @@ class _HomePageState extends State<HomePage> {
                                 ),
                               ),
                               Hero(
-                                tag: "eq",
-                                child: Material(
-                                  color: Colors.transparent,
-                                  type: MaterialType.transparency,
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      Get.to(EQLanding());
-                                    },
-                                    child: Padding(
-                                      padding: EdgeInsets.only(
-                                        top: MediaQuery.of(context).size.height * 0.15),
-                                        child: Container(
-                                          height: MediaQuery.of(context).size.height * 0.3,
-                                          decoration: BoxDecoration(
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: HexColor("01D8A1").withOpacity(0.2),
-                                                blurRadius: 10,
-                                              )
-                                            ],
-                                          ),
-                                          child: Image(
-                                            fit: BoxFit.fill,
-                                            height: MediaQuery.of(context).size.height * 0.3,
-                                            image: AssetImage("assets/EQ.png")),
-                                        ),
-                                    )
-                                  )
-                                )
-                              ),
+                                  tag: "eq",
+                                  child: Material(
+                                      color: Colors.transparent,
+                                      type: MaterialType.transparency,
+                                      child: GestureDetector(
+                                          onTap: () {
+                                            Get.to(() => EQLanding());
+                                          },
+                                          child: Padding(
+                                            padding: EdgeInsets.only(
+                                                top: MediaQuery.of(context)
+                                                        .size
+                                                        .height *
+                                                    0.15),
+                                            child: Container(
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.3,
+                                              decoration: BoxDecoration(
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: HexColor("01D8A1")
+                                                        .withOpacity(0.2),
+                                                    blurRadius: 10,
+                                                  )
+                                                ],
+                                              ),
+                                              child: Image(
+                                                  fit: BoxFit.fill,
+                                                  height: MediaQuery.of(context)
+                                                          .size
+                                                          .height *
+                                                      0.3,
+                                                  image: AssetImage(
+                                                      "assets/EQ.png")),
+                                            ),
+                                          )))),
                               Padding(
                                 padding: EdgeInsets.only(
                                     top: MediaQuery.of(context).size.height *
@@ -313,17 +303,17 @@ class _HomePageState extends State<HomePage> {
                                                                             Container(
                                                                               width: MediaQuery.of(context).size.width * 0.4,
                                                                               height: MediaQuery.of(context).size.height * 0.065,
-                                                                              child: RaisedButton(
+                                                                              child: ElevatedButton(
                                                                                 child: Text("Confirm", textAlign: TextAlign.center, style: GoogleFonts.montserrat().copyWith(color: Theme.of(context).accentColor, fontSize: 18, fontWeight: FontWeight.w500)),
-                                                                                color: Theme.of(context).primaryColor,
-                                                                                elevation: 0,
+                                                                                style: ElevatedButton.styleFrom(
+                                                                                  primary: Theme.of(context).primaryColor,
+                                                                                  elevation: 0,
+                                                                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18.0)),
+                                                                                ),
                                                                                 onPressed: () {
                                                                                   DatabaseServices().updateUserData(userNameController.text);
                                                                                   Navigator.pop(context);
                                                                                 },
-                                                                                shape: RoundedRectangleBorder(
-                                                                                  borderRadius: BorderRadius.circular(18.0),
-                                                                                ),
                                                                               ),
                                                                             )
                                                                           ],
@@ -464,12 +454,13 @@ class _HomePageState extends State<HomePage> {
                                                   .size
                                                   .height *
                                               0.025),
-                                      RaisedButton(
-                                        elevation: 0,
-                                        color: Theme.of(context)
-                                            .backgroundColor
-                                            .withOpacity(0),
-                                        padding: EdgeInsets.all(0),
+                                      ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          primary: Theme.of(context)
+                                              .backgroundColor
+                                              .withOpacity(0),
+                                          elevation: 0,
+                                        ),
                                         onPressed: () async {
                                           if (currentUser.isAnonymous) {
                                             await AuthServices

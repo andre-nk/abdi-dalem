@@ -7,10 +7,16 @@ class SharedPref extends ChangeNotifier {
   
   bool get timerBreak => sharedPreferences?.getBool("timerBreak") ?? false;
   bool get isDarkMode => sharedPreferences?.getBool("isDarkMode") ?? false;
+  String get nextCheckIn => sharedPreferences?.getString("nextCheckIn") ?? DateTime.now().toString();
   String get primaryColor => sharedPreferences?.getString("primaryColor") ?? "08A4BD";
   String get badHabitPin => sharedPreferences?.getString("badHabitPin") ?? "";
   List<String> get timeStamp => sharedPreferences?.getStringList("timeStamp") ?? [];
   List<String> get timeStampSecond => sharedPreferences?.getStringList("timeStampSecond") ?? [];
+
+  void setNextCheckIn(String nextCheckIn){
+    sharedPreferences?.setString("nextCheckIn", nextCheckIn);
+    notifyListeners();
+  }
 
   void setBadHabitPin(String pin){
     sharedPreferences?.setString("badHabitPin", pin);

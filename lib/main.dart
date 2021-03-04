@@ -8,7 +8,7 @@ import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:workmanager/workmanager.dart';
+// import 'package:workmanager/workmanager.dart';
 
 const simpleTaskKey = "simpleTask";
 const simpleDelayedTask = "simpleDelayedTask";
@@ -17,32 +17,32 @@ const simplePeriodic1HourTask = "simplePeriodic1HourTask";
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
-void callbackDispatcher() {
-  Workmanager.executeTask((task, inputData) async {
-    switch (task) {
-      case simpleTaskKey:
-        print("$simpleTaskKey was executed. inputData = $inputData");
-        final prefs = await SharedPreferences.getInstance();
-        prefs.setBool("test", true);
-        print("Bool from prefs: ${prefs.getBool("test")}");
-        break;
-      case simpleDelayedTask:
-        print("$simpleDelayedTask was executed");
-        break;
-      case simplePeriodicTask:
-        print("$simplePeriodicTask was executed");
-        break;
-      case simplePeriodic1HourTask:
-        print("$simplePeriodic1HourTask was executed");
-        break;
-      case Workmanager.iOSBackgroundTask:
-        print("The iOS background fetch was triggered");
-        break;
-    }
+// void callbackDispatcher() {
+//   Workmanager.executeTask((task, inputData) async {
+//     switch (task) {
+//       case simpleTaskKey:
+//         print("$simpleTaskKey was executed. inputData = $inputData");
+//         final prefs = await SharedPreferences.getInstance();
+//         prefs.setBool("test", true);
+//         print("Bool from prefs: ${prefs.getBool("test")}");
+//         break;
+//       case simpleDelayedTask:
+//         print("$simpleDelayedTask was executed");
+//         break;
+//       case simplePeriodicTask:
+//         print("$simplePeriodicTask was executed");
+//         break;
+//       case simplePeriodic1HourTask:
+//         print("$simplePeriodic1HourTask was executed");
+//         break;
+//       case Workmanager.iOSBackgroundTask:
+//         print("The iOS background fetch was triggered");
+//         break;
+//     }
 
-    return Future.value(true);
-  });
-}
+//     return Future.value(true);
+//   });
+// }
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -51,16 +51,16 @@ Future main() async {
   await Firebase.initializeApp();
 
   //ONESIGNAL
-  OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
-  OneSignal.shared.init("f9d24a53-49fe-4905-9ae3-b1e06b6ebc27", iOSSettings: {
-    OSiOSSettings.autoPrompt: false,
-    OSiOSSettings.inAppLaunchUrl: false
-  });
-  OneSignal.shared.setInFocusDisplayType(OSNotificationDisplayType.notification);
-  await OneSignal.shared.promptUserForPushNotificationPermission(fallbackToSettings: true);
+  // OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
+  // OneSignal.shared.init("f9d24a53-49fe-4905-9ae3-b1e06b6ebc27", iOSSettings: {
+  //   OSiOSSettings.autoPrompt: false,
+  //   OSiOSSettings.inAppLaunchUrl: false
+  // });
+  // OneSignal.shared.setInFocusDisplayType(OSNotificationDisplayType.notification);
+  // await OneSignal.shared.promptUserForPushNotificationPermission(fallbackToSettings: true);
 
   //LOCAL NOTIFICATION
-   var initializationSettingsAndroid = AndroidInitializationSettings('splash');
+  var initializationSettingsAndroid = AndroidInitializationSettings('splash');
   var initializationSettingsIOS = IOSInitializationSettings(
       requestAlertPermission: true,
       requestBadgePermission: true,
@@ -135,7 +135,6 @@ class _AbdiDalemRootState extends State<AbdiDalem> {
     OneSignal.shared.setNotificationReceivedHandler((OSNotification notification) {
     // will be called whenever a notification is received
     });
-
     OneSignal.shared.setNotificationOpenedHandler((OSNotificationOpenedResult result) {
     // will be called whenever a notification is opened/button pressed.
     });

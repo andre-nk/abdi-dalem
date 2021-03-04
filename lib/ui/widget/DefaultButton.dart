@@ -11,13 +11,14 @@ class DefaultButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: MediaQuery.of(context).size.height * 0.06,
-      child: RaisedButton(
-        elevation: 0,
-        color: Theme.of(context).primaryColor,
-        onPressed: method ?? (){},
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(50.0),
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          primary: Theme.of(context).primaryColor,
+          elevation: 0,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(50.0)),
         ),
+        onPressed: method ?? () {},
         child: Center(
           child: Text("$title" ?? "",
               style: GoogleFonts.montserrat().copyWith(

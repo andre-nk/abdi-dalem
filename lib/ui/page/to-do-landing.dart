@@ -13,7 +13,8 @@ class _ToDoLandingPageState extends State<ToDoLandingPage> {
     //FIREBASE SETUP
     final User currentUser = FirebaseAuth.instance.currentUser;
     FirebaseFirestore firestore = FirebaseFirestore.instance;
-    DocumentReference toDoDocument = firestore.collection("users").doc(currentUser.uid);
+    DocumentReference toDoDocument =
+        firestore.collection("users").doc(currentUser.uid);
     Future firestoreNullGenerator() async {
       return await toDoDocument.get().then((val) {
         if (val.data()["tags_title"] == null) {
@@ -65,14 +66,15 @@ class _ToDoLandingPageState extends State<ToDoLandingPage> {
                 Container(
                   height: MediaQuery.of(context).size.width * 0.125,
                   width: MediaQuery.of(context).size.width * 0.125,
-                  child: RaisedButton(
-                      color: listViewEnabled
-                          ? Theme.of(context).primaryColor
-                          : Theme.of(context).backgroundColor,
-                      disabledColor: Theme.of(context).backgroundColor,
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
+                  child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        primary: listViewEnabled
+                            ? Theme.of(context).primaryColor
+                            : Theme.of(context).backgroundColor,
+                        onPrimary: Theme.of(context).backgroundColor,
+                        elevation: 0,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0)),
                       ),
                       child: Container(
                         child: Icon(
@@ -93,14 +95,15 @@ class _ToDoLandingPageState extends State<ToDoLandingPage> {
                 Container(
                   height: MediaQuery.of(context).size.width * 0.125,
                   width: MediaQuery.of(context).size.width * 0.125,
-                  child: RaisedButton(
-                      color: listViewEnabled
-                          ? Theme.of(context).backgroundColor
-                          : Theme.of(context).primaryColor,
-                      disabledColor: Theme.of(context).backgroundColor,
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
+                  child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        primary: listViewEnabled
+                            ? Theme.of(context).backgroundColor
+                            : Theme.of(context).primaryColor,
+                        onPrimary: Theme.of(context).backgroundColor,
+                        elevation: 0,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0)),
                       ),
                       child: Icon(
                         FlutterIcons.calendar_ant,
@@ -112,9 +115,9 @@ class _ToDoLandingPageState extends State<ToDoLandingPage> {
                           listViewEnabled = false;
                           print("a");
                         });
-                      } //TBA
+                      } //TB
                       ),
-                ),
+                )
               ],
             ),
           ],
@@ -125,9 +128,7 @@ class _ToDoLandingPageState extends State<ToDoLandingPage> {
                 catchError: (_, __) => [],
                 child: ListViewToDoList(),
               )
-            : CalendarViewToDoList(
-                currentUser: currentUser
-              ),
+            : CalendarViewToDoList(currentUser: currentUser),
         photoURL: "assets/to-do-tab.png",
       ),
     );

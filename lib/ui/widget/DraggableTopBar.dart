@@ -268,12 +268,14 @@ class _DraggableTopBarState extends State<DraggableTopBar>
     widget.children.add(Container(
       height: MediaQuery.of(context).size.height * 0.007,
       width: MediaQuery.of(context).size.width * 0.2,
-      child: RaisedButton(
-        color: Theme.of(context).accentColor,
-        onPressed: _handleTap,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(18.0),
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          primary: Theme.of(context).accentColor,
+          elevation: 0,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18.0)),
         ),
+        onPressed: _handleTap,
+        child: SizedBox(),
       ),
     ));
 

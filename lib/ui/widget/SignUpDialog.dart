@@ -23,10 +23,13 @@ Future<dynamic> signUpDialog(BuildContext context) {
                       Container(
                           height: MediaQuery.of(context).size.height * 0.1,
                           decoration: BoxDecoration(
-                            image: Theme.of(context).backgroundColor == HexColor("1A1B2F")
-                                ? DecorationImage(image: AssetImage("assets/logo_dark.png"))
-                                : DecorationImage(image: AssetImage("assets/logo_light.png"))
-                          )),
+                              image: Theme.of(context).backgroundColor ==
+                                      HexColor("1A1B2F")
+                                  ? DecorationImage(
+                                      image: AssetImage("assets/logo_dark.png"))
+                                  : DecorationImage(
+                                      image: AssetImage(
+                                          "assets/logo_light.png")))),
                       SizedBox(
                           height: MediaQuery.of(context).size.height * 0.02),
                       Center(
@@ -44,13 +47,15 @@ Future<dynamic> signUpDialog(BuildContext context) {
                       Container(
                         height: MediaQuery.of(context).size.height * 0.06,
                         width: MediaQuery.of(context).size.width * 0.65,
-                        child: RaisedButton(
+                        child: ElevatedButton(
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.baseline,
+                              textBaseline: TextBaseline.alphabetic,
                               children: [
                                 Icon(FlutterIcons.google_ant,
-                                    color: Theme.of(context).backgroundColor, size: 18),
+                                    color: Theme.of(context).backgroundColor,
+                                    size: 18),
                                 SizedBox(width: 10),
                                 Text("Google",
                                     style: GoogleFonts.montserrat().copyWith(
@@ -60,10 +65,11 @@ Future<dynamic> signUpDialog(BuildContext context) {
                                         fontWeight: FontWeight.w700)),
                               ],
                             ),
-                            elevation: 0,
-                            color: Theme.of(context).accentColor,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(50.0),
+                            style: ElevatedButton.styleFrom(
+                              primary: Theme.of(context).accentColor,
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(50.0)),
                             ),
                             onPressed: () async {
                               final provider = Provider.of<SignInProvider>(
@@ -78,13 +84,15 @@ Future<dynamic> signUpDialog(BuildContext context) {
                       Container(
                         height: MediaQuery.of(context).size.height * 0.06,
                         width: MediaQuery.of(context).size.width * 0.65,
-                        child: RaisedButton(
+                        child: ElevatedButton(
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.baseline,
+                              textBaseline: TextBaseline.alphabetic,
                               children: [
                                 Icon(FlutterIcons.facebook_f_faw,
-                                    color: Theme.of(context).backgroundColor, size: 18),
+                                    color: Theme.of(context).backgroundColor,
+                                    size: 18),
                                 SizedBox(width: 10),
                                 Text("Facebook",
                                     style: GoogleFonts.montserrat().copyWith(
@@ -94,10 +102,11 @@ Future<dynamic> signUpDialog(BuildContext context) {
                                         fontWeight: FontWeight.w700)),
                               ],
                             ),
-                            elevation: 0,
-                            color: Theme.of(context).accentColor,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(50.0),
+                            style: ElevatedButton.styleFrom(
+                              primary: Theme.of(context).accentColor,
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(50.0)),
                             ),
                             onPressed: () {
                               final provider = Provider.of<SignInProvider>(
@@ -112,13 +121,15 @@ Future<dynamic> signUpDialog(BuildContext context) {
                       Container(
                         height: MediaQuery.of(context).size.height * 0.06,
                         width: MediaQuery.of(context).size.width * 0.65,
-                        child: RaisedButton(
+                        child: ElevatedButton(
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.baseline,
+                              textBaseline: TextBaseline.alphabetic,
                               children: [
                                 Icon(FlutterIcons.apple_faw,
-                                    color: Theme.of(context).backgroundColor, size: 18),
+                                    color: Theme.of(context).backgroundColor,
+                                    size: 18),
                                 SizedBox(width: 10),
                                 Text("Apple",
                                     style: GoogleFonts.montserrat().copyWith(
@@ -128,10 +139,11 @@ Future<dynamic> signUpDialog(BuildContext context) {
                                         fontWeight: FontWeight.w700)),
                               ],
                             ),
-                            elevation: 0,
-                            color: Theme.of(context).accentColor,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(50.0),
+                            style: ElevatedButton.styleFrom(
+                              primary: Theme.of(context).accentColor,
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(50.0)),
                             ),
                             onPressed: () {
                               Navigator.pop(context);

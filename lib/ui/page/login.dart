@@ -68,11 +68,15 @@ class _LoginState extends State<Login> {
                         Container(
                           height: MediaQuery.of(context).size.height * 0.07,
                           width: MediaQuery.of(context).size.width * 0.45,
-                          child: RaisedButton(
-                            elevation: 0,
-                            padding: EdgeInsets.only(
-                                left: MediaQuery.of(context).size.width * 0.03),
-                            color: Theme.of(context).backgroundColor,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                padding: EdgeInsets.only(
+                                    left: MediaQuery.of(context).size.width *
+                                        0.03),
+                                primary: Theme.of(context).backgroundColor,
+                                elevation: 0,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(50.0))),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
@@ -116,9 +120,6 @@ class _LoginState extends State<Login> {
                                     ))
                               ],
                             ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(50.0),
-                            ),
                             onPressed: () {
                               signUpDialog(context);
                             },
@@ -127,13 +128,18 @@ class _LoginState extends State<Login> {
                         Container(
                           height: MediaQuery.of(context).size.height * 0.07,
                           width: MediaQuery.of(context).size.width * 0.35,
-                          child: RaisedButton(
-                            elevation: 0,
-                            padding: EdgeInsets.only(
-                                left: MediaQuery.of(context).size.width * 0.03),
-                            color: Theme.of(context)
-                                .backgroundColor
-                                .withOpacity(0.3),
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                padding: EdgeInsets.only(
+                                  left: MediaQuery.of(context).size.width *  0.03),
+                                primary: Theme.of(context).backgroundColor.withOpacity(0.3),
+                                elevation: 0,
+                                shape:RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(50),
+                                      bottomLeft: Radius.circular(50)),
+                                )
+                            ),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
@@ -143,11 +149,6 @@ class _LoginState extends State<Login> {
                                         fontSize: 18,
                                         fontWeight: FontWeight.w100)),
                               ],
-                            ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(50),
-                                  bottomLeft: Radius.circular(50)),
                             ),
                             onPressed: () {
                               showDialog(

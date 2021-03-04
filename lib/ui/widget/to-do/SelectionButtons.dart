@@ -21,19 +21,24 @@ class SelectionButtons extends StatelessWidget {
                   height: MediaQuery.of(context).size.height * 0.045,
                   margin: EdgeInsets.only(
                       right: MediaQuery.of(context).size.width * 0.025),
-                  child: RaisedButton(
-                    elevation: 0,
+                  child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        padding: EdgeInsets.only(
+                            left: MediaQuery.of(context).size.width * 0.03),
+                        primary:
+                            (titles.indexOf(titles[index]) == selectedIndex)
+                                ? Theme.of(context).primaryColor
+                                : HexColor("1B1F28"),
+                        elevation: 0,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(50.0)),
+                      ),
                       onPressed: () {
                         if (onTap != null) {
                           onTap(titles.indexOf(titles[index]));
                         }
                       }, //TBA
-                      color: (titles.indexOf(titles[index]) == selectedIndex)
-                          ? Theme.of(context).primaryColor
-                          : HexColor("1B1F28"),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(50)),
-                      ),
+
                       child: Text("${titles[index]}",
                           style: GoogleFonts.karla(
                               color: Theme.of(context).accentColor,

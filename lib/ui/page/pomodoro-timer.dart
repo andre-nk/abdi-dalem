@@ -436,7 +436,7 @@ class _PomodoroTimerState extends State<PomodoroTimer> with WidgetsBindingObserv
                                 await flutterLocalNotificationsPlugin.schedule(0, 'Break time!', "Congratulations you've been working hard!", DateTime.now(), platformChannelSpecifics);
 
                                 Provider.of<SharedPref>(context, listen: false).setTimestampSecond(timeStampsSecond);
-                                Get.to(PomodoroTimerBreak(
+                                Get.to(() => PomodoroTimerBreak(
                                   durationWork: durationSubtractor("work"),
                                   sessionName: sessionNameController.text,
                                 ));
@@ -447,7 +447,7 @@ class _PomodoroTimerState extends State<PomodoroTimer> with WidgetsBindingObserv
                               autoStart: false,
                               width: MediaQuery.of(context).size.height * 0.375,
                               height: MediaQuery.of(context).size.height * 0.375,
-                              color: Theme.of(context).backgroundColor,
+                              ringColor: Theme.of(context).backgroundColor,
                               fillColor: Theme.of(context).primaryColor,
                               backgroundColor: Theme.of(context).backgroundColor,
                               duration: 10,
@@ -920,7 +920,7 @@ class _PomodoroTimerBreakState extends State<PomodoroTimerBreak> {
                               width: MediaQuery.of(context).size.height * 0.375,
                               height:
                                   MediaQuery.of(context).size.height * 0.375,
-                              color: Theme.of(context).backgroundColor,
+                              ringColor: Theme.of(context).backgroundColor,
                               fillColor: Theme.of(context).primaryColor,
                               backgroundColor:
                                   Theme.of(context).backgroundColor,

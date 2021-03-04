@@ -322,6 +322,19 @@ class BadHabitServices extends DatabaseServices{
     );
   }
 
+  Future<void> resetBadHabitCount(DateTime nextCheckIn) async {
+    if (DateTime.now().isAfter(nextCheckIn)) {
+      QuerySnapshot query = await users.doc(currentUser.uid).collection("bad-habit-collection").get();
+      List<QueryDocumentSnapshot> docsList = query.docs;
+
+      docsList.forEach((doc){
+        doc.reference.update({
+          "currentCount": 0
+        });
+      });
+    }
+  }
+
   Stream<List<BadHabitObject>> get badHabitObject {
     return users
       .doc(currentUser.uid)

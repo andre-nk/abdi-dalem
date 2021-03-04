@@ -604,7 +604,7 @@ class _FlowtimeTimerState extends State<FlowtimeTimer> {
                               width: MediaQuery.of(context).size.height * 0.375,
                               height:
                                   MediaQuery.of(context).size.height * 0.375,
-                              color: Theme.of(context).backgroundColor,
+                              ringColor: Theme.of(context).backgroundColor,
                               fillColor: Theme.of(context).primaryColor,
                               backgroundColor:
                                   Theme.of(context).backgroundColor,

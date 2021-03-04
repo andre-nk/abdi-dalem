@@ -23,7 +23,7 @@ class _ToDoListCardState extends State<ToDoListCard> {
         child: GestureDetector(
           onTap: () {
             Get.to(
-              StreamProvider<List<TaskObject>>.value(
+              () => StreamProvider<List<TaskObject>>.value(
                 value: ToDoServices().taskObject,
                 catchError: (_, __) => [],
                 child: ToDoDetails(
