@@ -90,6 +90,7 @@ class _BadHabitAdderBottomSheetState extends State<BadHabitAdderBottomSheet> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               crossAxisAlignment: CrossAxisAlignment.baseline,
+                              textBaseline: TextBaseline.alphabetic,
                               children: [
                                 ElevatedButton(
                                     style: ElevatedButton.styleFrom(
@@ -253,6 +254,7 @@ class _BadHabitPreviewerState extends State<BadHabitPreviewer> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               crossAxisAlignment: CrossAxisAlignment.baseline,
+                              textBaseline: TextBaseline.alphabetic,
                               children: [
                                 ElevatedButton(
                                     style: ElevatedButton.styleFrom(

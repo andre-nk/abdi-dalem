@@ -10,8 +10,8 @@ class _BadHabitLandingState extends State<BadHabitLanding> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamProvider<List<BadHabitObject>>.value(
-        value: BadHabitServices().badHabitObject,
+    return StreamProvider<List<BadHabitObject>>(
+        create: (context) => BadHabitServices().badHabitObject,
         catchError: (_, __) => [],
         child: AssistantTopBar(
           fabActive: protectedViewEnabled ? false : true,
@@ -21,11 +21,7 @@ class _BadHabitLandingState extends State<BadHabitLanding> {
                 isScrollControlled: true,
                 context: context,
                 builder: (BuildContext context) {
-                  return Padding(
-                    padding: EdgeInsets.only(
-                        bottom: MediaQuery.of(context).viewInsets.bottom),
-                    child: BadHabitAdderBottomSheet(),
-                  );
+                  return BadHabitAdderBottomSheet();
                 });
           },
           topBarControl: Row(

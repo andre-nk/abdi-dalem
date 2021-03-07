@@ -29,6 +29,69 @@ class _BadHabitProtectedViewState extends State<BadHabitProtectedView> {
       }
     });
 
+    void failedPopUpCaller(int limit, int currentCount) {
+    if (limit == currentCount) {
+      showDialog(
+        context: context,
+        builder: (_) => BackdropFilter(
+          filter: new ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+            child: new AlertDialog(
+              backgroundColor: Theme.of(context).backgroundColor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(30.0))),
+                  content: Container(
+                    alignment: Alignment.center,
+                    height: MediaQuery.of(context).size.height * 0.325,
+                    width: MediaQuery.of(context).size.width * 1,
+                    child: Padding(
+                      padding: EdgeInsets.all(
+                          MediaQuery.of(context).size.height * 0.001),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            height: MediaQuery.of(context).size.height * 0.1,
+                            child: Image(
+                                image: Theme.of(context).backgroundColor == HexColor("1A1B2F")
+                                  ? AssetImage("assets/logo_dark.png")
+                                  : AssetImage("assets/logo_light.png"))),
+                          SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.015),
+                          Center(
+                            child: Text(
+                              "Oh no!",
+                              style: GoogleFonts.montserrat().copyWith(
+                                  color: Theme.of(context).accentColor,
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.w700),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                          SizedBox(
+                              height:
+                                  MediaQuery.of(context).size.height * 0.03),
+                           Center(
+                            child: Text(
+                              "You've done many bad habits today. Let's fix it tomorrow!",
+                              style: GoogleFonts.karla().copyWith(
+                                  color: Theme.of(context).accentColor,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ));
+    } else {
+
+    }
+  }
+
     return isPINCorrect
       ? ListView(
         physics: BouncingScrollPhysics(), children: [
@@ -163,6 +226,7 @@ class _BadHabitProtectedViewState extends State<BadHabitProtectedView> {
                                           subtitle: protectedBadHabitList[index].subtitle,
                                           limit: protectedBadHabitList[index].limit,
                                         );
+                                        failedPopUpCaller(protectedBadHabitList[index].limit, protectedBadHabitList[index].currentCount);
                                       }
                                     ),
                                   ),

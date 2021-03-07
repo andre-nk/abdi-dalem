@@ -68,7 +68,7 @@ class _EQLandingState extends State<EQLanding> {
                                     PageTransition(
                                         type: PageTransitionType.fade,
                                         alignment: Alignment.bottomCenter,
-                                        child: ToDoLandingPage()));
+                                        child: HabitCheckerLanding()));
                               },
                               title: "habit checker",
                               photoURL: "assets/to-do-illus.png",

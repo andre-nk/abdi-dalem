@@ -343,3 +343,62 @@ class BadHabitServices extends DatabaseServices{
       .map(_badHabitListFromSnapshot);
   }
 }
+
+class HabitServices extends DatabaseServices{
+  
+  List<Habit> _habitListFromSnapshot(QuerySnapshot data) {
+    final List<Habit> habitList = [];
+    data.docs.forEach((element) {
+      habitList.add(Habit(
+        uid: element.id,
+        title: element["habitTitle"] ?? "",
+        description: element["habitDescription"] ?? "",
+        currentStreak: element["currentStreak"] ?? 0,
+        longestStreak: element["longestStreak"] ?? 0,
+        reminder: element["reminder"] ?? [],
+        isReminderActive: element["isReminderActive"] ?? false
+      ));
+    });
+    return habitList;
+  }
+
+  Future<void> createHabitRecord(String title, String description, List<HabitReminder> reminder) async{
+    return await users
+      .doc(currentUser.uid)
+      .collection("habit-collection")
+      .doc()
+      .set({
+        "habitTitle": title,
+        "habitDescription": description,
+        "currentStreak": 0,
+        "longestStreak": 0,
+        "reminder": reminder,
+        "isReminderActive": false
+      }
+    );
+  }
+
+  Future<void> updateHabitRecord({String title, String description, List<HabitReminder> reminder, bool isReminderActive, int currentStreak, int longestStreak}) async{
+    return await users
+      .doc(currentUser.uid)
+      .collection("habit-collection")
+      .doc()
+      .set({
+        "habitTitle": title,
+        "habitDescription": description,
+        "currentStreak": currentStreak,
+        "longestStreak": longestStreak,
+        "reminder": reminder,
+        "isReminderActive": isReminderActive
+      }
+    );
+  }
+
+  Stream<List<Habit>> get habitObject{
+    return users
+      .doc(currentUser.uid)
+      .collection("habit-collection")
+      .snapshots()
+      .map(_habitListFromSnapshot);
+  }
+}

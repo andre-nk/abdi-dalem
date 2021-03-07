@@ -34,3 +34,5 @@ part "to-do/CalendarViewToDoList.dart";
 part "bad-habit/BadHabitNormalView.dart";
 part "bad-habit/BadHabitProtectedView.dart";
 part "bad-habit/BadHabitBottomSheet.dart";
+part "habit-checker/HabitChecker.dart";
+part "habit-checker/HabitCheckerBottomSheet.dart";

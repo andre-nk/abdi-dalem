@@ -6,23 +6,88 @@ class BadHabitNormalView extends StatefulWidget {
 }
 
 class _BadHabitNormalViewState extends State<BadHabitNormalView> {
-
   DateTime now = DateTime.now();
+
+  void failedPopUpCaller(int limit, int currentCount) {
+    if (limit == currentCount) {
+      showDialog(
+        context: context,
+        builder: (_) => BackdropFilter(
+          filter: new ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+            child: new AlertDialog(
+              backgroundColor: Theme.of(context).backgroundColor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(30.0))),
+                  content: Container(
+                    alignment: Alignment.center,
+                    height: MediaQuery.of(context).size.height * 0.325,
+                    width: MediaQuery.of(context).size.width * 1,
+                    child: Padding(
+                      padding: EdgeInsets.all(
+                          MediaQuery.of(context).size.height * 0.001),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            height: MediaQuery.of(context).size.height * 0.1,
+                            child: Image(
+                                image: Theme.of(context).backgroundColor == HexColor("1A1B2F")
+                                  ? AssetImage("assets/logo_dark.png")
+                                  : AssetImage("assets/logo_light.png"))),
+                          SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.015),
+                          Center(
+                            child: Text(
+                              "Oh no!",
+                              style: GoogleFonts.montserrat().copyWith(
+                                  color: Theme.of(context).accentColor,
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.w700),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                          SizedBox(
+                              height:
+                                  MediaQuery.of(context).size.height * 0.03),
+                           Center(
+                            child: Text(
+                              "You've done many bad habits today. Let's fix it tomorrow!",
+                              style: GoogleFonts.karla().copyWith(
+                                  color: Theme.of(context).accentColor,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ));
+    } else {
+
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    List<BadHabitObject> badHabitList = Provider.of<List<BadHabitObject>>(context) ?? [];
+    List<BadHabitObject> badHabitList =
+        Provider.of<List<BadHabitObject>>(context) ?? [];
     List<BadHabitObject> normalBadHabitList = [];
 
-    badHabitList.forEach((object){
-      if(object.isProtected != true){
+    badHabitList.forEach((object) {
+      if (object.isProtected != true) {
         normalBadHabitList.add(object);
       }
     });
 
     DateTime nextCheckIn = DateTime(now.year, now.month, now.day + 1);
-    Provider.of<SharedPref>(context, listen: false).setNextCheckIn(nextCheckIn.toString());
-    BadHabitServices().resetBadHabitCount(DateFormat("yyyy-MM-dd").parse(Provider.of<SharedPref>(context, listen: false).nextCheckIn));
+    Provider.of<SharedPref>(context, listen: false)
+        .setNextCheckIn(nextCheckIn.toString());
+    BadHabitServices().resetBadHabitCount(DateFormat("yyyy-MM-dd")
+        .parse(Provider.of<SharedPref>(context, listen: false).nextCheckIn));
 
     return ListView(physics: BouncingScrollPhysics(), children: [
       Container(
@@ -35,7 +100,8 @@ class _BadHabitNormalViewState extends State<BadHabitNormalView> {
             itemCount: normalBadHabitList.length ?? 0,
             itemBuilder: (BuildContext context, index) {
               return Container(
-                padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.03),
+                padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).size.height * 0.03),
                 width: MediaQuery.of(context).size.width * 0.8,
                 margin: EdgeInsets.symmetric(
                     horizontal: MediaQuery.of(context).size.width * 0.035,
@@ -71,34 +137,45 @@ class _BadHabitNormalViewState extends State<BadHabitNormalView> {
                                       letterSpacing: 1,
                                       fontWeight: FontWeight.w700)),
                               GestureDetector(
-                                onTap: () {
-                                  showModalBottomSheet(
-                                    backgroundColor: Colors.transparent,
-                                    isScrollControlled: true,
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return Padding(
-                                        padding: EdgeInsets.only(
-                                          bottom: MediaQuery.of(context).viewInsets.bottom),
-                                        child: BadHabitPreviewer(
-                                          title: normalBadHabitList[index].title,
-                                          subtitle:  normalBadHabitList[index].subtitle,
-                                          limit: normalBadHabitList[index].limit,
-                                          currentCount: normalBadHabitList[index].currentCount,
-                                          uid: normalBadHabitList[index].uid,        
-                                        ),
-                                      );
-                                    }
-                                  ); //edit bottomsheet
-                                },
-                                child: Icon(FlutterIcons.mode_edit_mdi, size: 24))
+                                  onTap: () {
+                                    showModalBottomSheet(
+                                        backgroundColor: Colors.transparent,
+                                        isScrollControlled: true,
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return Padding(
+                                            padding: EdgeInsets.only(
+                                                bottom: MediaQuery.of(context)
+                                                    .viewInsets
+                                                    .bottom),
+                                            child: BadHabitPreviewer(
+                                              title: normalBadHabitList[index]
+                                                  .title,
+                                              subtitle:
+                                                  normalBadHabitList[index]
+                                                      .subtitle,
+                                              limit: normalBadHabitList[index]
+                                                  .limit,
+                                              currentCount:
+                                                  normalBadHabitList[index]
+                                                      .currentCount,
+                                              uid:
+                                                  normalBadHabitList[index].uid,
+                                            ),
+                                          );
+                                        }); //edit bottomsheet
+                                  },
+                                  child: Icon(FlutterIcons.mode_edit_mdi,
+                                      size: 24))
                             ],
                           ), //TBA FB Tags Title
                           SizedBox(
                               height:
                                   MediaQuery.of(context).size.height * 0.01),
                           normalBadHabitList[index].subtitle != ""
-                              ? Text(normalBadHabitList[index].subtitle, //habit name
+                              ? Text(
+                                  normalBadHabitList[index]
+                                      .subtitle, //habit name
                                   style: GoogleFonts.karla().copyWith(
                                       color: Theme.of(context).accentColor,
                                       fontSize: 16,
@@ -112,12 +189,16 @@ class _BadHabitNormalViewState extends State<BadHabitNormalView> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                               Container(
-                                width: MediaQuery.of(context).size.width * 0.525,
+                              Container(
+                                width:
+                                    MediaQuery.of(context).size.width * 0.525,
                                 child: LinearProgressIndicator(
                                   minHeight:
                                       MediaQuery.of(context).size.height * 0.01,
-                                  value: (normalBadHabitList[index].currentCount / normalBadHabitList[index].limit) * 100,
+                                  value:
+                                      (normalBadHabitList[index].currentCount /
+                                              normalBadHabitList[index].limit) *
+                                          100,
                                   backgroundColor: Theme.of(context)
                                       .accentColor
                                       .withOpacity(0.6),
@@ -125,12 +206,13 @@ class _BadHabitNormalViewState extends State<BadHabitNormalView> {
                                       Theme.of(context).primaryColor),
                                 ),
                               ),
-                              Text("${normalBadHabitList[index].currentCount} / ${normalBadHabitList[index].limit}", //habit name
+                              Text(
+                                  "${normalBadHabitList[index].currentCount} / ${normalBadHabitList[index].limit}", //habit name
                                   style: GoogleFonts.montserrat().copyWith(
                                       color: Theme.of(context).accentColor,
                                       fontSize: 16,
                                       letterSpacing: 1,
-                                      fontWeight: FontWeight.w500)),                           
+                                      fontWeight: FontWeight.w500)),
                             ],
                           ),
                           SizedBox(
@@ -142,22 +224,36 @@ class _BadHabitNormalViewState extends State<BadHabitNormalView> {
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
                                 Container(
-                                  width: MediaQuery.of(context).size.width * 0.3,
-                                  height: MediaQuery.of(context).size.height * 0.055,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.3,
+                                  height: MediaQuery.of(context).size.height *
+                                      0.055,
                                   child: DefaultButton(
-                                    color: Theme.of(context).primaryColor,
-                                    title: "Check",
-                                    method: (){
-                                      BadHabitServices().updateBadHabitRecord(
-                                        normalBadHabitList[index].uid,
-                                        normalBadHabitList[index].isProtected,
-                                        currentCount: normalBadHabitList[index].currentCount == normalBadHabitList[index].limit ? normalBadHabitList[index].currentCount : normalBadHabitList[index].currentCount + 1,
-                                        title: normalBadHabitList[index].title,
-                                        subtitle: normalBadHabitList[index].subtitle,
-                                        limit: normalBadHabitList[index].limit,
-                                      );
-                                    }
-                                  ),
+                                      color: Theme.of(context).primaryColor,
+                                      title: "Check",
+                                      method: () {
+                                        BadHabitServices().updateBadHabitRecord(
+                                          normalBadHabitList[index].uid,
+                                          normalBadHabitList[index].isProtected,
+                                          currentCount:
+                                              normalBadHabitList[index]
+                                                          .currentCount ==
+                                                      normalBadHabitList[index]
+                                                          .limit
+                                                  ? normalBadHabitList[index]
+                                                      .currentCount
+                                                  : normalBadHabitList[index]
+                                                          .currentCount +
+                                                      1,
+                                          title:
+                                              normalBadHabitList[index].title,
+                                          subtitle: normalBadHabitList[index]
+                                              .subtitle,
+                                          limit:
+                                              normalBadHabitList[index].limit,
+                                        );
+                                        failedPopUpCaller(normalBadHabitList[index].limit, normalBadHabitList[index].currentCount);
+                                      }),
                                 ),
                               ],
                             ),
