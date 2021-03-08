@@ -104,139 +104,222 @@ class _BadHabitProtectedViewState extends State<BadHabitProtectedView> {
               itemExtent: MediaQuery.of(context).size.height * 0.425,
               itemCount: protectedBadHabitList.length ?? 0,
               itemBuilder: (BuildContext context, index) {
-                return Container(
-                  padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.03),
-                  width: MediaQuery.of(context).size.width * 0.8,
-                  margin: EdgeInsets.symmetric(
-                      horizontal: MediaQuery.of(context).size.width * 0.035,
-                      vertical: MediaQuery.of(context).size.width * 0.04),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).backgroundColor,
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Theme.of(context).primaryColor.withOpacity(0.2),
-                        blurRadius: 15,
-                        spreadRadius: 1,
-                      )
-                    ],
-                  ),
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.all(
-                            MediaQuery.of(context).size.height * 0.035),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(protectedBadHabitList[index].title, //habit name
-                                    style: GoogleFonts.montserrat().copyWith(
-                                        color: Theme.of(context).accentColor,
-                                        fontSize: 18,
-                                        letterSpacing: 1,
-                                        fontWeight: FontWeight.w700)),
-                                GestureDetector(
-                                  onTap: () {
-                                    showModalBottomSheet(
-                                      backgroundColor: Colors.transparent,
-                                      isScrollControlled: true,
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return Padding(
-                                          padding: EdgeInsets.only(
-                                            bottom: MediaQuery.of(context).viewInsets.bottom),
-                                          child: BadHabitPreviewer(
-                                            title: protectedBadHabitList[index].title,
-                                            subtitle:  protectedBadHabitList[index].subtitle,
-                                            limit: protectedBadHabitList[index].limit,
-                                            currentCount: protectedBadHabitList[index].currentCount,
-                                            uid: protectedBadHabitList[index].uid,        
-                                          ),
-                                        );
-                                      }
-                                    ); //edit bottomsheet
-                                  },
-                                  child: Icon(FlutterIcons.mode_edit_mdi, size: 24))
-                              ],
-                            ), //TBA FB Tags Title
-                            SizedBox(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.01),
-                            protectedBadHabitList[index].subtitle != ""
-                                ? Text(protectedBadHabitList[index].subtitle, //habit name
-                                    style: GoogleFonts.karla().copyWith(
-                                        color: Theme.of(context).accentColor,
-                                        fontSize: 16,
-                                        height: 1.5,
-                                        fontWeight: FontWeight.w400))
-                                : SizedBox(),
-                            SizedBox(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.035),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Container(
-                                  width: MediaQuery.of(context).size.width * 0.525,
-                                  child: LinearProgressIndicator(
-                                    minHeight:
-                                        MediaQuery.of(context).size.height * 0.01,
-                                    value: (protectedBadHabitList[index].currentCount / protectedBadHabitList[index].limit) * 100,
-                                    backgroundColor: Theme.of(context)
-                                        .accentColor
-                                        .withOpacity(0.6),
-                                    valueColor: AlwaysStoppedAnimation<Color>(
-                                        Theme.of(context).primaryColor),
-                                  ),
-                                ),
-                                Text("${protectedBadHabitList[index].currentCount} / ${protectedBadHabitList[index].limit}", //habit name
-                                    style: GoogleFonts.montserrat().copyWith(
-                                        color: Theme.of(context).accentColor,
-                                        fontSize: 16,
-                                        letterSpacing: 1,
-                                        fontWeight: FontWeight.w500)),                           
-                              ],
-                            ),
-                            SizedBox(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.035),
-                            Container(
-                              width: MediaQuery.of(context).size.width * 0.8,
+                return GestureDetector(
+                  onLongPress: (){
+                    showDialog(
+                      context: context,
+                      builder: (_) => BackdropFilter(
+                        filter: new ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+                        child: new AlertDialog(
+                          backgroundColor: Theme.of(context).backgroundColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(30.0))),
+                          content: Container(
+                            alignment: Alignment.center,
+                            height: MediaQuery.of(context).size.height * 0.35,
+                            width: MediaQuery.of(context).size.width * 1,
+                            child: Padding(
+                              padding: EdgeInsets.all(
+                                  MediaQuery.of(context).size.height * 0.001),
                               child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Container(
-                                    width: MediaQuery.of(context).size.width * 0.3,
-                                    height: MediaQuery.of(context).size.height * 0.055,
-                                    child: DefaultButton(
-                                      color: Theme.of(context).primaryColor,
-                                      title: "Check",
-                                      method: (){
-                                        BadHabitServices().updateBadHabitRecord(
-                                          protectedBadHabitList[index].uid,
-                                          protectedBadHabitList[index].isProtected,
-                                          currentCount: protectedBadHabitList[index].currentCount == protectedBadHabitList[index].limit ? protectedBadHabitList[index].currentCount : protectedBadHabitList[index].currentCount + 1,
-                                          title: protectedBadHabitList[index].title,
-                                          subtitle: protectedBadHabitList[index].subtitle,
-                                          limit: protectedBadHabitList[index].limit,
-                                        );
-                                        failedPopUpCaller(protectedBadHabitList[index].limit, protectedBadHabitList[index].currentCount);
-                                      }
+                                    height: MediaQuery.of(context).size.height * 0.1,
+                                    child: Image(
+                                        image: Theme.of(context).backgroundColor == HexColor("1A1B2F")
+                                          ? AssetImage("assets/logo_dark.png")
+                                          : AssetImage("assets/logo_light.png"))),
+                                  SizedBox(
+                                      height: MediaQuery.of(context).size.height * 0.015),
+                                  Center(
+                                    child: Text(
+                                      "Are you sure you want to delete this habit?",
+                                      style: GoogleFonts.montserrat().copyWith(
+                                          color: Theme.of(context).accentColor,
+                                          fontSize: 22,
+                                          fontWeight: FontWeight.w700),
+                                      textAlign: TextAlign.center,
                                     ),
                                   ),
+                                  SizedBox(
+                                      height:
+                                          MediaQuery.of(context).size.height * 0.03),
+                                  Center(
+                                    child: Text(
+                                      "This action is irreversible!",
+                                      style: GoogleFonts.karla().copyWith(
+                                        color: Theme.of(context).accentColor,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: MediaQuery.of(context).size.height * 0.03),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                    children: [
+                                      DefaultButton(
+                                        color: HexColor("C4C4C4 ").withOpacity(0.3),
+                                        title: "Cancel",
+                                        method: (){
+                                          Navigator.pop(context);
+                                        }
+                                      ),
+                                      DefaultButton(
+                                        color: Colors.red,
+                                        title: "Delete",
+                                        method: (){
+                                          BadHabitServices().deleteBadHabitRecord(protectedBadHabitList[index].uid);
+                                          Navigator.pop(context);
+                                        }
+                                      )
+                                    ],
+                                  )
                                 ],
                               ),
-                            )
-                          ],
+                            ),
+                          ),
                         ),
-                      ),
-                    ],
+                      )
+                    );
+                  },
+                  child: Container(
+                    padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.03),
+                    width: MediaQuery.of(context).size.width * 0.8,
+                    margin: EdgeInsets.symmetric(
+                        horizontal: MediaQuery.of(context).size.width * 0.035,
+                        vertical: MediaQuery.of(context).size.width * 0.04),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).backgroundColor,
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Theme.of(context).primaryColor.withOpacity(0.2),
+                          blurRadius: 15,
+                          spreadRadius: 1,
+                        )
+                      ],
+                    ),
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.all(
+                              MediaQuery.of(context).size.height * 0.035),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(protectedBadHabitList[index].title, //habit name
+                                      style: GoogleFonts.montserrat().copyWith(
+                                          color: Theme.of(context).accentColor,
+                                          fontSize: 18,
+                                          letterSpacing: 1,
+                                          fontWeight: FontWeight.w700)),
+                                  GestureDetector(
+                                    onTap: () {
+                                      showModalBottomSheet(
+                                        backgroundColor: Colors.transparent,
+                                        isScrollControlled: true,
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return Padding(
+                                            padding: EdgeInsets.only(
+                                              bottom: MediaQuery.of(context).viewInsets.bottom),
+                                            child: BadHabitPreviewer(
+                                              title: protectedBadHabitList[index].title,
+                                              subtitle:  protectedBadHabitList[index].subtitle,
+                                              limit: protectedBadHabitList[index].limit,
+                                              currentCount: protectedBadHabitList[index].currentCount,
+                                              uid: protectedBadHabitList[index].uid,        
+                                            ),
+                                          );
+                                        }
+                                      ); //edit bottomsheet
+                                    },
+                                    child: Icon(FlutterIcons.mode_edit_mdi, size: 24))
+                                ],
+                              ), //TBA FB Tags Title
+                              SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.01),
+                              protectedBadHabitList[index].subtitle != ""
+                                  ? Text(protectedBadHabitList[index].subtitle, //habit name
+                                      style: GoogleFonts.karla().copyWith(
+                                          color: Theme.of(context).accentColor,
+                                          fontSize: 16,
+                                          height: 1.5,
+                                          fontWeight: FontWeight.w400))
+                                  : SizedBox(),
+                              SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.035),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    width: MediaQuery.of(context).size.width * 0.525,
+                                    child: LinearProgressIndicator(
+                                      minHeight:
+                                          MediaQuery.of(context).size.height * 0.01,
+                                      value: (protectedBadHabitList[index].currentCount / protectedBadHabitList[index].limit) * 100,
+                                      backgroundColor: Theme.of(context)
+                                          .accentColor
+                                          .withOpacity(0.6),
+                                      valueColor: AlwaysStoppedAnimation<Color>(
+                                          Theme.of(context).primaryColor),
+                                    ),
+                                  ),
+                                  Text("${protectedBadHabitList[index].currentCount} / ${protectedBadHabitList[index].limit}", //habit name
+                                      style: GoogleFonts.montserrat().copyWith(
+                                          color: Theme.of(context).accentColor,
+                                          fontSize: 16,
+                                          letterSpacing: 1,
+                                          fontWeight: FontWeight.w500)),                           
+                                ],
+                              ),
+                              SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.035),
+                              Container(
+                                width: MediaQuery.of(context).size.width * 0.8,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Container(
+                                      width: MediaQuery.of(context).size.width * 0.3,
+                                      height: MediaQuery.of(context).size.height * 0.055,
+                                      child: DefaultButton(
+                                        color: Theme.of(context).primaryColor,
+                                        title: "Check",
+                                        method: (){
+                                          BadHabitServices().updateBadHabitRecord(
+                                            protectedBadHabitList[index].uid,
+                                            protectedBadHabitList[index].isProtected,
+                                            currentCount: protectedBadHabitList[index].currentCount == protectedBadHabitList[index].limit ? protectedBadHabitList[index].currentCount : protectedBadHabitList[index].currentCount + 1,
+                                            title: protectedBadHabitList[index].title,
+                                            subtitle: protectedBadHabitList[index].subtitle,
+                                            limit: protectedBadHabitList[index].limit,
+                                          );
+                                          failedPopUpCaller(protectedBadHabitList[index].limit, protectedBadHabitList[index].currentCount);
+                                        }
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 );
               },

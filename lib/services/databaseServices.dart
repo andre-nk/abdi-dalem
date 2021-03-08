@@ -335,6 +335,15 @@ class BadHabitServices extends DatabaseServices{
     }
   }
 
+  Future<void> deleteBadHabitRecord(String uid) async {
+    return await users
+      .doc(currentUser.uid)
+      .collection("bad-habit-collection")
+      .doc(uid)
+      .delete();
+  }
+
+
   Stream<List<BadHabitObject>> get badHabitObject {
     return users
       .doc(currentUser.uid)
@@ -392,6 +401,14 @@ class HabitServices extends DatabaseServices{
         "isReminderActive": isReminderActive
       }
     );
+  }
+
+  Future<void> deleteHabitRecord(String uid) async {
+    return await users
+      .doc(currentUser.uid)
+      .collection("habit-collection")
+      .doc(uid)
+      .delete();
   }
 
   Stream<List<Habit>> get habitObject{
