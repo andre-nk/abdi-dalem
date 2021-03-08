@@ -14,7 +14,30 @@ class Habit{
 
 class HabitReminder{
   String dayName;
-  TimeOfDay dayTime;
+  String dayTime;
 
   HabitReminder({this.dayName, this.dayTime});
+
+  factory HabitReminder.fromJson(Map<String, dynamic> jsonData) {
+    return HabitReminder(
+      dayName: jsonData["dayName"],
+      dayTime: jsonData["dayTime"],
+    );
+  }
+
+  static Map<String, dynamic> toMap(HabitReminder habitReminder) => {
+    'dayName': habitReminder.dayName,
+    'dayTime': habitReminder.dayTime,
+  };
+
+  static String encode(List<HabitReminder> habitReminder) => json.encode(
+    habitReminder
+      .map<Map<String, dynamic>>((habitReminder) => HabitReminder.toMap(habitReminder))
+      .toList(),
+  );
+
+  static List<HabitReminder> decode(String habitReminder) =>
+      (json.decode(habitReminder) as List<dynamic>)
+          .map<HabitReminder>((item) => HabitReminder.fromJson(item))
+          .toList();
 }

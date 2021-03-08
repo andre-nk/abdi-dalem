@@ -355,14 +355,14 @@ class HabitServices extends DatabaseServices{
         description: element["habitDescription"] ?? "",
         currentStreak: element["currentStreak"] ?? 0,
         longestStreak: element["longestStreak"] ?? 0,
-        reminder: element["reminder"] ?? [],
+        reminder: HabitReminder.decode(element["reminder"]) ?? [],
         isReminderActive: element["isReminderActive"] ?? false
       ));
     });
     return habitList;
   }
 
-  Future<void> createHabitRecord(String title, String description, List<HabitReminder> reminder) async{
+  Future<void> createHabitRecord(String title, String description, String reminder) async{
     return await users
       .doc(currentUser.uid)
       .collection("habit-collection")
@@ -378,12 +378,12 @@ class HabitServices extends DatabaseServices{
     );
   }
 
-  Future<void> updateHabitRecord({String title, String description, List<HabitReminder> reminder, bool isReminderActive, int currentStreak, int longestStreak}) async{
+  Future<void> updateHabitRecord({String uid, String title, String description, String reminder, bool isReminderActive, int currentStreak, int longestStreak}) async{
     return await users
       .doc(currentUser.uid)
       .collection("habit-collection")
-      .doc()
-      .set({
+      .doc(uid)
+      .update({
         "habitTitle": title,
         "habitDescription": description,
         "currentStreak": currentStreak,
